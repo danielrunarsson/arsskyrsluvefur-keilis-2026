@@ -13,6 +13,21 @@ const { langlestur = false } = Astro.props;
 
 <div class="lesframvinda" data-lesframvinda={langlestur ? 'langlestur' : 'sjalfvirk'} aria-hidden="true" hidden>
   <div class="lesframvinda__lina"></div>
+  <!-- Golfkúla rúllar eftir línunni og fellur í holuna þegar lestri lýkur. -->
+  <div class="lesframvinda__hola">
+    <svg class="lesframvinda__fani" viewBox="0 0 14 22" width="14" height="22">
+      <path d="M2 2v18" stroke="#15130f" stroke-width="1.2" />
+      <path d="M2.6 2.5 12 5.6 2.6 8.7z" fill="#ae9453" />
+      <ellipse cx="2" cy="20.4" rx="4.6" ry="1.4" fill="#15130f" />
+    </svg>
+  </div>
+  <svg class="lesframvinda__kula" viewBox="0 0 12 12" width="12" height="12">
+    <circle cx="6" cy="6" r="5.4" fill="#fff" stroke="#b9b2a3" stroke-width="0.9" />
+    <g fill="#cfc8b8">
+      <circle cx="4" cy="4.2" r="0.7" /><circle cx="7.4" cy="3.6" r="0.7" /><circle cx="8.4" cy="6.8" r="0.7" />
+      <circle cx="5.2" cy="7.4" r="0.7" /><circle cx="3" cy="7" r="0.6" /><circle cx="6.4" cy="9.4" r="0.6" />
+    </g>
+  </svg>
   {langlestur && <div class="lesframvinda__teljari"><span class="lesframvinda__nu">01</span> / <span class="lesframvinda__alls">01</span></div>}
 </div>
 
@@ -29,6 +44,46 @@ const { langlestur = false } = Astro.props;
     transform: scaleX(var(--framvinda, 0));
     transform-origin: 0 50%;
     will-change: transform;
+  }
+  /* Golfkúla og hola. --framvinda (0–1) kemur frá lesframvinda.ts. */
+  .lesframvinda__kula {
+    position: absolute;
+    top: -2px;
+    left: calc(var(--framvinda, 0) * (100% - 30px));
+    /* Snúningur fylgir skruni beint; fall í holu er sér (translate/scale) svo það hökti ekki. */
+    rotate: calc(var(--framvinda, 0) * 1080deg);
+    filter: drop-shadow(0 1px 1px rgba(21, 19, 15, 0.18));
+  }
+  .lesframvinda__hola {
+    position: absolute;
+    top: 0;
+    right: 6px;
+    height: 22px;
+  }
+  .lesframvinda--holu .lesframvinda__kula {
+    translate: 0 14px;
+    scale: 0.3;
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lesframvinda__kula {
+      transition:
+        translate 0.35s cubic-bezier(0.5, 0, 0.75, 0),
+        scale 0.35s cubic-bezier(0.5, 0, 0.75, 0),
+        opacity 0.25s 0.15s;
+    }
+    .lesframvinda--holu .lesframvinda__fani path:nth-child(2) {
+      animation: fanaSveifla 0.6s ease-out;
+      transform-origin: 2.6px 5.6px;
+    }
+  }
+  @keyframes fanaSveifla {
+    30% {
+      transform: skewY(-10deg);
+    }
+    65% {
+      transform: skewY(6deg);
+    }
   }
   .lesframvinda__teljari {
     position: absolute;
