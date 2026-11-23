@@ -24,6 +24,22 @@ npm run preview   # skoða dist/ staðbundið
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.
 
+## Regla: allar myndir fá lýsingu (alt)
+
+Lýsingin er lesin upp í skjálesurum og birtist ef mynd hleðst ekki. Hún segir **hvað er á myndinni** (á gröfum: hvað gögnin sýna), ekki bara „mynd“.
+
+| Hvar | Svið |
+|---|---|
+| Aðalmynd forsíðu | `forsida.myndAlt` |
+| Greinar á forsíðu | `greinar[].alt` |
+| Portrett síðu | `portrettAlt` (annars `hofundur`) |
+| `mynd` blokk | `alt` (annars myndatextinn `texti`) |
+| `myndir` blokk | `atridi: [{ src, alt }]` (strengur einn og sér virkar enn) |
+| `grof` blokk | `atridi[].alt` (annars `heiti`) |
+
+- Vanti lýsingu kemur gul viðvörun í build: `[myndalýsing] Vantar lýsingu (alt) á mynd: …`.
+- Myndir sem eru eingöngu skraut (t.d. litla endurtekna portrettið) fá `skraut` í `Mynd`-íhlutnum og tómt alt.
+
 ## Regla: tölur telja upp
 
 **Allar tölur utan meginmáls telja upp frá núlli þegar þær birtast á skjánum** – lykiltölur, `tolur`, gildi í `sulur`, tölur í `tafla` (og súlur vaxa frá vinstri).

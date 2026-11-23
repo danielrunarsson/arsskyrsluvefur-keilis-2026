@@ -18,7 +18,8 @@ function kortFyrir(slug: string): Kort {
   const k = kaflar.find((x) => x.id === s.kafli)!;
   const blokkir: any[] = s.blokkir;
   const myndBlokk = blokkir.find((b) => b.t === 'mynd' || b.t === 'myndir');
-  const mynd = stadbundin(s.portrett) ?? stadbundin(myndBlokk?.src ?? myndBlokk?.atridi?.[0]);
+  const fyrstaIMyndum = myndBlokk?.atridi?.[0];
+  const mynd = stadbundin(s.portrett) ?? stadbundin(myndBlokk?.src ?? fyrstaIMyndum?.src ?? fyrstaIMyndum);
   const tolur = blokkir.find((b) => b.t === 'tolur');
   // Fyrirsögn í gæsalöppum lokast á eftir skáletraða hlutanum.
   const titill = (s.fyrirsogn || s.heiti) as string;

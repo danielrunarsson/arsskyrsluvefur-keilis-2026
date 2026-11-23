@@ -44,7 +44,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('â€ž') ? 'â
               {lokagaesalappir}
             </h1>
             <div class="sidu-haus__hofundur">
-              <Mynd src={s.portrett} class="sidu-haus__avatar" sizes="56px" widths={[112]} eager />
+              <Mynd src={s.portrett} skraut class="sidu-haus__avatar" sizes="56px" widths={[112]} eager />
               <span>
                 {s.hofundur}
                 {s.lestur && <span class="sidu-haus__lestur"> Â· {s.lestur} lestur</span>}
@@ -53,7 +53,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('â€ž') ? 'â
           </div>
           <Mynd
             src={s.portrett}
-            alt={s.hofundur ?? ''}
+            alt={s.portrettAlt || s.hofundur}
             class="sidu-haus__portrett"
             sizes="(min-width: 900px) 680px, 1px"
             widths={[680, 1360]}
