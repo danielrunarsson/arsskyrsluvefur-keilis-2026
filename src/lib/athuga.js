@@ -127,6 +127,16 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
     if (g.slug && !til(g.slug)) v(st, `vísar á síðu sem er ekki til: „${g.slug}“${uppastunga(g.slug, [...slugs.keys()])}`);
   });
 
+  // ── Tímalína á forsíðu
+  (fs.timalina ?? []).forEach((a, i) => {
+    const st = `forsíða.timalina[${i}]`;
+    ohnapp(st, a, ['*dags', '*titill', 'texti', 'tala', 'taliTexti', 'mynd', 'alt', 'slug']);
+    if (a.mynd) athugaMynd(st, a.mynd);
+    if (a.mynd && !a.alt) w(st, 'mynd án lýsingar (alt)');
+    if (a.tala && !a.taliTexti) w(st, 'tala án skýringar (taliTexti)');
+    if (a.slug && !til(a.slug)) v(st, `vísar á síðu sem er ekki til: „${a.slug}“${uppastunga(a.slug, [...slugs.keys()])}`);
+  });
+
   // ── Síður og blokkir
   for (const s of efni.sidur) {
     const st = `síða „${s.slug}“`;

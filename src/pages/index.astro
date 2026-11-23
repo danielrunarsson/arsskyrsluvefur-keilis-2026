@@ -5,6 +5,7 @@ import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Studningsadilar from '../components/Studningsadilar.astro';
 import Deila from '../components/Deila.astro';
+import Timalina from '../components/Timalina.astro';
 import { efni, kaflar, sidur, slod } from '../lib/skyrsla.js';
 import { linurFyrirsagnar } from '../lib/fyrirsogn.js';
 
@@ -73,6 +74,8 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
         ))
       }
     </dl>
+
+    <Timalina />
 
     <section class="efnisyfirlit" aria-labelledby="efnisyfirlit">
       <div class="efnisyfirlit__haus">

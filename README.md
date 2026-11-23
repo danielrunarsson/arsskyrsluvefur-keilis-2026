@@ -23,6 +23,8 @@ npm run preview   # skoða dist/ staðbundið
   `ffmpeg -i inn.mov -vf "scale=1280:-2" -c:v libx264 -preset slow -crf 24 -maxrate 4M -bufsize 8M -c:a aac -b:a 128k -movflags +faststart út.mp4`
   (lóðrétt: `scale=-2:1280`). Athugunin varar við `.mov` og myndböndum án `poster`, og stöðvar ef skrá vantar.
 - Röð `sidur` í efnisskránni ræður röð í valmynd og „fyrri/næsta“.
+- `forsida.timalina`: tímalína golfársins á forsíðu. Hver færsla `{ dags, titill, texti?, tala?, taliTexti?, mynd?, alt?, slug? }`;
+  tölur telja upp, færslur renna inn við skrun, og `slug` tengir á síðu (sleppt sjálfkrafa ef síðan er ekki birt).
 - `fyrirsognSkaletrun` (valkvætt á síðu): seinni hluti fyrirsagnar í gylltu skáletri, eins og á forsíðu.
 - **Forsíðufyrirsögn** (`forsida.fyrirsogn` + `fyrirsognSkaletrun`): hlutarnir eru skeyttir saman; endi `fyrirsogn` ekki
   á bili myndast eitt samsett orð („Íslands“ + „mótsins“). `|` merkir línuskil og kemur í stað bils, t.d.

@@ -1,0 +1,238 @@
+---
+// Tímalína golfársins (efni.forsida.timalina). Hver færsla: dagsetning, titill, texti, og valkvætt
+// stór tala (telur upp), mynd og tengill á síðu. Færslur renna mjúklega inn þegar þær birtast;
+// án JavaScript eða með „draga úr hreyfingu“ birtist allt strax.
+import Mynd from './Mynd.astro';
+import { efni, slod } from '../lib/skyrsla.js';
+
+const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.slug ? slod(a.slug) : null }));
+---
+
+{
+  atridi.length > 0 && (
+    <section class="timalina" aria-labelledby="timalina-titill" data-timalina>
+      <div class="timalina__haus">
+        <div class="yfirmerking">Tímalína</div>
+        <h2 id="timalina-titill" class="timalina__titill">
+          Golfárið <em>{efni.ar}</em>
+        </h2>
+      </div>
+      <ol class="timalina__listi">
+        {atridi.map((a: any) => (
+          <li class="timalina__atridi">
+            <div class="timalina__dags">{a.dags}</div>
+            <div class="timalina__punktur" aria-hidden="true" />
+            <div class="timalina__efni">
+              <h3 class="timalina__heiti">
+                {a.href ? <a href={a.href}>{a.titill}</a> : a.titill}
+              </h3>
+              {a.texti && <p class="timalina__texti">{a.texti}</p>}
+              {a.tala && (
+                <p class="timalina__tala">
+                  <span class="timalina__tala-gildi" data-telja>
+                    {a.tala}
+                  </span>
+                  <span class="timalina__tala-texti">{a.taliTexti}</span>
+                </p>
+              )}
+              {a.mynd && (
+                <Mynd src={a.mynd} alt={a.alt} class="timalina__mynd" sizes="(min-width: 900px) 420px, calc(100vw - 80px)" widths={[400, 600, 840]} />
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+<style is:global>
+  .timalina {
+    padding: 56px var(--gutter) 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .timalina__haus {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .timalina__titill {
+    font: 400 36px/1.05 var(--serif-display);
+  }
+  .timalina__titill em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--gull-texti);
+  }
+  .timalina__listi {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Lóðrétta línan */
+  .timalina__listi::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 5px;
+    width: 1px;
+    background: var(--lina);
+  }
+  .timalina__atridi {
+    position: relative;
+    display: grid;
+    grid-template-columns: 11px minmax(0, 1fr);
+    grid-template-areas: 'punktur dags' '. efni';
+    column-gap: 18px;
+    row-gap: 6px;
+    padding-bottom: 32px;
+  }
+  .timalina__atridi:last-child {
+    padding-bottom: 0;
+  }
+  .timalina__dags {
+    grid-area: dags;
+    font: 600 12px var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gull-dokkt);
+  }
+  .timalina__punktur {
+    grid-area: punktur;
+    align-self: center;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gull);
+    background: #fff;
+  }
+  .timalina__efni {
+    grid-area: efni;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .timalina__heiti {
+    font: 400 26px/1.1 var(--serif-display);
+    letter-spacing: -0.01em;
+  }
+  .timalina__heiti a {
+    border-bottom: 1px solid var(--lina);
+  }
+  .timalina__heiti a:hover {
+    border-bottom-color: var(--gull-dokkt);
+  }
+  .timalina__texti {
+    max-width: 560px;
+    font: 400 17px/1.55 var(--serif);
+    color: var(--meginmal);
+  }
+  .timalina__tala {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 10px;
+    margin-top: 4px;
+  }
+  .timalina__tala-gildi {
+    font: 400 40px/1 var(--serif-display);
+    letter-spacing: -0.02em;
+    color: var(--gull-dokkt);
+  }
+  .timalina__tala-texti {
+    font: 500 14px var(--sans);
+    color: var(--aukatexti);
+  }
+  .timalina__mynd {
+    width: 100%;
+    max-width: 420px;
+    height: 220px;
+    object-fit: cover;
+    margin-top: 6px;
+    background: var(--myndgrunnur);
+  }
+
+  /* Færslur renna inn þegar þær birtast (aðeins með JavaScript og án „minni hreyfingar“). */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-timalina].timalina--js .timalina__atridi {
+      opacity: 0;
+      translate: 0 18px;
+      transition:
+        opacity 0.6s ease-out,
+        translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-timalina].timalina--js .timalina__atridi.synilegt {
+      opacity: 1;
+      translate: none;
+    }
+    .timalina__punktur {
+      transition: background-color 0.4s 0.2s;
+    }
+  }
+  .timalina__atridi.synilegt .timalina__punktur {
+    background: var(--gull);
+  }
+
+  @media (min-width: 900px) {
+    .timalina {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 64px;
+      padding-top: 96px;
+    }
+    .timalina__titill {
+      font-size: 48px;
+    }
+    .timalina__listi::before {
+      left: calc(170px + 28px + 5px);
+    }
+    .timalina__atridi {
+      grid-template-columns: 170px 11px minmax(0, 1fr);
+      grid-template-areas: 'dags punktur efni';
+      column-gap: 28px;
+      padding-bottom: 44px;
+    }
+    .timalina__dags {
+      text-align: right;
+      padding-top: 8px;
+      font-size: 13px;
+    }
+    .timalina__punktur {
+      align-self: start;
+      margin-top: 10px;
+    }
+    .timalina__heiti {
+      font-size: 32px;
+    }
+    .timalina__tala-gildi {
+      font-size: 52px;
+    }
+  }
+</style>
+
+<script>
+  const rot = document.querySelector<HTMLElement>('[data-timalina]');
+  if (rot) {
+    const atridi = [...rot.querySelectorAll<HTMLElement>('.timalina__atridi')];
+    if ('IntersectionObserver' in window) {
+      rot.classList.add('timalina--js');
+      const sja = new IntersectionObserver(
+        (f) => {
+          for (const x of f) {
+            if (x.isIntersecting) {
+              x.target.classList.add('synilegt');
+              sja.unobserve(x.target);
+            }
+          }
+        },
+        { threshold: 0.25, rootMargin: '0px 0px -10% 0px' },
+      );
+      atridi.forEach((a) => sja.observe(a));
+    } else {
+      atridi.forEach((a) => a.classList.add('synilegt'));
+    }
+  }
+</script>
