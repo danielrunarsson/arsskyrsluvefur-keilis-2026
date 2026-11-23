@@ -37,6 +37,7 @@ Ef stuðningsaðili sendir opinbera merkjaskrá er best að skipta henni út hé
 | klettur | klettur.is |
 | landsbankinn | landsbankinn.is (merki í haus) |
 | merking | merking.is |
+| myndform | Fengið beint frá verkefnisstjóra (23.11.2026) |
 | nespresso | Wikimedia Commons: Nespresso logo (wordmark).svg |
 | nike | Wikimedia Commons: Logo NIKE.svg |
 | ntc | ntc.is |
@@ -52,4 +53,4 @@ Ef stuðningsaðili sendir opinbera merkjaskrá er best að skipta henni út hé
 | versus | versus.is |
 | olgerdin-egill-skallagrimsson | olgerdin.is |
 
-Vantar: **Peroni** og **Myndform** – birtast sem nafn þar til merki fæst.
+Vantar: **Peroni** – birtist sem nafn þar til merki fæst.
