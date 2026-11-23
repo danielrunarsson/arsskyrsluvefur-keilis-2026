@@ -58,3 +58,10 @@
   for = "/_astro/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# PDF-skjöl: heiti breytast ekki milli útgáfa, svo ekki „immutable“. Vafrinn geymir í dag og
+# sannreynir svo (ETag) – ný útgáfa af skjali berst í síðasta lagi daginn eftir.
+[[headers]]
+  for = "/skjol/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"

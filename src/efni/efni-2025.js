@@ -4,12 +4,13 @@
 // pdf, folk, nofn, nefndir, grof, undirsidur, tenglar, undirskrift. **feitletrun** virkar í p og listi.
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
+const S = "/skjol/"; // PDF-skjöl í public/skjol/ (stærð reiknuð sjálfkrafa við build)
 
 export default {
   ar: "2025",
   heiti: "Ársskýrsla 2025",
   adalfundur: "Aðalfundur 9. desember 2025",
-  kynningPdf: U + "2025/12/Keilir-Kynning-Adalfundur-09Des2025.pdf",
+  kynningPdf: S + "Keilir-Kynning-Adalfundur-09Des2025.pdf",
   kaflar: [
     { id: "stjorn", heiti: "Skýrsla stjórnar" },
     { id: "ithrottir", heiti: "Íþróttastarf" },
@@ -211,7 +212,7 @@ export default {
       heimild: "https://2025.keilir.is/skyrsla-stjornar-vidhorfskannanir/",
       blokkir: [
         { t: "inngangur", texti: "Á hverju ári er send út viðhorfskönnun á félaga í Golfklúbbnum Keili. Niðurstöður hennar eru nýttar til að bæta rekstur klúbbsins og starfið almennt. Helstu niðurstöður viðhorfskönnunar 2025 má nálgast hér fyrir neðan." },
-        { t: "pdf", titill: "Viðhorfskönnun 2025", src: U + "2025/12/vidhorfskonnun_2025.pdf", staerd: "1,56 MB" }
+        { t: "pdf", titill: "Viðhorfskönnun 2025", src: S + "vidhorfskonnun_2025.pdf" }
       ]
     },
     {
@@ -308,7 +309,7 @@ export default {
         { t: "sulur", titill: "Tekjur, mkr.", atridi: [{ heiti: "Félagsgjöld", gildi: "228,0", pct: 100 }, { heiti: "Veitingasala", gildi: "102,8", pct: 45 }, { heiti: "Æfingasvæði", gildi: "55,2", pct: 24, aherslu: true }, { heiti: "Seld þjónusta", gildi: "42,9", pct: 19 }, { heiti: "Styrkir og framlög", gildi: "40,6", pct: 18 }, { heiti: "Flatargjöld", gildi: "31,9", pct: 14 }, { heiti: "Aðrar tekjur", gildi: "29,7", pct: 13 }, { heiti: "Mótatekjur", gildi: "23,0", pct: 10 }, { heiti: "Verslun / þjónustuver", gildi: "15,1", pct: 7 }] },
         { t: "sulur", titill: "Gjöld, mkr.", atridi: [{ heiti: "Viðhald og rekstur valla", gildi: "110,7", pct: 100 }, { heiti: "Rekstur veitingasölu", gildi: "101,1", pct: 91 }, { heiti: "Stjórnunarkostnaður", gildi: "60,3", pct: 54 }, { heiti: "Styrkir og þjálfun", gildi: "55,6", pct: 50 }, { heiti: "Útseld þjónusta", gildi: "40,9", pct: 37 }, { heiti: "Vélar", gildi: "36,2", pct: 33 }, { heiti: "Æfingasvæði", gildi: "34,3", pct: 31 }, { heiti: "Fasteignir", gildi: "24,3", pct: 22 }, { heiti: "Verslun / þjónustuver", gildi: "23,8", pct: 22 }, { heiti: "Annar kostnaður", gildi: "13,5", pct: 12 }, { heiti: "Félagaskattur GSÍ", gildi: "12,5", pct: 11 }, { heiti: "Mótagjöld", gildi: "11,8", pct: 11 }] },
         { t: "tenglar", atridi: [{ heiti: "Rekstrarreikningur", slug: "rekstur" }, { heiti: "Efnahagsreikningur", slug: "efnahagur" }, { heiti: "Sjóðstreymi", slug: "sjodstreymi" }, { heiti: "Rekstraráætlun", slug: "aaetlun" }] },
-        { t: "pdf", titill: "Ársreikningur 2025 (undirritaður)", src: U + "2025/12/reikningar_undirritadir.pdf", staerd: "PDF" }
+        { t: "pdf", titill: "Ársreikningur 2025 (undirritaður)", src: S + "reikningar_undirritadir.pdf" }
       ]
     },
     {

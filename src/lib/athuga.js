@@ -2,6 +2,7 @@
 // Villur stöðva build með skýrum lista; viðvaranir birtast en build heldur áfram.
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { skjalSkra } from './skjol.js';
 
 const LIKLEG = (o) => (o && typeof o === 'object' ? o : {});
 
@@ -57,6 +58,15 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
     if (/^https?:\/\//.test(src)) return w(stadur, `ytri mynd (${src}) – betra að hýsa sjálf í src/assets/myndir/`);
     if (!myndTil(src)) v(stadur, `mynd fannst ekki: src/assets/${src}`);
   };
+  // PDF: staðbundin slóð (/skjol/…) verður að vera til í public/; ytri slóð er viðvörun.
+  const athugaSkjal = (stadur, src) => {
+    if (typeof src !== 'string' || !src) return;
+    if (!/\.pdf($|[?#])/i.test(src)) w(stadur, `slóðin endar ekki á .pdf: ${src}`);
+    if (/^https?:\/\//.test(src)) return w(stadur, `ytra skjal (${src}) – betra að hýsa sjálf í public/skjol/`);
+    const skra = skjalSkra(src, rot);
+    if (!skra) return v(stadur, `skjalaslóð á að byrja á / (t.d. /skjol/skjal.pdf) eða https://: ${src}`);
+    if (!existsSync(skra)) v(stadur, `skjal fannst ekki: public${src.split(/[?#]/)[0]}`);
+  };
   const athugaTexta = (stadur, t) => {
     if (typeof t === 'string' && (t.split('**').length - 1) % 2 === 1)
       w(stadur, `ójafnt **feitletrunar**-merki í „${t.slice(0, 50)}…“`);
@@ -78,6 +88,7 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
   // ── Efnisskráin í heild
   for (const k of ['ar', 'heiti', 'kaflar', 'forsida', 'sidur']) if (!efni?.[k]) v('efnisskrá', `„${k}“ vantar`);
   if (villur.length) return { villur, vidvaranir };
+  if (efni.kynningPdf) athugaSkjal('kynningPdf', efni.kynningPdf);
 
   const kaflaIds = new Set();
   efni.kaflar.forEach((k, i) => {
@@ -176,7 +187,8 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           });
           break;
         case 'pdf':
-          if (b.src && !/\.pdf($|\?)/i.test(b.src)) w(bs, `slóðin endar ekki á .pdf: ${b.src}`);
+          athugaSkjal(bs, b.src);
+          if (b.staerd && skjalSkra(b.src, rot)) w(bs, '„staerd“ er hunsuð fyrir skjöl á vefnum – stærðin er reiknuð úr skránni');
           break;
       }
     });

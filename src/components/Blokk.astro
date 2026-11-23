@@ -3,6 +3,7 @@
 import Mynd from './Mynd.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
+import { skjalStaerd } from '../lib/skjol.js';
 
 // stig: fyrirsagnastig smáfyrirsagna (2 ef ekkert h2 er komið á undan á síðunni, annars 3).
 // samhengi: síðasta h2 á undan – gefur töflum nafn fyrir skjálesara.
@@ -174,7 +175,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
         </div>
         <div class="b-pdf__hnappar">
           <a class="hnappur hnappur--breidd" href={b.src} download>
-            Sækja · {b.staerd}
+            Sækja · {skjalStaerd(b.src, b.staerd)}
           </a>
           <a class="b-pdf__opna" href={b.src} target="_blank" rel="noopener">
             Opna í nýjum flipa ↗
