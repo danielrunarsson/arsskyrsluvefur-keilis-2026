@@ -262,7 +262,7 @@ export default {
     {
       slug: "ithrottastarf", kafli: "ithrottir", heiti: "Íþróttastarf Keilis",
       fyrirsogn: "Flottur stígandi", kicker: "Íþróttastarf Keilis",
-      hofundur: "Birgir Björn Magnússon, íþróttastjóri Keilis",
+      portrett: "myndir/portrett/birgir-bjorn-magnusson.jpg", portrettAlt: "Birgir Björn Magnússon íþróttastjóri, brosandi í hvítri pólóskyrtu Keilis.", hofundur: "Birgir Björn Magnússon, íþróttastjóri Keilis",
       heimild: "https://2025.keilir.is/ithrottastarf/",
       blokkir: [
         { t: "inngangur", texti: "Í þessari skýrslu er hægt að sjá tölulegar upplýsingar um fjölda iðkenda á æfingum, íslandsmeistaratitla, sigra og verðlaunapalla í íþróttastarfinu og þátttöku í mótum fullorðinna, ungmenna og barna." },
@@ -272,7 +272,7 @@ export default {
           { heiti: "Ársskýrsla íþróttastjóra", slug: "ithrottastjori" }, { heiti: "Nefndir og ráð", slug: "nefndir-rad" }, { heiti: "Íþróttafólk Hafnarfjarðar", slug: "ithrottafolk" }, { heiti: "Árangur og þátttaka", slug: "arangur" }, { heiti: "Meistaramót 2025", slug: "meistaramot" }] }
       ]
     },
-    { slug: "ithrottastjori", kafli: "ithrottir", heiti: "Ársskýrsla íþróttastjóra", stada: "vantar", heimild: "https://2025.keilir.is/arsskyrslaithrottastjora/", blokkir: [] },
+    { slug: "ithrottastjori", kafli: "ithrottir", heiti: "Ársskýrsla íþróttastjóra", portrett: "myndir/portrett/birgir-bjorn-magnusson.jpg", portrettAlt: "Birgir Björn Magnússon íþróttastjóri, brosandi í hvítri pólóskyrtu Keilis.", hofundur: "Birgir Björn Magnússon, íþróttastjóri Keilis", stada: "vantar", heimild: "https://2025.keilir.is/arsskyrslaithrottastjora/", blokkir: [] },
     { slug: "nefndir-rad", kafli: "ithrottir", heiti: "Nefndir og ráð", stada: "vantar", heimild: "https://2025.keilir.is/arsskyrsla-ithrottastarf-nefndir-rad/", blokkir: [] },
     { slug: "ithrottafolk", kafli: "ithrottir", heiti: "Íþróttafólk Hafnarfjarðar", stada: "vantar", heimild: "https://2025.keilir.is/ithrottastarf-ithrottafolk-hafnarfjardar/", blokkir: [] },
     { slug: "arangur", kafli: "ithrottir", heiti: "Árangur og þátttaka", stada: "vantar", heimild: "https://2025.keilir.is/ithrottastarf-arangur/", blokkir: [] },
