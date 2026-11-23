@@ -44,13 +44,30 @@ export type Kort = {
   ar: string; // „Ársskýrsla 2025“
 };
 
+/** Bútar fyrirsagnar. Í Satori er hvert span sér flex-atriði sem má brjóta á milli, svo í samsettu orði
+ *  eru síðasta orð titils og fyrsta orð skáletrunar sett saman í óbrjótanlegan hóp. */
+function fyrirsagnarHlutar(k: Kort, samsett: boolean) {
+  const skal = (t: string) => el('span', { fontStyle: 'italic', color: LITIR.gull }, t);
+  if (!k.skaletrun) return [el('span', {}, k.titill)];
+  if (!samsett) return [el('span', {}, k.titill), skal(k.skaletrun)];
+  const [, fyrir = '', sidastaOrd] = k.titill.match(/^(.*\s)?(\S+)$/s) ?? [];
+  const [, fyrstaOrd, eftir = ''] = k.skaletrun.match(/^(\S+)(\s.*)?$/s) ?? [];
+  return [
+    ...(fyrir.trim() ? [el('span', { marginRight: '0.25em' }, fyrir.trim())] : []),
+    el('div', { display: 'flex' }, [el('span', {}, sidastaOrd), skal(fyrstaOrd)]),
+    ...(eftir.trim() ? [el('span', { marginLeft: '0.25em', fontStyle: 'italic', color: LITIR.gull }, eftir.trim())] : []),
+  ];
+}
+
 export async function teikna(k: Kort): Promise<Buffer> {
   const logo = `data:image/png;base64,${(await readFile(path.join(rot, 'src/assets/keilir-logo.png'))).toString('base64')}`;
   const hlidB = k.mynd || k.tala ? 440 : 0;
   const lengd = (k.titill + (k.skaletrun ?? '')).length;
   let staerd = lengd <= 22 ? 104 : lengd <= 40 ? 84 : lengd <= 70 ? 64 : 54;
   // Langt eitt orð (t.d. „Efnahagsreikningur“) má ekki fara út fyrir dálkinn.
-  const lengstaOrd = Math.max(...(k.titill + ' ' + (k.skaletrun ?? '')).split(/\s+/).map((o) => o.length));
+  // Ekkert bil á mótum titils og skáletrunar = eitt samsett orð („Íslands“ + „mótsins“).
+  const samsett = !!k.skaletrun && !/\s$/.test(k.titill) && !/^\s/.test(k.skaletrun);
+  const lengstaOrd = Math.max(...(k.titill + (samsett ? '' : ' ') + (k.skaletrun ?? '')).split(/\s+/).map((o) => o.length));
   const textaB = B - hlidB - 112;
   staerd = Math.min(staerd, Math.floor(textaB / (lengstaOrd * 0.48)));
 
@@ -81,10 +98,7 @@ export async function teikna(k: Kort): Promise<Buffer> {
       // Yfirmerki og fyrirsögn
       el('div', { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 22, paddingBottom: 40 }, [
         el('div', { fontFamily: 'Inter', fontWeight: 600, fontSize: 20, letterSpacing: '0.14em', textTransform: 'uppercase', color: LITIR.gullDokkt }, k.yfirmerki),
-        el('div', { display: 'flex', flexWrap: 'wrap', fontFamily: 'Newsreader', fontWeight: 300, fontSize: staerd, lineHeight: 1.0, letterSpacing: '-0.025em' }, [
-          el('span', {}, k.titill),
-          ...(k.skaletrun ? [el('span', { fontStyle: 'italic', color: LITIR.gull }, k.skaletrun)] : []),
-        ]),
+        el('div', { display: 'flex', flexWrap: 'wrap', fontFamily: 'Newsreader', fontWeight: 300, fontSize: staerd, lineHeight: 1.0, letterSpacing: '-0.025em' }, fyrirsagnarHlutar(k, samsett)),
       ]),
       // Fótur
       el('div', { display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 30, fontFamily: 'Inter', fontWeight: 500, fontSize: 18, color: LITIR.daufur }, [
