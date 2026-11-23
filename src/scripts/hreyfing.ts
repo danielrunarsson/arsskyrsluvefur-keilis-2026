@@ -112,6 +112,26 @@ function hefja() {
     }
   });
 
+  // Síðulisti kaflans í farsíma: virka síðan skrunast í sýn, og dofnun/ör sýnir hvar meira er.
+  for (const ytri of document.querySelectorAll<HTMLElement>('.systur-ytri')) {
+    const listi = ytri.querySelector<HTMLElement>('.systur--farsimi');
+    if (!listi) continue;
+    const virk = listi.querySelector<HTMLElement>('[aria-current="page"]');
+    if (virk && listi.scrollWidth > listi.clientWidth) {
+      // Virka síðan nálægt miðju (ekki undir dofnuninni), án hreyfingar.
+      const mark = virk.offsetLeft - (listi.clientWidth - virk.offsetWidth) / 2;
+      listi.scrollLeft = Math.max(0, Math.min(mark, listi.scrollWidth - listi.clientWidth));
+    }
+    const uppfaera = () => {
+      const eftir = listi.scrollWidth - listi.clientWidth - listi.scrollLeft;
+      ytri.classList.toggle('meira-vinstri', listi.scrollLeft > 4);
+      ytri.classList.toggle('meira-haegri', eftir > 4);
+    };
+    listi.addEventListener('scroll', uppfaera, { passive: true });
+    new ResizeObserver(uppfaera).observe(listi);
+    uppfaera();
+  }
+
   // Töflur: skuggar og vísbending eftir skrunstöðu.
   for (const ytri of document.querySelectorAll<HTMLElement>('.b-tafla-ytri')) {
     const skrun = ytri.querySelector<HTMLElement>('.b-tafla')!;

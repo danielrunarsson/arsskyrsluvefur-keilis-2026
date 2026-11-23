@@ -839,6 +839,40 @@ main:focus {
 .systur--farsimi::-webkit-scrollbar {
   display: none;
 }
+/* Vísbending um skrun í síðulista kaflans (farsími): dofnun og ör við brún þar sem meira er.
+   Klasarnir meira-vinstri / meira-haegri eru settir í hreyfing.ts eftir skrunstöðu. */
+.systur-ytri {
+  position: relative;
+}
+.systur__dofnun {
+  position: absolute;
+  top: 0;
+  bottom: 1px;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  font: 600 20px/1 var(--sans);
+  color: var(--gull-dokkt);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+}
+.systur__dofnun--vinstri {
+  left: 0;
+  justify-content: flex-start;
+  padding-left: 8px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), #fff 55%);
+}
+.systur__dofnun--haegri {
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 8px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff 55%);
+}
+.systur-ytri.meira-vinstri .systur__dofnun--vinstri,
+.systur-ytri.meira-haegri .systur__dofnun--haegri {
+  opacity: 1;
+}
 .systur--farsimi a {
   padding-bottom: 4px;
   border-bottom: 2px solid transparent;
@@ -911,7 +945,8 @@ main:focus {
 }
 
 @media (min-width: 900px) {
-  .systur--farsimi {
+  .systur--farsimi,
+  .systur-ytri {
     display: none;
   }
   .systur--hlid {

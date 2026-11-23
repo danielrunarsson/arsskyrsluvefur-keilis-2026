@@ -33,15 +33,19 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
   <Haus gerd="undirsida" kafliId={kafli.id} slug={s.slug} />
   {!s.vantar && <Lesframvinda langlestur={langlestur} />}
 
-  <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
-    {
-      kafli.sidur.map((y: any) => (
-        <a href={slod(y.slug)} aria-current={y.slug === s.slug ? 'page' : undefined}>
-          {y.heiti}
-        </a>
-      ))
-    }
-  </nav>
+  <div class="systur-ytri">
+    <span class="systur__dofnun systur__dofnun--vinstri" aria-hidden="true">‹</span>
+    <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
+      {
+        kafli.sidur.map((y: any) => (
+          <a href={slod(y.slug)} aria-current={y.slug === s.slug ? 'page' : undefined}>
+            {y.heiti}
+          </a>
+        ))
+      }
+    </nav>
+    <span class="systur__dofnun systur__dofnun--haegri" aria-hidden="true">›</span>
+  </div>
 
   <main id="efni" tabindex="-1">
     {
