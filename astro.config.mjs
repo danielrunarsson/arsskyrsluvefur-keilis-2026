@@ -6,9 +6,9 @@ import sitemap from '@astrojs/sitemap';
 // og DEPLOY_PRIME_URL (slóð forskoðunar). Þegar 2026.keilir.is verður aðallén í Netlify
 // breytist URL sjálfkrafa.
 const site =
-  process.env.CONTEXT === 'production'
+  (process.env.CONTEXT === 'production'
     ? process.env.URL
-    : (process.env.DEPLOY_PRIME_URL ?? process.env.URL ?? 'https://2026.keilir.is');
+    : (process.env.DEPLOY_PRIME_URL ?? process.env.URL)) || 'https://2026.keilir.is';
 
 export default defineConfig({
   site,

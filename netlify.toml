@@ -7,8 +7,11 @@
   NODE_VERSION = "24"
 
 # Production: pages without content are left out of the build.
+# GOATCOUNTER_KODI: kóði GoatCounter-síðunnar (t.d. „keilir“ fyrir keilir.goatcounter.com).
+# Tómt = engin gestatalning. Talning er aðeins á lifandi vef, aldrei í forskoðunum.
 [context.production.environment]
   SYNA_VANTAR = "false"
+  GOATCOUNTER_KODI = ""
 
 # Previews and branch deploys show the "Efni vantar" pages and /innra/veftre/.
 [context.deploy-preview.environment]

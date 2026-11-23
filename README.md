@@ -93,6 +93,16 @@ Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort 
 - **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu.
 - Eftir að 2026.keilir.is er orðið aðallén: skrá sitemap-slóðina í [Google Search Console](https://search.google.com/search-console).
 
+## Gestatalning (GoatCounter)
+
+Talið með [GoatCounter](https://www.goatcounter.com): engar vafrakökur, engar persónuupplýsingar, svo enginn vafrakökuborði þarf.
+
+- Kveikt með því að setja kóða síðunnar í `netlify.toml` → `[context.production.environment]` → `GOATCOUNTER_KODI`
+  (t.d. `"keilir"` fyrir `keilir.goatcounter.com`). Tómt = engin talning.
+- Aðeins talið á lifandi vef (production); forskoðanir, greinar og staðbundin keyrsla eru aldrei talin.
+- Kóðinn má aðeins innihalda a–z, 0–9 og bandstrik; annað er hunsað.
+- Tölurnar sjást á `https://<kóði>.goatcounter.com`.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
