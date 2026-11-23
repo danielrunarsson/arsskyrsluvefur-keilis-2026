@@ -60,6 +60,26 @@
   descent-override: 27.99%;
   line-gap-override: 0%;
 }
+/* Skáletruð varaletur: Newsreader-skáletur er ~12% mjórra en Georgia Italic, svo án þeirra
+   brotnar skáletraður texti öðruvísi meðan vefletrið hleðst (t.d. „mótsins“ í fyrirsögn forsíðu). */
+@font-face {
+  font-family: 'Newsreader fallback';
+  font-style: italic;
+  src: local('Georgia Italic'), local('Georgia-Italic');
+  size-adjust: 88.99%;
+  ascent-override: 83.16%;
+  descent-override: 30.34%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Display fallback';
+  font-style: italic;
+  src: local('Georgia Italic'), local('Georgia-Italic');
+  size-adjust: 87.62%;
+  ascent-override: 84.45%;
+  descent-override: 30.81%;
+  line-gap-override: 0%;
+}
 @font-face {
   font-family: 'Inter fallback';
   src: local('Arial');
