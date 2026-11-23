@@ -1,0 +1,88 @@
+---
+// Síða fyrir slóðir sem finnast ekki. Astro býr til dist/404.html og Netlify birtir hana
+// sjálfkrafa (með stöðukóða 404) fyrir allar óþekktar slóðir. Allar slóðir eru frá rót (/…)
+// svo síðan virkar á hvaða dýpt sem er.
+import Grunnur from '../layouts/Grunnur.astro';
+import Haus from '../components/Haus.astro';
+import Fotur from '../components/Fotur.astro';
+import { kaflar } from '../lib/skyrsla.js';
+
+const syndirKaflar = kaflar.filter((k) => k.href);
+---
+
+<Grunnur
+  titill="Síðan fannst ekki"
+  lysing="Þessi síða fannst ekki. Farðu á forsíðu ársskýrslu Keilis eða veldu kafla úr efnisyfirlitinu."
+  noindex
+>
+  <Haus gerd="undirsida" />
+
+  <main id="efni" tabindex="-1">
+    <header class="sidu-haus villa">
+      <div class="yfirmerking yfirmerking--gull">Villa 404 · Utan vallar</div>
+      <h1 class="sidu-haus__fyrirsogn">Þessi síða <em>fannst ekki</em></h1>
+      <div class="villa__texti">
+        <p>
+          Boltinn hefur farið út fyrir vallarmörk. Slóðin gæti verið rangt skrifuð, eða síðan hefur verið færð
+          eða fjarlægð. Gamlir tenglar, til dæmis af 2025.keilir.is eða úr eldri deilingu, geta vísað á síður sem
+          eru ekki lengur til.
+        </p>
+        <p>Byrjaðu á forsíðunni eða veldu kafla hér fyrir neðan.</p>
+        <a class="hnappur villa__hnappur" href="/">Fara á forsíðu →</a>
+      </div>
+    </header>
+
+    {
+      syndirKaflar.length > 0 && (
+        <section class="efnisyfirlit" aria-labelledby="efnisyfirlit">
+          <div class="efnisyfirlit__haus">
+            <div class="yfirmerking">Halda áfram</div>
+            <h2 id="efnisyfirlit" class="efnisyfirlit__titill">Efnisyfirlit</h2>
+          </div>
+          <ol class="efnisyfirlit__listi">
+            {syndirKaflar.map((k) => (
+              <li>
+                <a href={k.href}>
+                  <span class="efnisyfirlit__nr">{k.nr}</span>
+                  <span class="efnisyfirlit__heiti">{k.heiti}</span>
+                  <span class="efnisyfirlit__sidur">{k.sidurTexti}</span>
+                  <span class="efnisyfirlit__or" aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )
+    }
+  </main>
+
+  <Fotur gerd="undirsida" />
+</Grunnur>
+
+<style>
+  .villa__texti {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 640px;
+    font: 400 19px/1.55 var(--serif);
+    color: var(--meginmal);
+  }
+  .villa__hnappur {
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 14px 22px;
+    font-size: 15px;
+  }
+  main {
+    padding-bottom: 72px;
+  }
+  @media (min-width: 900px) {
+    .villa__texti {
+      font-size: 21px;
+    }
+    main {
+      padding-bottom: 120px;
+    }
+  }
+</style>

@@ -90,7 +90,7 @@ Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort 
 
 - **Sitemap:** `/sitemap-index.xml` (búið til við hvert build með `@astrojs/sitemap`). Inniheldur allar birtar síður; `/innra/` er aldrei með. Forsíða fær forgang 1.0, aðrar 0.7.
 - **robots.txt** (`src/pages/robots.txt.ts`): í production eru leitarvélar velkomnar og vísað á sitemap. Í forskoðunum og greinum (`SYNA_VANTAR=true`) er allt bannað, svo hálfkláraðar síður lendi ekki í leit.
-- **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu.
+- **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu (nema `noindex`-síður, t.d. 404).
 - Eftir að 2026.keilir.is er orðið aðallén: skrá sitemap-slóðina í [Google Search Console](https://search.google.com/search-console).
 
 ## Efnisathugun
@@ -125,6 +125,13 @@ Talið með [GoatCounter](https://www.goatcounter.com): engar vafrakökur, engar
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
+
+## Síða fannst ekki (404)
+
+`src/pages/404.astro` verður `dist/404.html`, sem Netlify birtir sjálfkrafa (með stöðukóða 404) fyrir allar óþekktar slóðir,
+t.d. gamla tengla á síður sem er sleppt í production. Í hönnun skýrslunnar: haus, stór fyrirsögn, hnappur á forsíðu og
+efnisyfirlit úr `kaflar`. Fær `noindex`, enga canonical-slóð og er ekki í sitemap. Allar slóðir í henni eru frá rót (`/…`)
+svo hún virkar á hvaða dýpt sem er. Staðbundið: `npm run build && npm run preview` og opna t.d. `/ekki-til/` (með skástriki).
 
 ## Síður án efnis (`stada: "vantar"`)
 
