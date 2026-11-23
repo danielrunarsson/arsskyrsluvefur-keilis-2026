@@ -122,6 +122,20 @@ Talið með [GoatCounter](https://www.goatcounter.com): engar vafrakökur, engar
 - Kóðinn má aðeins innihalda a–z, 0–9 og bandstrik; annað er hunsað.
 - Tölurnar sjást á `https://<kóði>.goatcounter.com`.
 
+## PDF-forskoðanir
+
+Spjald `pdf`-blokkar sýnir mynd af fyrstu síðu skjalsins úr
+`src/assets/pdf-forskodun/<skráarheiti án .pdf>.png` (fundin eftir skráarheiti, svo `src` má vera
+ytri slóð eða staðbundin `/skjol/…`). Vanti mynd birtist röndótt staðgengilsmynd. Þegar PDF-skjal
+bætist við eða breytist:
+
+```sh
+npm run pdf-forskodun          # teiknar forskoðanir sem vantar
+npm run pdf-forskodun -- --allt # teiknar allar aftur
+```
+
+Myndirnar (600 px breiðar) eru vistaðar í git; skriftan keyrir ekki í byggingu.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

@@ -1327,6 +1327,37 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   text-align: center;
   padding: 8px;
 }
+/* Fyrsta síða skjalsins sem blað á röndóttum grunni; skorið að neðan ef síðan er há. */
+.b-pdf__forskodun--mynd {
+  height: 220px;
+  padding: 24px 20px 0;
+  flex-direction: column;
+  justify-content: safe center;
+  overflow: hidden;
+}
+.b-pdf__forskodun--mynd picture {
+  display: contents;
+}
+.b-pdf__sida {
+  display: block;
+  flex: none;
+  width: min(100%, 260px);
+  height: auto;
+  background: #fff;
+  border: 1px solid rgba(21, 19, 15, 0.18);
+  box-shadow: 0 6px 18px -6px rgba(21, 19, 15, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.b-pdf__forskodun--mynd:hover .b-pdf__sida,
+.b-pdf__forskodun--mynd:focus-visible .b-pdf__sida {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px -6px rgba(21, 19, 15, 0.4);
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-pdf__sida {
+    transition: none;
+  }
+}
 
 /* Fólk og nöfn */
 .b-folk,
@@ -1603,6 +1634,12 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   .b-pdf__forskodun {
     height: 300px;
     font-size: 13px;
+  }
+  .b-pdf__forskodun--mynd {
+    padding-top: 32px;
+  }
+  .b-pdf__sida {
+    width: min(100%, 340px);
   }
   .b-pdf__hlid {
     padding: 28px;

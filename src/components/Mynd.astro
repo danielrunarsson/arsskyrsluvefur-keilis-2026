@@ -18,7 +18,7 @@ interface Props {
   forgangur?: boolean;
 }
 
-const myndir = import.meta.glob<ImageMetadata>('../assets/myndir/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}', {
+const myndir = import.meta.glob<ImageMetadata>('../assets/{myndir,pdf-forskodun}/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}', {
   eager: true,
   import: 'default',
 });
