@@ -20,6 +20,12 @@ npm run preview   # skoða dist/ staðbundið
 - **`src/assets/myndir/`** – myndir. Í efnisskránni er vísað á þær sem `myndir/...`; Astro býr til AVIF/WebP í nokkrum stærðum við build. Ytri slóðir (`https://…`) birtast óbreyttar.
 - Röð `sidur` í efnisskránni ræður röð í valmynd og „fyrri/næsta“.
 - `fyrirsognSkaletrun` (valkvætt á síðu): seinni hluti fyrirsagnar í gylltu skáletri, eins og á forsíðu.
+- **Forsíðufyrirsögn** (`forsida.fyrirsogn` + `fyrirsognSkaletrun`): hlutarnir eru skeyttir saman; endi `fyrirsogn` ekki
+  á bili myndast eitt samsett orð („Íslands“ + „mótsins“). `|` merkir línuskil og kemur í stað bils, t.d.
+  `fyrirsogn: "Ár|Íslands"` → „Ár / Íslandsmótsins“. Án `|` jafnar vafrinn línurnar sjálfur. Leturstærðin lagar sig
+  að dálkinum (64 px farsími, 168 px skjáborð að hámarki) svo lengsta lína/orð kemst alltaf fyrir – reiknað við build
+  í `src/lib/fyrirsogn.js`. Fyrir mjög löng samsett orð má setja mjúkt bandstrik (`­`) þar sem skipta má, ef orðið
+  kemst ekki fyrir í lágmarksstærð. `|` virkar aðeins á forsíðu; á deilikortinu verður það bil.
 - `snid: "langlestur"` (valkvætt á síðu): langlestrarútgáfa, t.d. ávarp formanns. Búin til úr blokkunum:
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.

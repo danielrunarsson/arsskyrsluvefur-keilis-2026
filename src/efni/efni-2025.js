@@ -19,7 +19,7 @@ export default {
   ],
 
   forsida: {
-    fyrirsogn: "Ár Íslands",
+    fyrirsogn: "Ár|Íslands",
     fyrirsognSkaletrun: "mótsins",
     inngangur: "Eitt metnaðarfyllsta ár í sögu klúbbsins: Íslandsmótið á Hvaleyrarvelli, sjö Íslandsmeistaratitlar og nærri 300 nýir félagar.",
     mynd: "myndir/w/2024/04/DJI_0173.jpg", myndAlt: "Loftmynd af braut í hrauninu á Hvaleyrarvelli; kylfingar á grænni brautinni varpa löngum skuggum í kvöldsól.",

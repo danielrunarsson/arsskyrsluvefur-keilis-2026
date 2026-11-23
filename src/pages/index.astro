@@ -5,8 +5,10 @@ import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Studningsadilar from '../components/Studningsadilar.astro';
 import { efni, kaflar, sidur, slod } from '../lib/skyrsla.js';
+import { linurFyrirsagnar } from '../lib/fyrirsogn.js';
 
 const fs = efni.forsida;
+const fyrirsogn = linurFyrirsagnar(fs.fyrirsogn, fs.fyrirsognSkaletrun);
 const avarp = sidur[0] ? slod(sidur[0].slug) : null;
 const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
 ---
@@ -25,7 +27,18 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
   <main id="efni" tabindex="-1">
     <section class="hetja">
       <h1 class="hetja__fyrirsogn">
-        {fs.fyrirsogn}&shy;<em>{fs.fyrirsognSkaletrun}</em>
+        <span class="hetja__fyrirsogn-texti" style={`--breidd:${fyrirsogn.breidd}`}>
+          {
+            fyrirsogn.linur.map((lina: any, n: number) => (
+              <>
+                {n > 0 && ' '}
+                <span class="hetja__lina">
+                  {lina.map((h: any) => (h.skaletrad ? <em class:list={{ 'hetja__samfellt': h.samfellt }}>{h.texti}</em> : h.texti))}
+                </span>
+              </>
+            ))
+          }
+        </span>
       </h1>
       <div class="hetja__inngangur">
         <p>{fs.inngangur}</p>
