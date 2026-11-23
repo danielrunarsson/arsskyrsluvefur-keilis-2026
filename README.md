@@ -93,6 +93,25 @@ Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort 
 - **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu.
 - Eftir að 2026.keilir.is er orðið aðallén: skrá sitemap-slóðina í [Google Search Console](https://search.google.com/search-console).
 
+## Efnisathugun
+
+Efnisskráin er athuguð við hvert build (`src/lib/athuga.js`), og líka sér með:
+
+```sh
+npm run athuga
+```
+
+**Villur stöðva build** (á Netlify: deploy fellur og lifandi vefur helst óbreyttur):
+óþekkt blokkargerð, skyldusvið vantar, tengill eða grein vísar á síðu sem er ekki til, mynd finnst ekki í
+`src/assets/myndir/`, tvítekið eða ólöglegt slug, kafli sem er ekki til, töfluröð með rangan dálkafjölda,
+súla með `pct` utan 0–100.
+
+**Viðvaranir** (build heldur áfram): óþekkt svið (líkleg innsláttarvilla), ójöfn `**feitletrun**`,
+`.mov` myndbönd (spilast ekki í Chrome/Firefox), ytri myndir.
+
+Hver athugasemd segir nákvæmlega hvar (síða › blokk nr.) og stingur upp á réttu nafni við innsláttarvillur,
+t.d. `óþekkt blokkargerð „tilvitnum“ – áttirðu við „tilvitnun“?`
+
 ## Gestatalning (GoatCounter)
 
 Talið með [GoatCounter](https://www.goatcounter.com): engar vafrakökur, engar persónuupplýsingar, svo enginn vafrakökuborði þarf.

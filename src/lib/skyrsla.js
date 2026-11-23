@@ -1,6 +1,10 @@
 // Breytir efnisskránni í líkanið sem síðurnar nota: númeraðir kaflar,
 // síður sem fara í build, slóðir og fyrri/næsta tenglar.
 import efni from '../efni/index.js';
+import { athugaOgStodva } from './athuga.js';
+
+// Efnisathugun við hvert build: villur stöðva build, viðvaranir birtast (sjá README „Efnisathugun“).
+athugaOgStodva(efni);
 
 const vantar = (s) => s.stada === 'vantar' || !s.blokkir?.length;
 
