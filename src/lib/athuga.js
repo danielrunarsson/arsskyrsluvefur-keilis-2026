@@ -17,7 +17,7 @@ const BLOKKIR = {
   tilvitnun: ['*texti'],
   mynd: ['*src', 'alt', 'texti'],
   myndir: ['*atridi'],
-  myndband: ['*src', 'texti', 'lodrett'],
+  myndband: ['*src', 'texti', 'lodrett', 'poster'],
   tafla: ['*dalkar', '*radir', 'titill'],
   sulur: ['*titill', '*atridi'],
   pdf: ['*titill', '*src', 'staerd'],
@@ -156,6 +156,11 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           break;
         case 'myndband':
           if (/\.mov($|\?)/i.test(b.src ?? '')) w(bs, `.mov spilast ekki í Chrome/Firefox – umbreyta í .mp4 (H.264): ${b.src}`);
+          // Staðbundnar skrár (/myndbond/…) verða að vera til í public/.
+          for (const s of [b.src, b.poster])
+            if (typeof s === 'string' && s.startsWith('/') && !existsSync(path.join(rot, 'public', s)))
+              v(bs, `skrá finnst ekki í public/: ${s}`);
+          if (!b.poster) w(bs, 'myndband án poster – svartur kassi birtist þar til spilað er');
           break;
         case 'tafla': {
           const n = Array.isArray(b.dalkar) ? b.dalkar.length : 0;

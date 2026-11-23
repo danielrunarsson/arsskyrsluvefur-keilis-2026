@@ -18,6 +18,10 @@ npm run preview   # skoða dist/ staðbundið
 - **`src/efni/efni-2025.js`** – allt efni ársins: forsíða, kaflar, síður og blokkir. Uppbyggingin er lýst í `design/keilir-arsskyrsla/README.md` („Content model“ og „Block types“).
 - **`src/efni/index.js`** – velur virka efnisskrá. Nýtt ár: afrita `efni-2025.js` → `efni-2026.js` og breyta innflutningnum.
 - **`src/assets/myndir/`** – myndir. Í efnisskránni er vísað á þær sem `myndir/...`; Astro býr til AVIF/WebP í nokkrum stærðum við build. Ytri slóðir (`https://…`) birtast óbreyttar.
+- **`public/myndbond/`** – myndbönd (`t: "myndband"`): H.264/AAC `.mp4` með `+faststart`, mest 1280 px á lengri hlið
+  (~4–6 MB hvert), og `poster` (WebP-skjáskot, <100 KB) svo ekki birtist svartur kassi fyrir spilun. Umbreyting:
+  `ffmpeg -i inn.mov -vf "scale=1280:-2" -c:v libx264 -preset slow -crf 24 -maxrate 4M -bufsize 8M -c:a aac -b:a 128k -movflags +faststart út.mp4`
+  (lóðrétt: `scale=-2:1280`). Athugunin varar við `.mov` og myndböndum án `poster`, og stöðvar ef skrá vantar.
 - Röð `sidur` í efnisskránni ræður röð í valmynd og „fyrri/næsta“.
 - `fyrirsognSkaletrun` (valkvætt á síðu): seinni hluti fyrirsagnar í gylltu skáletri, eins og á forsíðu.
 - `snid: "langlestur"` (valkvætt á síðu): langlestrarútgáfa, t.d. ávarp formanns. Búin til úr blokkunum:
