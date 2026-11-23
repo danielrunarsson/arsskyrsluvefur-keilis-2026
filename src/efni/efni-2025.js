@@ -169,14 +169,14 @@ export default {
       fyrirsogn: "Samfélagsmiðlar", kicker: "Skýrsla stjórnar",
       heimild: "https://2025.keilir.is/samfelagsmidlar/",
       blokkir: [
-        { t: "myndband", src: U + "2025/12/final-5.mov", texti: "Samantekt ársins á samfélagsmiðlum" },
+        { t: "myndband", src: "/myndbond/samfelagsmidlar-samantekt.mp4", poster: "/myndbond/samfelagsmidlar-samantekt.webp", texti: "Samantekt ársins á samfélagsmiðlum" },
         { t: "inngangur", texti: "Undanfarin 2 ár hefur stjórnin aukið áherslu á upplýsingagjöf til félagsmanna. Stjórnin hefur sett saman birtingaráætlun þar sem skipulagt er hvenær stjórnarmenn og lykilstarfsmenn komi með stutt innlegg um málefni líðandi stundar eða sem liggur þeim á hjarta. Þetta hefur gengið vel en birtar voru á árinu 17 greinar með því markmiði að efla upplýsingagjöf til félagsmanna." },
         { t: "tolur", atridi: [{ tala: "17", texti: "greinar birtar á árinu" }, { tala: "+17%", texti: "fjölgun fylgjenda" }, { tala: "~5.000", texti: "fylgjendur á Instagram og Facebook" }] },
         { t: "p", texti: "Samfélagsmiðlar eru ekki aðeins kynningarverkfæri – þeir eru hluti af þjónustu og upplifun Keilis. Með öflugri nærveru á netinu tryggjum við að klúbburinn sé aðgengilegur, nútímalegur og lifandi. Samfélagsmiðlar eru öflugur vettvangur til að kynna klúbbinn fyrir gömlum og nýjum kylfingum og styrkja tengsl við samstarfsaðila. Sterk og fagleg nærvera eykur traust og sýnileika." },
         { t: "p", texti: "Myndir, myndbönd og sögur frá mótum og viðburðum skapa tilfinningu fyrir þátttöku og samstöðu. Þetta eykur ánægju og hvetur fleiri til að taka þátt í félagsstarfi Keilis og einnig veitir okkur tækifæri á að veita innsýn á bakvið tjöldin í starfseminni okkar." },
         { t: "p", texti: "Nú á síðasta ári þá var farin sú leið að reyna að styrkja samfélagsmiðla okkar enn meira. Ráðinn var í verkið yfir sumartímann ungur og lifandi samfélagsmiðlasnillingur að nafni Ísak Traustason. Virknin hjá okkur jókst til muna og fylgjendum fjölgaði mjög á árinu. Aukningin nam 17% og eru fylgjendur á Insta og FB nú um 5000 manns." },
         { t: "p", texti: "Það er von okkar að þessi tilraun hafi mælst vel fyrir og verður til þess að styrkja ásjónu Keilis á miðlum sínum. Stefnt er að halda áfram á þessari vegferð." },
-        { t: "myndband", src: U + "2025/12/VERTICAL-copy.mov", texti: "Lóðrétt myndband fyrir samfélagsmiðla", lodrett: true }
+        { t: "myndband", src: "/myndbond/samfelagsmidlar-lodrett.mp4", poster: "/myndbond/samfelagsmidlar-lodrett.webp", texti: "Lóðrétt myndband fyrir samfélagsmiðla", lodrett: true }
       ]
     },
     {
@@ -186,7 +186,7 @@ export default {
       blokkir: [
         { t: "inngangur", texti: "Veitingasala er mikilvægur hluti af upplifun félagsmanna og gesta í Golfklúbbnum Keili. Hún er ekki aðeins þjónusta – hún er hluti af félagsstarfinu og styrkir rekstur klúbbsins." },
         { t: "p", texti: "Hrefna sem hefur borið hitann og þunga af þessum rekstri og hefur gert með eindæmum vel, á hún miklar þakkir skyldar fyrir hennar framlag. Einnig þá gegnir lykilhlutverki hún Barbara sem hefur borið hitann og þungann af matseldinni í nú alltof litlu eldhúsi sem á engan hátt annar þeirri umferð sem fer í gegnum þetta litla eldhús. Það má því segja að það séu unnin kraftaverk á hverjum degi við erfiðar aðstæður." },
-        { t: "myndband", src: U + "2025/12/dronavideo_skali.mp4", texti: "Golfskáli Keilis úr lofti" },
+        { t: "myndband", src: "/myndbond/veitingasala-skali.mp4", poster: "/myndbond/veitingasala-skali.webp", texti: "Golfskáli Keilis úr lofti" },
         { t: "p", texti: "Það er ánægjulegt að sjá það í viðhorfskönnuninni að veitingasalan fái mjög góða einkunn og er vel yfir okkar lágmarksviðmiðunum sem settar eru í henni, þannig að almenn ánægja félagsmanna mælist af þessari starfsemi hjá okkur." },
         { t: "tilvitnun", texti: "Veitingasala okkar er meira en matur og drykkur – hún er hluti af heildarupplifuninni og styrkir bæði samfélagið okkar og rekstur klúbbsins." }
       ]
@@ -198,7 +198,7 @@ export default {
       blokkir: [
         { t: "inngangur", texti: "Á síðasta sumri var tekin upp tæknilausnin Tagmarshal til að fylgjast með leikhraða á golfvellinum okkar. Áætlanir okkar gerðu ráð fyrir að afhending tækjanna yrði fyrir sumarið en tafir á afhendingu gerðu það að verkum að á miðju sumri kom hluti af græjunum til landsins. Það var ekki svo fyrr en eftir lokun golfvallanna að restin var afhent." },
         { t: "p", texti: "Þetta hafði þau áhrif að það gekk illa að stilla kerfið af og láta það virka eins og best verður á kosið, einnig var þjálfun starfsfólks ábótavant. Þrátt fyrir þessa byrjunarerfiðleika verður að viðurkennast að mikil reynsla og lærdómur fékkst af þessum tíma sem mun nýtast okkur betur á næsta ári." },
-        { t: "myndband", src: U + "2025/12/HORIZONTAL-YODECK.mov", texti: "TagMarshal á Hvaleyrarvelli" },
+        { t: "myndband", src: "/myndbond/tagmarshal.mp4", poster: "/myndbond/tagmarshal.webp", texti: "TagMarshal á Hvaleyrarvelli" },
         { t: "tolur", atridi: [{ tala: "4:30", texti: "hámarkstími á hring 2025" }, { tala: "4:15", texti: "markmið fyrir 2026" }] },
         { t: "p", texti: "Í grunnstillingunum þá var gefinn upp hámarkstími á golfhringinn hjá hverjum ráshóp, 4 klukkustundir og 30 mínútur, það er aftur á móti markmið okkar að stytta þennan tíma á næsta ári. Því með betur uppsettu kerfi þá mun það virka betur og verður auðveldara og réttara að grípa inn í þegar kerfið er ekki að gefa upp vitlausar tafir vegna vanstillinga á kerfinu. Það má því segja að þetta sumar hafi nýst í það að fínstilla kerfið til að fá rétta virkni á það." },
         { t: "p", texti: "Mikilvæg reynsla fékkst á árinu, við sjáum samt mun betur hvar og hvenær við erum að upplifa tafir á golfvellinum og vegna hvers. Í stuttu máli þá eru vandamálin bundin við komu gesta á völlinn okkar, og má bæta því við að þegar félagsmenn eru einungis að leika þá gengur golfið alla jafna mun betur og hraðar." },
