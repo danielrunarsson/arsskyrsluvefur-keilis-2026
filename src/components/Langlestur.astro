@@ -48,7 +48,7 @@ const yfirlysing = (t: string) => {
 ---
 
 <div class="langlestur">
-  <details class="langlestur__yfirlit-farsimi">
+  <details class="langlestur__yfirlit-farsimi" data-pagefind-ignore>
     <summary>
       <span>Í þessu ávarpi</span>
       <span class="langlestur__fjoldi">{numerad.length} kaflar</span>
@@ -67,7 +67,7 @@ const yfirlysing = (t: string) => {
     </ol>
   </details>
 
-  <nav class="langlestur__yfirlit" aria-label="Efni ávarpsins">
+  <nav class="langlestur__yfirlit" aria-label="Efni ávarpsins" data-pagefind-ignore>
     <div class="langlestur__yfirlit-titill">Í þessu ávarpi</div>
     {
       numerad.map((h) => (

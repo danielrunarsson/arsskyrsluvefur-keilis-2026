@@ -50,7 +50,7 @@ const radir = b.atridi.map((a: any) => {
   <figcaption class="b-sulur__titill">{b.titill}</figcaption>
   {
     hefurFyrra && (
-      <div class="b-sulur__skyring" aria-hidden="true">
+      <div class="b-sulur__skyring" aria-hidden="true" data-pagefind-ignore>
         <span><i class="b-sulur__lykill" />{ar}</span>
         <span><i class="b-sulur__lykill b-sulur__lykill--fyrra" />{fyrraAr}</span>
       </div>
@@ -61,7 +61,7 @@ const radir = b.atridi.map((a: any) => {
       radir.map(({ a, hlut, fyrraPct, fyrraTexti, stada }: any) => (
         <li class:list={['b-sulur__rod', sulurLitur(a) && `b-sulur__rod--${sulurLitur(a)}`]} tabindex="0">
           <span class="b-sulur__heiti">{a.heiti}</span>
-          <span class="b-sulur__braut" aria-hidden="true">
+          <span class="b-sulur__braut" aria-hidden="true" data-pagefind-ignore>
             <span class="b-sulur__sula" style={`width:${a.pct}%`} />
             {fyrraPct !== null && <span class="b-sulur__sula b-sulur__sula--fyrra" style={`width:${fyrraPct}%`} />}
             <span class:list={['b-sulur__kall', `b-sulur__kall--${stada}`]} style={`--x:${a.pct}%`}>
@@ -75,7 +75,7 @@ const radir = b.atridi.map((a: any) => {
           </span>
           <span class="b-sulur__gildi" data-telja>{a.gildi}</span>
           {(eining || hlut || fyrraTexti) && (
-            <span class="sr-only">
+            <span class="sr-only" data-pagefind-ignore>
               {[eining.trim(), hlut, fyrraTexti].filter(Boolean).join(', ')}
             </span>
           )}

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "check": "astro check",
     "athuga": "node scripts/athuga.mjs",
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@napi-rs/canvas": "^1.2.0",
     "@netlify/plugin-lighthouse": "^6.0.4",
+    "pagefind": "^1.6.0",
     "pdfjs-dist": "^6.5.438",
     "subset-font": "^2.9.0"
   }

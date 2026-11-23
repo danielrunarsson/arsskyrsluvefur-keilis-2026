@@ -53,6 +53,7 @@ export function hefjaLesframvindu() {
     rot.style.setProperty('--framvinda', hlutfall.toFixed(4));
     // Golfkúlan fellur í holuna þegar lestri er lokið (og kemur upp aftur við skrun til baka).
     rot.classList.toggle('lesframvinda--holu', hlutfall >= 0.995);
+    rot.classList.toggle('lesframvinda--byrjad', hlutfall > 0.01);
     if (hlutar.length) {
       const lina = y + window.innerHeight * LESLINA;
       let i = -1;

@@ -60,6 +60,14 @@ const { langlestur = false } = Astro.props;
     right: 6px;
     height: 22px;
   }
+  /* Kúla og fáni birtast fyrst þegar lesandinn byrjar að skruna (haus er þá kominn upp fyrir). */
+  .lesframvinda:not(.lesframvinda--byrjad) .lesframvinda__kula,
+  .lesframvinda:not(.lesframvinda--byrjad) .lesframvinda__hola {
+    opacity: 0;
+  }
+  .lesframvinda__hola {
+    transition: opacity 0.3s;
+  }
   .lesframvinda--holu .lesframvinda__kula {
     translate: 0 14px;
     scale: 0.3;

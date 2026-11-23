@@ -2142,3 +2142,14 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 .sidu-haus .deila {
   margin-top: 4px;
 }
+
+/* Leitarhnappur í haus: í síma við hliðina á „Efni ☰“, á tölvu í hægri hluta haussins. */
+.leitarhnappur--farsimi {
+  margin-left: auto;
+  padding: 8px;
+}
+@media (min-width: 900px) {
+  .leitarhnappur--farsimi {
+    display: none;
+  }
+}

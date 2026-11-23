@@ -110,6 +110,13 @@ Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort 
 - **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu (nema `noindex`-síður, t.d. 404).
 - Eftir að 2026.keilir.is er orðið aðallén: skrá sitemap-slóðina í [Google Search Console](https://search.google.com/search-console).
 
+## Leit (Pagefind)
+
+Leitarvísir er búinn til við hvert build (`astro build && pagefind --site dist`) úr `<main data-pagefind-body>`.
+Leitin opnast úr haus (🔍 / „Leita“) eða með Ctrl/⌘+K og hleðst ekki fyrr en hún er opnuð.
+Hlutir sem eru endurteknir eða aðeins til skrauts (efnisyfirlit, „næsti kafli“, deila, skjálesaratexti grafa) eru
+merktir `data-pagefind-ignore`. Leit virkar aðeins á byggðum vef (`npm run build` + `npm run preview`), ekki á dev-þjóni.
+
 ## Efnisathugun
 
 Efnisskráin er athuguð við hvert build (`src/lib/athuga.js`), og líka sér með:

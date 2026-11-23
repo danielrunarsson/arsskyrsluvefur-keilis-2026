@@ -1,0 +1,183 @@
+---
+// Leit í ársskýrslunni (Pagefind). Leitarvísirinn er búinn til við build (`pagefind --site dist`),
+// og leitarviðmótið hleðst ekki fyrr en leit er opnuð – það hægir ekki á síðunum.
+// Opnast með leitarhnappi í haus ([data-leit-opna]) eða Ctrl/⌘+K. Á dev-þjóni er enginn
+// leitarvísir; þá birtast skilaboð um að leit virki á byggðum vef.
+---
+
+<dialog class="leit" aria-labelledby="leit-titill">
+  <div class="leit__innri">
+    <div class="leit__haus">
+      <h2 id="leit-titill" class="leit__titill">Leita í ársskýrslunni</h2>
+      <button type="button" class="leit__loka" aria-label="Loka leit">✕</button>
+    </div>
+    <div id="leit-svaedi" class="leit__svaedi"></div>
+    <p class="leit__villa" hidden>Leitin er aðeins virk á byggðum vef (npm run build), ekki á dev-þjóni.</p>
+  </div>
+</dialog>
+
+<style is:global>
+  .leitarhnappur {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 2px;
+    border: 0;
+    background: none;
+    color: var(--blek);
+    font: 500 14px var(--sans);
+    cursor: pointer;
+  }
+  .leitarhnappur:hover {
+    color: var(--gull-dokkt);
+  }
+  .leitarhnappur:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: 3px;
+  }
+  .leit {
+    width: min(720px, 100vw);
+    max-width: none;
+    height: min(80dvh, 760px);
+    margin: 8vh auto auto;
+    padding: 0;
+    border: 1px solid var(--blek);
+    background: #fff;
+    color: var(--blek);
+  }
+  .leit::backdrop {
+    background: rgba(21, 19, 15, 0.55);
+  }
+  .leit__innri {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .leit__haus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--lina);
+  }
+  .leit__titill {
+    font: 400 24px/1.1 var(--serif-display);
+  }
+  .leit__loka {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--lina);
+    background: #fff;
+    font: 400 18px var(--sans);
+    cursor: pointer;
+  }
+  .leit__loka:hover,
+  .leit__loka:focus-visible {
+    border-color: var(--gull-dokkt);
+    color: var(--gull-dokkt);
+    outline: none;
+  }
+  .leit__svaedi {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 24px;
+    /* Pagefind-viðmót í útliti skýrslunnar */
+    --pagefind-ui-scale: 0.92;
+    --pagefind-ui-primary: #816932;
+    --pagefind-ui-text: #15130f;
+    --pagefind-ui-background: #ffffff;
+    --pagefind-ui-border: #dedad0;
+    --pagefind-ui-tag: #f5f0e3;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 0;
+    --pagefind-ui-font: 'Inter', 'Inter fallback', Arial, sans-serif;
+  }
+  .leit__svaedi .pagefind-ui__result-title {
+    font-family: var(--serif-display);
+    font-weight: 400;
+  }
+  .leit__svaedi mark {
+    background: #f5f0e3;
+    color: inherit;
+    box-shadow: inset 0 -2px 0 #ae9453;
+  }
+  .leit__villa {
+    padding: 20px;
+    font: 500 14px var(--sans);
+    color: var(--daufur);
+  }
+  @media (max-width: 899px) {
+    .leit {
+      width: 100vw;
+      height: 100dvh;
+      margin: 0;
+      border: 0;
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('.leit');
+  let hlaðið: Promise<void> | null = null;
+
+  const hlada = () =>
+    (hlaðið ??= new Promise<void>((leysa, hafna) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = '/pagefind/pagefind-ui.css';
+      document.head.append(css);
+      const s = document.createElement('script');
+      s.src = '/pagefind/pagefind-ui.js';
+      s.onload = () => {
+        // @ts-ignore – PagefindUI kemur úr skriftunni sem var að hlaðast
+        new window.PagefindUI({
+          element: '#leit-svaedi',
+          showSubResults: true,
+          showImages: false,
+          resetStyles: false,
+          autofocus: true,
+          translations: {
+            placeholder: 'Leita að nafni, tölu eða orði…',
+            clear_search: 'Hreinsa',
+            load_more: 'Sýna fleiri niðurstöður',
+            search_label: 'Leita í ársskýrslunni',
+            filters_label: 'Síur',
+            zero_results: 'Ekkert fannst fyrir „[SEARCH_TERM]“',
+            many_results: '[COUNT] niðurstöður fyrir „[SEARCH_TERM]“',
+            one_result: '[COUNT] niðurstaða fyrir „[SEARCH_TERM]“',
+            alt_search: 'Ekkert fannst fyrir „[SEARCH_TERM]“. Sýni niðurstöður fyrir „[DIFFERENT_TERM]“',
+            search_suggestion: 'Ekkert fannst fyrir „[SEARCH_TERM]“. Prófaðu eitthvað af þessu:',
+            searching: 'Leita að „[SEARCH_TERM]“…',
+          },
+        });
+        leysa();
+      };
+      s.onerror = () => hafna(new Error('Enginn leitarvísir'));
+      document.head.append(s);
+    }));
+
+  const opna = async () => {
+    if (!dialog) return;
+    dialog.showModal();
+    try {
+      await hlada();
+      dialog.querySelector<HTMLInputElement>('.pagefind-ui__search-input')?.focus();
+    } catch {
+      dialog.querySelector<HTMLElement>('.leit__villa')!.hidden = false;
+    }
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-leit-opna]').forEach((b) => b.addEventListener('click', opna));
+  dialog?.querySelector('.leit__loka')?.addEventListener('click', () => dialog.close());
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (dialog?.open) dialog.close();
+      else opna();
+    }
+  });
+</script>
