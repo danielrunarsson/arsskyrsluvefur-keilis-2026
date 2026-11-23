@@ -48,11 +48,11 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
       {
         fs.lykiltolur.map((l: any) => (
           <div class="lykiltolur__item">
-            <dt class="lykiltolur__tala">{l.tala}</dt>
+            <dt class="lykiltolur__tala" data-telja>{l.tala}</dt>
             <dd class="lykiltolur__texti">
               {l.texti}
               <br />
-              <span class="lykiltolur__breyting">{l.breyting}</span>
+              <span class="lykiltolur__breyting" data-telja>{l.breyting}</span>
             </dd>
           </div>
         ))

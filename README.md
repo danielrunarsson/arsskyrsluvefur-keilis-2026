@@ -24,6 +24,19 @@ npm run preview   # skoða dist/ staðbundið
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.
 
+## Regla: tölur telja upp
+
+**Allar tölur utan meginmáls telja upp frá núlli þegar þær birtast á skjánum** – lykiltölur, `tolur`, gildi í `sulur`, tölur í `tafla` (og súlur vaxa frá vinstri).
+Tölur inni í texta (`p`, `listi`, `inngangur`) hreyfast ekki.
+
+- Útfært í `src/scripts/hreyfing.ts`. Merktu nýtt talnasvæði með `data-telja` (tala) eða `data-vaxa` (súlurit) – þá fylgir það reglunni sjálfkrafa.
+- Íslenskt talnasnið helst í gegnum talninguna (2.192 · 569,3 · +21% · −4% · 337 → 774 · 14 klst.).
+- Með „draga úr hreyfingu“ (prefers-reduced-motion) eða án JavaScript birtast lokagildin strax.
+
+## Töflur á farsíma
+
+Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
+
 ## Síður án efnis (`stada: "vantar"`)
 
 Síða með `stada: "vantar"` eða engar blokkir:

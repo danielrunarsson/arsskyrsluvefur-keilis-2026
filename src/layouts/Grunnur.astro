@@ -20,6 +20,14 @@ const fullurTitill = titill ? `${titill} · ${efni.heiti} · Golfklúbburinn Kei
     <meta name="description" content={lysing} />
     {(noindex || synaVantar) && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <script is:inline>
+      // Felur tölur sem eiga að telja upp þar til hreyfing.ts hefur núllstillt þær (öryggistími 2,5 s).
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var h = document.documentElement;
+        h.classList.add('hreyfing');
+        setTimeout(function () { h.classList.add('hreyfing-tilbuin'); }, 2500);
+      }
+    </script>
     <link rel="preload" href="/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
   </head>
@@ -27,5 +35,8 @@ const fullurTitill = titill ? `${titill} · ${efni.heiti} · Golfklúbburinn Kei
     <div class="sida">
       <slot />
     </div>
+    <script>
+      import '../scripts/hreyfing.ts';
+    </script>
   </body>
 </html>

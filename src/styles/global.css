@@ -1045,15 +1045,73 @@ h3 {
   aspect-ratio: 9 / 16;
 }
 
-/* Töflur */
+/* Hreyfing: tölur telja upp, súlur vaxa (sjá src/scripts/hreyfing.ts) */
+html.hreyfing:not(.hreyfing-tilbuin) [data-telja] {
+  visibility: hidden;
+}
+html.hreyfing [data-vaxa] .b-sulur__sula {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
+  transform: scaleX(1);
+}
+
+/* Töflur – á farsíma: fastur fyrsti dálkur, dofnun til hægri, vísbending */
+.b-tafla-ytri {
+  position: relative;
+}
 .b-tafla {
   overflow-x: auto;
-  margin: 0 calc(var(--gutter) * -1);
-  padding: 0 var(--gutter);
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.b-tafla__visbending {
+  position: relative;
+  z-index: 2;
+  display: none;
+  justify-content: flex-end;
+  padding-bottom: 6px;
+  font: 600 11px var(--sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.er-yfirflaedi:not(.hefur-skrunad) .b-tafla__visbending {
+  display: flex;
+}
+.b-tafla__fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff 90%);
+  opacity: 0;
+}
+.meira .b-tafla__fade {
+  opacity: 1;
+}
+.tafla th:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: #fff;
+}
+.tafla tbody th:first-child {
+  padding-right: 12px;
+}
+.skrunad .tafla th:first-child {
+  box-shadow: 8px 0 8px -8px rgba(21, 19, 15, 0.25);
+}
+.tafla__samtala th:first-child {
+  background: var(--gull-ljost);
 }
 .tafla {
   width: 100%;
-  min-width: 520px;
+  min-width: 560px;
   border-collapse: collapse;
   table-layout: fixed;
   font: 500 13px var(--sans);
@@ -1074,16 +1132,22 @@ h3 {
 .tafla td {
   padding-left: 16px;
 }
+.tafla--4 {
+  min-width: 440px;
+}
+.tafla--3 {
+  min-width: 400px;
+}
 .tafla--4 :is(th, td):nth-child(2),
 .tafla--4 :is(th, td):nth-child(3) {
-  width: 120px;
+  width: 112px;
 }
 .tafla--4 :is(th, td):nth-child(4) {
-  width: 56px;
+  width: 52px;
 }
 .tafla--3 :is(th, td):nth-child(2),
 .tafla--3 :is(th, td):nth-child(3) {
-  width: 130px;
+  width: 120px;
 }
 .tafla thead th {
   padding: 10px 0;

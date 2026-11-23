@@ -21,9 +21,9 @@ const vantar = (s: any) => s.stada === 'vantar' || !s.blokkir?.length;
     <header class="veftre__haus">
       <h1>{efni.heiti} · veftré</h1>
       <dl class="veftre__fjoldi">
-        <div><dt class="gull">{fjoldi.sidur}</dt><dd>síður alls</dd></div>
-        <div><dt>{fjoldi.sidur - fjoldi.vantar}</dt><dd>með efni</dd></div>
-        <div><dt class="ljost">{fjoldi.vantar}</dt><dd>vantar efni</dd></div>
+        <div><dt class="gull" data-telja>{fjoldi.sidur}</dt><dd>síður alls</dd></div>
+        <div><dt data-telja>{fjoldi.sidur - fjoldi.vantar}</dt><dd>með efni</dd></div>
+        <div><dt class="ljost" data-telja>{fjoldi.vantar}</dt><dd>vantar efni</dd></div>
       </dl>
     </header>
     <div class="veftre__kaflar">

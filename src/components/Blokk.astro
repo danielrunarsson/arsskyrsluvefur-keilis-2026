@@ -50,7 +50,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
     <dl class="b-tolur">
       {b.atridi.map((a: any) => (
         <div>
-          <dt>{a.tala}</dt>
+          <dt data-telja>{a.tala}</dt>
           <dd>{a.texti}</dd>
         </div>
       ))}
@@ -100,6 +100,8 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 
 {
   tafla && (
+    <div class="b-tafla-ytri">
+    <div class="b-tafla__visbending" aria-hidden="true">Strjúktu til hliðar →</div>
     <div class="b-tafla" role="region" aria-label={b.titill ?? 'Tafla'} tabindex="0">
       <table class:list={['tafla', `tafla--${tafla.dalkar}`]}>
         <thead>
@@ -119,19 +121,21 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
               </tr>
             ) : (
               <tr class:list={{ tafla__feitt: r.feitt, tafla__samtala: r.samtala }}>
-                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : <td>{v}</td>))}
+                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : <td data-telja>{v}</td>))}
               </tr>
             ),
           )}
         </tbody>
       </table>
     </div>
+    <span class="b-tafla__fade" aria-hidden="true" />
+    </div>
   )
 }
 
 {
   b.t === 'sulur' && (
-    <figure class="b-sulur">
+    <figure class="b-sulur" data-vaxa>
       <figcaption class="b-sulur__titill">{b.titill}</figcaption>
       <ul class="b-sulur__listi">
         {b.atridi.map((a: any) => (
@@ -140,7 +144,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
             <span class="b-sulur__braut" aria-hidden="true">
               <span class="b-sulur__sula" style={`width:${a.pct}%`} />
             </span>
-            <span class="b-sulur__gildi">{a.gildi}</span>
+            <span class="b-sulur__gildi" data-telja>{a.gildi}</span>
           </li>
         ))}
       </ul>
