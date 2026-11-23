@@ -14,6 +14,8 @@ interface Props {
   sizes?: string;
   widths?: number[];
   eager?: boolean;
+  /** Mikilvægasta mynd síðunnar (LCP): sótt fyrst. */
+  forgangur?: boolean;
 }
 
 const myndir = import.meta.glob<ImageMetadata>('../assets/myndir/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}', {
@@ -21,7 +23,7 @@ const myndir = import.meta.glob<ImageMetadata>('../assets/myndir/**/*.{jpg,jpeg,
   import: 'default',
 });
 
-const { src, alt: altInn = '', skraut = false, class: klasi, sizes = '(min-width: 900px) 1328px, 100vw', widths, eager = false } = Astro.props;
+const { src, alt: altInn = '', skraut = false, class: klasi, sizes = '(min-width: 900px) 1328px, 100vw', widths, eager = false, forgangur = false } = Astro.props;
 const alt = skraut ? '' : altInn.trim();
 if (!skraut && !alt) {
   console.warn(`\x1b[33m[myndalýsing]\x1b[0m Vantar lýsingu (alt) á mynd: ${src} – síða ${Astro.url.pathname}`);
@@ -44,6 +46,7 @@ const loading = eager ? 'eager' : 'lazy';
       widths={breiddir}
       sizes={sizes}
       loading={loading}
+      fetchpriority={forgangur ? 'high' : undefined}
       decoding="async"
       class={klasi}
     />

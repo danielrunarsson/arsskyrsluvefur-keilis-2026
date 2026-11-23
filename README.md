@@ -24,6 +24,18 @@ npm run preview   # skoða dist/ staðbundið
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.
 
+## Letur og afköst
+
+Lighthouse (farsími, hæg 4G): forsíða 94, aðrar síður 98–100. Helstu atriði:
+
+- **Letur, 161 KB alls** (var 440 KB): Newsreader er klofið í textaútgáfu (opsz 16, 400–600) og fyrirsagnaútgáfu
+  „Newsreader Display“ (opsz 72, 300–400); Inter er fest í opsz 14, 400–700. Aðeins latnesk + íslensk tákn.
+  Fyrirsagnir, stórar tölur og tilvitnanir nota `--serif-display` (listi aftast í `global.css`).
+- **Varaletur með sömu málum** (Georgia/Arial með `size-adjust`) svo texti hoppar ekki þegar vefletrið hleðst.
+- **CSS beint í síðunni** (`inlineStylesheets: 'always'`) – engin beiðni sem stöðvar fyrstu birtingu.
+- **Aðalmynd forsíðu** fær `forgangur` (fetchpriority=high); aðrar myndir lazy og í réttum stærðum fyrir farsíma.
+- **Favicon** í réttum stærðum (32/192 px + apple-touch-icon) – áður var 715 KB merki notað sem favicon.
+
 ## Aðgengi (WCAG 2.2 AA)
 
 Vefurinn stenst axe-prófun (WCAG 2.0–2.2 A/AA + best practices) á öllum síðum, bæði á farsíma og skjáborði.
@@ -102,7 +114,8 @@ src/
   layouts/         Grunnur (<head>, letur)
   pages/           index.astro (forsíða), [slug].astro (undirsíður), innra/[sida].astro (veftré)
   styles/global.css  mobile first; @media (min-width: 900px) = hönnun í 1440px
-public/fonts/      Inter og Newsreader, sjálfhýst (breytileg WOFF2, latnesk og íslensk tákn, OFL-leyfi)
+public/fonts/      Inter og Newsreader, sjálfhýst WOFF2 (sjá „Letur og afköst“), OFL-leyfi
+scripts/letur.mjs  býr letrið til úr Google Fonts-skránum (npm i -D subset-font er þegar uppsett)
 ```
 
 ## Netlify

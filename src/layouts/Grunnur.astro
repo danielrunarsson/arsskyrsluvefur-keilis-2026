@@ -50,7 +50,9 @@ const deilimynd = deilikort && Astro.site ? new URL(`/deiling/${deilikort}.jpg`,
     <meta name="twitter:description" content={lysing} />
     {deilimynd && <meta name="twitter:image" content={deilimynd} />}
     {deilimynd && <meta name="twitter:image:alt" content={deiliTitill} />}
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script is:inline>
       // Felur tölur sem eiga að telja upp þar til hreyfing.ts hefur núllstillt þær (öryggistími 2,5 s).
       if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -59,7 +61,8 @@ const deilimynd = deilikort && Astro.site ? new URL(`/deiling/${deilikort}.jpg`,
         setTimeout(function () { h.classList.add('hreyfing-tilbuin'); }, 2500);
       }
     </script>
-    <link rel="preload" href="/fonts/newsreader.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-fyrirsagnir.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/newsreader-texti.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>

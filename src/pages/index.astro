@@ -41,7 +41,7 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
     {
       fs.mynd && (
         <figure class="adalmynd">
-          <Mynd src={fs.mynd} alt={fs.myndAlt || fs.myndatexti} class="adalmynd__img" eager />
+          <Mynd src={fs.mynd} alt={fs.myndAlt || fs.myndatexti} class="adalmynd__img" eager forgangur />
           {fs.myndatexti && <figcaption class="myndatexti">{fs.myndatexti}</figcaption>}
         </figure>
       )
@@ -89,7 +89,7 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
           const Tag = g.href ? 'a' : 'div';
           return (
             <Tag class="grein" href={g.href ?? undefined}>
-              <Mynd src={g.mynd} alt={g.alt} class="grein__img" sizes="(min-width: 900px) 430px, 100vw" widths={[480, 860, 1200]} />
+              <Mynd src={g.mynd} alt={g.alt} class="grein__img" sizes="(min-width: 900px) 430px, calc(100vw - 40px)" widths={[480, 640, 720, 860, 1200]} />
               <div class="grein__kicker">{g.kicker}</div>
               <h3 class="grein__titill">{g.titill}</h3>
               <p class="grein__texti">{g.texti}</p>

@@ -73,7 +73,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 {
   b.t === 'mynd' && (
     <figure class="b-mynd">
-      <Mynd src={b.src} alt={b.alt || b.texti} class="b-mynd__img" />
+      <Mynd src={b.src} alt={b.alt || b.texti} class="b-mynd__img" sizes="(min-width: 900px) 992px, calc(100vw - 40px)" widths={[480, 640, 800, 1000, 1400, 2000]} />
       {b.texti && <figcaption class="myndatexti">{b.texti}</figcaption>}
     </figure>
   )
@@ -87,7 +87,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
           src={typeof a === 'string' ? a : a.src}
           alt={typeof a === 'string' ? undefined : a.alt}
           class="b-myndir__img"
-          sizes="(min-width: 900px) 656px, 100vw"
+          sizes="(min-width: 900px) 488px, calc(100vw - 40px)"
         />
       ))}
     </div>
@@ -233,7 +233,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
       {b.atridi.map((a: any) => (
         <figure class="b-grof__item">
           <figcaption class="merking-gull">{a.heiti}</figcaption>
-          <Mynd src={a.src} alt={a.alt || a.heiti} class="b-grof__img" sizes="(min-width: 900px) 640px, 100vw" />
+          <Mynd src={a.src} alt={a.alt || a.heiti} class="b-grof__img" sizes="(min-width: 900px) 480px, calc(100vw - 40px)" widths={[400, 640, 960]} />
         </figure>
       ))}
     </div>

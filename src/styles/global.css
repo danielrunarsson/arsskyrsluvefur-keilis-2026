@@ -2,35 +2,71 @@
    Grunnstílar miðast við farsíma; @media (min-width: 900px) gefur hönnunina í 1440px.
    Gildi úr hönnunarhandoff (README „Design Tokens“). */
 
-/* Letur – sjálfhýst (public/fonts), breytileg (variable) WOFF2, Latin + íslenska.
+/* Letur – sjálfhýst (public/fonts), WOFF2, Latin + íslenska. Búið til með scripts/letur.mjs.
+   Newsreader er klofið í tvær ljósstærðir (optical size) í stað eins breytilegs leturs:
+     „Newsreader“          – textaútgáfa (opsz 16), 400–600, fyrir meginmál og smærri texta
+     „Newsreader Display“  – fyrirsagnaútgáfa (opsz 72), 300–400, fyrir fyrirsagnir og stórar tölur
+   Það minnkar letrið úr 440 KB í 161 KB án þess að útlitið tapi fínleika fyrirsagna.
    Leyfi: SIL Open Font License, sjá public/fonts/*-OFL.txt. */
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader.woff2') format('woff2');
-  font-weight: 200 800;
+  src: url('/fonts/newsreader-texti.woff2') format('woff2');
+  font-weight: 400 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader-italic.woff2') format('woff2');
-  font-weight: 200 800;
+  src: url('/fonts/newsreader-texti-skaletur.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader Display';
+  src: url('/fonts/newsreader-fyrirsagnir.woff2') format('woff2');
+  font-weight: 300 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader Display';
+  src: url('/fonts/newsreader-fyrirsagnir-skaletur.woff2') format('woff2');
+  font-weight: 300;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
   src: url('/fonts/inter.woff2') format('woff2');
-  font-weight: 100 900;
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
 }
+/* Varaletur með sömu málum og vefletrið (mælt í vafra), svo texti hoppar ekki þegar letrið hleðst. */
 @font-face {
-  font-family: 'Inter';
-  src: url('/fonts/inter-italic.woff2') format('woff2');
-  font-weight: 100 900;
-  font-style: italic;
-  font-display: swap;
+  font-family: 'Newsreader fallback';
+  src: local('Georgia');
+  size-adjust: 95.67%;
+  ascent-override: 77.35%;
+  descent-override: 28.22%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Newsreader Display fallback';
+  src: local('Georgia');
+  size-adjust: 96.46%;
+  ascent-override: 76.72%;
+  descent-override: 27.99%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Inter fallback';
+  src: local('Arial');
+  size-adjust: 107.58%;
+  ascent-override: 90.17%;
+  descent-override: 22.31%;
+  line-gap-override: 0%;
 }
 
 :root {
@@ -53,8 +89,9 @@
   --fotur-texti: #e8e3d8;
   --myndgrunnur: #cfc8b8;
 
-  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --serif: 'Newsreader', 'Newsreader fallback', Georgia, 'Times New Roman', serif;
+  --serif-display: 'Newsreader Display', 'Newsreader Display fallback', Georgia, 'Times New Roman', serif;
+  --sans: 'Inter', 'Inter fallback', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   --gutter: 20px;
@@ -1952,4 +1989,26 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 .veftre__merki {
   font: 500 12px var(--mono);
   color: var(--daufur);
+}
+
+/* ───────── Fyrirsagnaletur ─────────
+   Fyrirsagnir, stórar tölur og tilvitnanir nota fyrirsagnaútgáfu Newsreader (opsz 72).
+   Haft aftast svo það gangi framar „font:“ styttingum ofar í skránni. */
+.hetja__fyrirsogn,
+.sidu-haus__fyrirsogn,
+.b-h2,
+.langlestur__titill,
+.langlestur__fallstafur-stafur,
+.grein__titill,
+.studningsadilar__titill,
+.efnisyfirlit__titill,
+.efnisyfirlit__heiti,
+.b-undirsidur__heiti,
+.b-tolur dt,
+.lykiltolur__tala,
+.b-tilvitnun,
+.vantar__texti,
+.veftre__haus h1,
+.veftre__fjoldi dt {
+  font-family: var(--serif-display);
 }

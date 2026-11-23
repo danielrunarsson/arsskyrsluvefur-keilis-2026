@@ -13,7 +13,8 @@ const site =
 export default defineConfig({
   site,
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  // CSS beint inn í síðuna: engin aukabeiðni sem stöðvar fyrstu birtingu.
+  build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       // Innra veftréð er aldrei í sitemap.
