@@ -42,6 +42,7 @@ Ef stuðningsaðili sendir opinbera merkjaskrá er best að skipta henni út hé
 | nike | Wikimedia Commons: Logo NIKE.svg |
 | ntc | ntc.is |
 | olis | olis.is |
+| peroni | Fengið beint frá verkefnisstjóra (23.11.2026); dekkt til samræmis við hin merkin |
 | rio-tinto-alcan-a-islandi | riotinto.com |
 | rjc | rjc.is |
 | securitas | Wikimedia Commons: Securitas AB logo.svg |
@@ -53,4 +54,4 @@ Ef stuðningsaðili sendir opinbera merkjaskrá er best að skipta henni út hé
 | versus | versus.is |
 | olgerdin-egill-skallagrimsson | olgerdin.is |
 
-Vantar: **Peroni** – birtist sem nafn þar til merki fæst.
+Öll 45 merki eru komin. Stuðningsaðili án merkis birtist sem nafn.
