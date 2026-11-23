@@ -852,6 +852,7 @@ main:focus {
 }
 
 .sidu-haus {
+  container-type: inline-size;
   padding: 32px var(--gutter) 0;
   display: flex;
   flex-direction: column;
@@ -859,16 +860,21 @@ main:focus {
 }
 .sidu-haus__fyrirsogn {
   font: 400 48px/0.95 var(--serif);
+  /* Grunnstærð í --stofn; minnkar ef lengsta orðið (--lengsta stafir, sett á síðunni)
+     kæmist annars ekki fyrir í dálkinum (~0,52em á staf í fyrirsagnaletri). */
+  --stofn: 48px;
+  font-size: min(var(--stofn), calc(100cqi / (var(--lengsta, 1) * 0.52)));
   letter-spacing: -0.02em;
   text-wrap: balance;
   overflow-wrap: break-word;
 }
 .sidu-haus__fyrirsogn--portrett {
   font-weight: 300;
-  font-size: 40px;
+  --stofn: 40px;
   line-height: 1.02;
 }
 .sidu-haus__texti {
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -948,7 +954,7 @@ main:focus {
     max-width: 1100px;
   }
   .sidu-haus__fyrirsogn {
-    font-size: clamp(48px, 7.8vw, 112px);
+    --stofn: clamp(48px, 7.8vw, 112px);
     line-height: 0.92;
     letter-spacing: -0.035em;
   }
@@ -963,7 +969,7 @@ main:focus {
     gap: 28px;
   }
   .sidu-haus__fyrirsogn--portrett {
-    font-size: clamp(44px, 5.56vw, 80px);
+    --stofn: clamp(44px, 5.56vw, 80px);
     line-height: 0.98;
     letter-spacing: -0.03em;
   }
@@ -1896,7 +1902,7 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 
 @media (min-width: 900px) {
   .sidu-haus__fyrirsogn--langlestur {
-    font-size: clamp(44px, 5.83vw, 84px);
+    --stofn: clamp(44px, 5.83vw, 84px);
   }
   .langlestur {
     display: grid;

@@ -25,6 +25,8 @@ const blokkir = s.blokkir.map((b: any) => {
 });
 // Fyrirsögn í gæsalöppum: lokagæsalappir koma á eftir skáletraða hlutanum.
 const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '“' : '';
+// Lengsta orð titilsins: CSS minnkar letrið ef það kæmist annars ekki fyrir (engin skipting inni í orði).
+const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagaesalappir}`.split(/\s+/).map((o) => [...o].length));
 ---
 
 <Grunnur titill={s.heiti} lysing={inngangur ?? s.fyrirsogn ?? s.heiti} deilikort={s.slug} tegund="article">
@@ -47,7 +49,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '�
         <header class="sidu-haus sidu-haus--portrett">
           <div class="sidu-haus__texti">
             <div class="yfirmerking yfirmerking--gull">{kicker}</div>
-            <h1 class:list={['sidu-haus__fyrirsogn sidu-haus__fyrirsogn--portrett', { 'sidu-haus__fyrirsogn--langlestur': langlestur }]}>
+            <h1 class:list={['sidu-haus__fyrirsogn sidu-haus__fyrirsogn--portrett', { 'sidu-haus__fyrirsogn--langlestur': langlestur }]} style={`--lengsta:${lengsta}`}>
               {fyrirsogn}
               {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
               {lokagaesalappir}
@@ -72,7 +74,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '�
       ) : (
         <header class="sidu-haus">
           <div class="yfirmerking yfirmerking--gull">{kicker}</div>
-          <h1 class="sidu-haus__fyrirsogn">
+          <h1 class="sidu-haus__fyrirsogn" style={`--lengsta:${lengsta}`}>
             {fyrirsogn}
             {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
             {lokagaesalappir}
