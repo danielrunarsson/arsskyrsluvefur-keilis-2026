@@ -108,14 +108,26 @@ npm run athuga
 
 **Villur stöðva build** (á Netlify: deploy fellur og lifandi vefur helst óbreyttur):
 óþekkt blokkargerð, skyldusvið vantar, tengill eða grein vísar á síðu sem er ekki til, mynd finnst ekki í
-`src/assets/myndir/`, tvítekið eða ólöglegt slug, kafli sem er ekki til, töfluröð með rangan dálkafjölda,
+`src/assets/myndir/`, PDF-skjal (`kynningPdf` eða `pdf` blokk) finnst ekki í `public/`, tvítekið eða ólöglegt slug, kafli sem er ekki til, töfluröð með rangan dálkafjölda,
 súla með `pct` utan 0–100.
 
 **Viðvaranir** (build heldur áfram): óþekkt svið (líkleg innsláttarvilla), ójöfn `**feitletrun**`,
-`.mov` myndbönd (spilast ekki í Chrome/Firefox), ytri myndir.
+`.mov` myndbönd (spilast ekki í Chrome/Firefox), ytri myndir og ytri PDF-skjöl.
 
 Hver athugasemd segir nákvæmlega hvar (síða › blokk nr.) og stingur upp á réttu nafni við innsláttarvillur,
 t.d. `óþekkt blokkargerð „tilvitnum“ – áttirðu við „tilvitnun“?`
+
+## PDF-skjöl
+
+PDF-skjölin eru hýst á vefnum sjálfum í `public/skjol/` og birt á `/skjol/<skráarheiti>`
+(upprunaleg skráarheiti af 2025.keilir.is halda sér). Í efnisskránni: `kynningPdf: S + "skjal.pdf"` eða
+`{ t: "pdf", titill, src: S + "skjal.pdf" }`, þar sem `S = "/skjol/"`.
+
+- **Stærðin** á „Sækja“-hnappnum er reiknuð úr skránni við build (`src/lib/skjol.js`), t.d. „1,6 MB“ – `staerd`
+  þarf ekki og er hunsuð fyrir staðbundin skjöl. Hún gildir aðeins fyrir ytri slóðir (annars stendur „PDF“).
+- **Efnisathugun:** staðbundið skjal sem finnst ekki í `public/` stöðvar build.
+- **Ný útgáfa af skjali:** skipta skránni út undir sama heiti. Netlify sendir `Cache-Control: max-age=86400, must-revalidate`
+  á `/skjol/*`, svo ný útgáfa berst gestum í síðasta lagi sólarhring síðar.
 
 ## Gestatalning (GoatCounter)
 
@@ -156,6 +168,7 @@ src/
   pages/           index.astro (forsíða), [slug].astro (undirsíður), innra/[sida].astro (veftré)
   styles/global.css  mobile first; @media (min-width: 900px) = hönnun í 1440px
 public/fonts/      Inter og Newsreader, sjálfhýst WOFF2 (sjá „Letur og afköst“), OFL-leyfi
+public/skjol/      PDF-skjöl (kynning stjórnar, ársreikningur, könnun), birt á /skjol/<heiti> (sjá „PDF-skjöl“)
 scripts/letur.mjs  býr letrið til úr Google Fonts-skránum (npm i -D subset-font er þegar uppsett)
 ```
 
@@ -169,6 +182,6 @@ scripts/letur.mjs  býr letrið til úr Google Fonts-skránum (npm i -D subset-f
 
 ## Opið
 
-- Myndbönd (.mov) og PDF-skjöl vísa enn á `2025.keilir.is/wp-content/uploads/…`; þarf að sækja, umbreyta .mov → .mp4 og hýsa sjálf.
+- Myndbönd (.mov) vísa enn á `2025.keilir.is/wp-content/uploads/…`; þarf að sækja, umbreyta .mov → .mp4 og hýsa sjálf.
 - Gröfin í „Leiknir hringir“ eru PNG af gamla vefnum; verða gagnvirk gröf þegar hrágögn fást.
 - Efni 2026 kemur úr Word-skjali ársskýrslunnar.

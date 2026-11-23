@@ -45,7 +45,7 @@ Röð `sidur` ræður röð í valmynd og „fyrri/næsta“ tenglum.
 | `myndband` | src, texti, lodrett? | lárétt 16:9 / lóðrétt 360×640; bakgrunnur #15130F |
 | `tafla` | dalkar[], radir[] | sjá „Töflur“ |
 | `sulur` | titill, atridi[{heiti,gildi,pct,aherslu?,daufur?}] | lárétt súlurit: grid 240px/1fr/80px, súla 14px há; litur #15130F, áhersla #AE9453, dauf #D9CBA3 |
-| `pdf` | titill, src, staerd | kort: forskoðun 300px (rendur #F5F0E3/#FBF8F1) + 280px hliðardálkur m. hnapp |
+| `pdf` | titill, src, (staerd) | kort: forskoðun 300px (rendur #F5F0E3/#FBF8F1) + 280px hliðardálkur m. hnapp |
 | `folk` | titill, atridi[{nafn,hlutverk}] | 2 dálkar; nafn Newsreader 22; hlutverk Helvetica 500 13 #8A7136 |
 | `nofn` | titill, atridi[string] | 3 dálkar, Helvetica 16/1.45 |
 | `nefndir` | atridi[{heiti,texti}] | 2 dálkar, kort #F5F0E3 padding 24 |
