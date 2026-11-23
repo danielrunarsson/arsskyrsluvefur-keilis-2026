@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { efni, synaVantar } from '../lib/skyrsla.js';
+import Myndaskodari from '../components/Myndaskodari.astro';
 
 interface Props {
   titill?: string;
@@ -74,6 +75,7 @@ const deilimynd = deilikort && Astro.site ? new URL(`/deiling/${deilikort}.jpg`,
     <div class="sida">
       <slot />
     </div>
+    <Myndaskodari />
     <script>
       import '../scripts/hreyfing.ts';
     </script>

@@ -1,0 +1,233 @@
+---
+// Myndaskoðari: smellur (eða Enter/bil) á ljósmynd eða graf í efninu opnar hana á heilum skjá
+// í stærstu útgáfu. Strokið/örvatakkar fletta, Esc eða ✕ lokar. Notar <dialog> (fókus helst inni,
+// skilar sér á myndina við lokun). Án JavaScript eru myndirnar óbreyttar.
+---
+
+<dialog class="myndaskodari" aria-label="Myndaskoðari">
+  <figure class="myndaskodari__ramm">
+    <img class="myndaskodari__mynd" alt="" />
+    <figcaption class="myndaskodari__texti">
+      <span class="myndaskodari__lysing"></span>
+      <span class="myndaskodari__teljari"></span>
+    </figcaption>
+  </figure>
+  <button type="button" class="myndaskodari__hnappur myndaskodari__loka" aria-label="Loka myndaskoðara">✕</button>
+  <button type="button" class="myndaskodari__hnappur myndaskodari__fyrri" aria-label="Fyrri mynd">‹</button>
+  <button type="button" class="myndaskodari__hnappur myndaskodari__naesta" aria-label="Næsta mynd">›</button>
+</dialog>
+
+<style is:global>
+  [data-stakkanleg] {
+    cursor: zoom-in;
+  }
+  [data-stakkanleg]:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: 3px;
+  }
+  .myndaskodari {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    overscroll-behavior: contain;
+  }
+  .myndaskodari::backdrop {
+    background: rgba(21, 19, 15, 0.95);
+  }
+  .myndaskodari__ramm {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 56px 16px 24px;
+    touch-action: pan-y;
+  }
+  .myndaskodari__mynd {
+    max-width: 100%;
+    max-height: calc(100dvh - 160px);
+    object-fit: contain;
+    background: #1f1d19;
+    user-select: none;
+  }
+  .myndaskodari__texti {
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .myndaskodari__lysing {
+    font: italic 400 16px/1.45 var(--serif);
+    color: #e8e3d8;
+  }
+  .myndaskodari__teljari {
+    font: 600 12px var(--sans);
+    letter-spacing: 0.12em;
+    color: #b9a064;
+    font-variant-numeric: tabular-nums;
+  }
+  .myndaskodari__hnappur {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(232, 227, 216, 0.35);
+    background: rgba(21, 19, 15, 0.6);
+    color: #fff;
+    font: 400 26px/1 var(--sans);
+    cursor: pointer;
+  }
+  .myndaskodari__hnappur:hover,
+  .myndaskodari__hnappur:focus-visible {
+    border-color: #ae9453;
+    color: #ae9453;
+    outline: none;
+  }
+  .myndaskodari__loka {
+    top: 12px;
+    right: 12px;
+    font-size: 20px;
+  }
+  .myndaskodari__fyrri,
+  .myndaskodari__naesta {
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .myndaskodari__fyrri {
+    left: 12px;
+  }
+  .myndaskodari__naesta {
+    right: 12px;
+  }
+  .myndaskodari--ein .myndaskodari__fyrri,
+  .myndaskodari--ein .myndaskodari__naesta,
+  .myndaskodari--ein .myndaskodari__teljari {
+    display: none;
+  }
+  /* Í síma: flett með því að strjúka; örvar minni og neðar svo þær hylji ekki myndina. */
+  @media (max-width: 899px) {
+    .myndaskodari__fyrri,
+    .myndaskodari__naesta {
+      top: auto;
+      bottom: 16px;
+      translate: none;
+      width: 44px;
+      height: 44px;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .myndaskodari[open] .myndaskodari__mynd {
+      animation: myndInn 0.25s ease-out;
+    }
+  }
+  @keyframes myndInn {
+    from {
+      opacity: 0;
+      scale: 0.97;
+    }
+  }
+</style>
+
+<script>
+  // Ljósmyndir og gröf í efninu; tenglar, merki og smámyndir eru undanskilin.
+  const VAL = 'main .b-mynd__img, main .b-myndir__img, main .b-grof__img, main .adalmynd__img, main .sidu-haus__portrett';
+
+  const dialog = document.querySelector<HTMLDialogElement>('.myndaskodari');
+  const myndir = [...document.querySelectorAll<HTMLImageElement>(VAL)].filter((m) => !m.closest('a'));
+
+  /** Stærsta útgáfan úr srcset (helst AVIF/WebP úr <picture>). */
+  const staersta = (img: HTMLImageElement) => {
+    const srcset = [...(img.parentElement?.querySelectorAll('source') ?? [])].map((s) => s.srcset).concat(img.srcset);
+    let best = { url: img.currentSrc || img.src, w: 0 };
+    for (const ss of srcset) {
+      for (const hluti of ss.split(',')) {
+        const [url, w] = hluti.trim().split(/\s+/);
+        const n = parseInt(w ?? '', 10);
+        if (url && n > best.w) best = { url, w: n };
+      }
+    }
+    return best.url;
+  };
+  const lysing = (img: HTMLImageElement) =>
+    img.closest('figure')?.querySelector('figcaption')?.textContent?.replace(/^▶\s*/, '').trim() || img.alt || '';
+
+  if (dialog && myndir.length) {
+    const mynd = dialog.querySelector<HTMLImageElement>('.myndaskodari__mynd')!;
+    const lysingEl = dialog.querySelector<HTMLElement>('.myndaskodari__lysing')!;
+    const teljari = dialog.querySelector<HTMLElement>('.myndaskodari__teljari')!;
+    let nu = 0;
+    let uppruni: HTMLElement | null = null;
+
+    const syna = (i: number) => {
+      nu = (i + myndir.length) % myndir.length;
+      const img = myndir[nu];
+      mynd.src = staersta(img);
+      mynd.alt = img.alt;
+      lysingEl.textContent = lysing(img);
+      teljari.textContent = `${nu + 1} / ${myndir.length}`;
+    };
+    const opna = (i: number) => {
+      uppruni = myndir[i];
+      dialog.classList.toggle('myndaskodari--ein', myndir.length === 1);
+      syna(i);
+      dialog.showModal();
+    };
+
+    myndir.forEach((img, i) => {
+      img.dataset.stakkanleg = '';
+      img.tabIndex = 0;
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', `Stækka mynd: ${img.alt || lysing(img)}`);
+      img.addEventListener('click', () => opna(i));
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          opna(i);
+        }
+      });
+    });
+
+    dialog.querySelector('.myndaskodari__loka')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('.myndaskodari__fyrri')!.addEventListener('click', () => syna(nu - 1));
+    dialog.querySelector('.myndaskodari__naesta')!.addEventListener('click', () => syna(nu + 1));
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') syna(nu - 1);
+      if (e.key === 'ArrowRight') syna(nu + 1);
+    });
+    // Smellur á dökka bakgrunninn (utan myndar/hnappa) lokar – en ekki strax á eftir stroku.
+    let strokid = false;
+    dialog.addEventListener('click', (e) => {
+      if (strokid) {
+        strokid = false;
+        return;
+      }
+      if (e.target === dialog || (e.target as HTMLElement).classList.contains('myndaskodari__ramm')) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      mynd.removeAttribute('src');
+      uppruni?.focus();
+    });
+
+    // Stroka til hliðar í síma.
+    let x0: number | null = null;
+    dialog.addEventListener('pointerdown', (e) => (x0 = e.clientX));
+    dialog.addEventListener('pointerup', (e) => {
+      if (x0 === null) return;
+      const dx = e.clientX - x0;
+      x0 = null;
+      strokid = Math.abs(dx) > 10;
+      if (Math.abs(dx) > 50 && myndir.length > 1) syna(nu + (dx < 0 ? 1 : -1));
+    });
+  }
+</script>

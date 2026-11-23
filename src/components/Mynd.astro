@@ -33,7 +33,10 @@ if (!stadbundin && !/^https?:\/\//.test(src)) {
   throw new Error(`Mynd fannst ekki: ${src} (á að vera í src/assets/${src})`);
 }
 const breiddir = (widths ?? [480, 800, 1200, 1600, 2400]).filter((w) => !stadbundin || w <= stadbundin.width);
-if (stadbundin && !breiddir.length) breiddir.push(stadbundin.width);
+// Frumstærðin er alltaf með ef hún er minni en stærsta umbeðna breidd (t.d. 600px mynd: 480 + 600),
+// svo stærsta útgáfan – m.a. í myndaskoðaranum – sé aldrei minni en frummyndin.
+const umbedidMest = Math.max(...(widths ?? [2400]));
+if (stadbundin && stadbundin.width < umbedidMest && !breiddir.includes(stadbundin.width)) breiddir.push(stadbundin.width);
 const loading = eager ? 'eager' : 'lazy';
 ---
 
