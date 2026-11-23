@@ -1,0 +1,90 @@
+---
+// „Deila“-hnappur: í síma opnar hann deilivalmynd tækisins (Web Share API),
+// annars afritar hann hlekkinn og staðfestir („Hlekkur afritaður ✓“, líka fyrir skjálesara).
+// Án JavaScript birtist hann ekki (hidden), svo aldrei sést óvirkur hnappur.
+interface Props {
+  titill: string;
+  class?: string;
+}
+const { titill, class: klasi } = Astro.props;
+---
+
+<div class:list={['deila', klasi]} data-deila data-titill={titill} hidden>
+  <button type="button" class="deila__hnappur">
+    <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true">
+      <path d="M8 1.5v8.5M4.8 4.6 8 1.4l3.2 3.2M3 7.5v6.5h10V7.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+    </svg>
+    <span class="deila__texti">Deila</span>
+  </button>
+  <span class="deila__stada" role="status" aria-live="polite"></span>
+</div>
+
+<style is:global>
+  .deila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .deila[hidden] {
+    display: none;
+  }
+  .deila__hnappur {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--blek);
+    background: #fff;
+    color: var(--blek);
+    font: 600 13px var(--sans);
+    letter-spacing: 0.02em;
+    cursor: pointer;
+  }
+  .deila__hnappur:hover {
+    color: var(--gull-dokkt);
+    border-color: var(--gull-dokkt);
+  }
+  .deila__hnappur:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: 3px;
+  }
+  .deila__stada {
+    font: 600 13px var(--sans);
+    color: var(--gull-dokkt);
+  }
+</style>
+
+<script>
+  for (const rot of document.querySelectorAll<HTMLElement>('[data-deila]')) {
+    const hnappur = rot.querySelector<HTMLButtonElement>('.deila__hnappur')!;
+    const stada = rot.querySelector<HTMLElement>('.deila__stada')!;
+    const getur = typeof navigator.share === 'function' || !!navigator.clipboard;
+    if (!getur) continue;
+    rot.hidden = false;
+    let timi: number | undefined;
+    const syna = (texti: string) => {
+      stada.textContent = texti;
+      clearTimeout(timi);
+      timi = window.setTimeout(() => (stada.textContent = ''), 2500);
+    };
+    hnappur.addEventListener('click', async () => {
+      const slod = (document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href) || location.href;
+      const titill = rot.dataset.titill || document.title;
+      const lysing = document.querySelector<HTMLMetaElement>('meta[name="description"]')?.content ?? '';
+      if (typeof navigator.share === 'function' && matchMedia('(pointer: coarse)').matches) {
+        try {
+          await navigator.share({ title: titill, text: lysing, url: slod });
+        } catch {
+          /* Hætt við – ekkert að gera. */
+        }
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(slod);
+        syna('Hlekkur afritaður ✓');
+      } catch {
+        syna('Gat ekki afritað – afritaðu slóðina úr veffangastikunni');
+      }
+    });
+  }
+</script>

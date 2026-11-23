@@ -2131,3 +2131,14 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
     transform: translateY(12px);
   }
 }
+
+/* Aðgerðir undir inngangi forsíðu: „Lesa ávarp“ og „Deila“ í einni línu. */
+.hetja__adgerdir {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+}
+.sidu-haus .deila {
+  margin-top: 4px;
+}

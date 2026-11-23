@@ -4,6 +4,7 @@ import Haus from '../components/Haus.astro';
 import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Studningsadilar from '../components/Studningsadilar.astro';
+import Deila from '../components/Deila.astro';
 import { efni, kaflar, sidur, slod } from '../lib/skyrsla.js';
 import { linurFyrirsagnar } from '../lib/fyrirsogn.js';
 
@@ -42,7 +43,10 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
       </h1>
       <div class="hetja__inngangur">
         <p>{fs.inngangur}</p>
-        {avarp && <a class="tengill-strik" href={avarp}>Lesa ávarp formanns →</a>}
+        <div class="hetja__adgerdir">
+          {avarp && <a class="tengill-strik" href={avarp}>Lesa ávarp formanns →</a>}
+          <Deila titill={efni.heiti} />
+        </div>
       </div>
     </section>
 

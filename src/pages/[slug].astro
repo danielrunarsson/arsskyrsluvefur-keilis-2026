@@ -6,6 +6,7 @@ import Mynd from '../components/Mynd.astro';
 import Blokk from '../components/Blokk.astro';
 import Langlestur from '../components/Langlestur.astro';
 import NaestaSpjald from '../components/NaestaSpjald.astro';
+import Deila from '../components/Deila.astro';
 import Lesframvinda from '../components/Lesframvinda.astro';
 import { sidur, sidaMeta, slod } from '../lib/skyrsla.js';
 
@@ -66,6 +67,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
                 {s.lestur && <span class="sidu-haus__lestur"> · {s.lestur} lestur</span>}
               </span>
             </div>
+            <Deila titill={s.heiti} />
           </div>
           <Mynd
             src={s.portrett}
@@ -84,6 +86,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
             {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
             {lokagaesalappir}
           </h1>
+          <Deila titill={s.heiti} />
         </header>
       )
     }
