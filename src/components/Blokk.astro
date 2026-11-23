@@ -1,6 +1,7 @@
 ---
 // Ein efnisblokk úr efnisskránni (b.t ræður gerð). Sjá README fyrir lýsingu á hverri gerð.
 import Mynd from './Mynd.astro';
+import Sulurit from './Sulurit.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
 import { skjalStaerd } from '../lib/skjol.js';
@@ -20,7 +21,6 @@ const tafla =
 const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
   .map((a: any) => ({ ...a, href: slod(a.slug) }))
   .filter((a: any) => a.href);
-const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : '');
 ---
 
 {b.t === 'inngangur' && <p class="b-inngangur">{b.texti}</p>}
@@ -146,22 +146,8 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 }
 
 {
-  b.t === 'sulur' && (
-    <figure class="b-sulur" data-vaxa>
-      <figcaption class="b-sulur__titill">{b.titill}</figcaption>
-      <ul class="b-sulur__listi">
-        {b.atridi.map((a: any) => (
-          <li class:list={['b-sulur__rod', sulurLitur(a) && `b-sulur__rod--${sulurLitur(a)}`]}>
-            <span class="b-sulur__heiti">{a.heiti}</span>
-            <span class="b-sulur__braut" aria-hidden="true">
-              <span class="b-sulur__sula" style={`width:${a.pct}%`} />
-            </span>
-            <span class="b-sulur__gildi" data-telja>{a.gildi}</span>
-          </li>
-        ))}
-      </ul>
-    </figure>
-  )
+  b.t === 'sulur' && <Sulurit b={b} />
+
 }
 
 {
