@@ -17,6 +17,35 @@
 [context.branch-deploy.environment]
   SYNA_VANTAR = "true"
 
+# Lighthouse keyrir á hverju deployi (líka forskoðunum) á lykilsíðum.
+# Deploy fellur ef aðgengi fer undir 0,95 eða best practices undir 0,9.
+# Afköst og SEO eru mæld og sýnd í deploy-yfirlitinu en stöðva ekki deploy: byggingarvélin er ekki
+# raunhæft afkastamælitæki, og forskoðanir eru viljandi „noindex“ sem lækkar SEO-einkunn þeirra.
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  [plugins.inputs]
+    fail_deploy_on_score_thresholds = "true"
+
+  [plugins.inputs.thresholds]
+    accessibility = 0.95
+    best-practices = 0.9
+
+  [[plugins.inputs.audits]]
+    path = "index.html"
+
+  [[plugins.inputs.audits]]
+    path = "avarp/index.html"
+
+  [[plugins.inputs.audits]]
+    path = "efnahagur/index.html"
+
+  [[plugins.inputs.audits]]
+    path = "vallarstjori/index.html"
+
+  [[plugins.inputs.audits]]
+    path = "hringir/index.html"
+
 [[headers]]
   for = "/fonts/*"
   [headers.values]

@@ -38,8 +38,13 @@
   --meginmal: #1f1d19;
   --aukatexti: #4a463f;
   --daufur: #5e5a52;
+  /* Gull: #AE9453 er litur merkisins – notaður á fleti, súlur og línur, ekki á texta.
+     Textagull er dekkt nóg til að standast WCAG AA:
+     --gull-texti 3,2:1 á hvítu (aðeins stór texti), --gull-dokkt 5,3:1 á hvítu og 4,6:1 á ljósgulli. */
   --gull: #ae9453;
-  --gull-dokkt: #8a7136;
+  --gull-texti: #a68d4f;
+  --gull-dokkt: #816932;
+  --gull-dokkt-hover: #6a5629;
   --gull-ljost: #f5f0e3;
   --gull-folt: #fbf8f1;
   --gull-dauft: #d9cba3;
@@ -92,7 +97,7 @@ a:hover {
 a:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--gull);
+  outline: 2px solid var(--gull-dokkt);
   outline-offset: 3px;
 }
 img,
@@ -129,10 +134,30 @@ h3 {
   font-weight: 400;
 }
 
+/* ───────── Aðgengi ───────── */
+/* „Fara beint í efni“: falið þar til það fær fókus með lyklaborði. */
+.hoppa {
+  position: absolute;
+  left: 12px;
+  top: -100px;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--blek);
+  color: #fff;
+  font: 600 15px var(--sans);
+}
+.hoppa:focus {
+  top: 12px;
+  color: #fff;
+}
+main:focus {
+  outline: none;
+}
+
 /* ───────── Sameiginlegt ───────── */
 .hnappur {
   display: inline-block;
-  background: var(--gull);
+  background: var(--gull-dokkt);
   color: #fff;
   font: 700 14px var(--sans);
   padding: 10px 18px;
@@ -140,7 +165,7 @@ h3 {
 }
 .hnappur:hover {
   color: #fff;
-  background: var(--gull-dokkt);
+  background: var(--gull-dokkt-hover);
 }
 .hnappur--litill {
   padding: 10px 16px;
@@ -394,7 +419,7 @@ h3 {
 .hetja__fyrirsogn em {
   font-style: italic;
   font-weight: 300;
-  color: var(--gull);
+  color: var(--gull-texti);
 }
 .hetja__inngangur {
   display: flex;
@@ -1630,7 +1655,7 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 }
 .sidu-haus__fyrirsogn em {
   font-style: italic;
-  color: var(--gull);
+  color: var(--gull-texti);
 }
 .langlestur {
   padding: 24px var(--gutter) 0;
@@ -1719,7 +1744,7 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 .langlestur__fallstafur-stafur {
   float: left;
   font: 400 72px/0.8 var(--serif);
-  color: var(--gull);
+  color: var(--gull-texti);
   padding: 8px 10px 0 0;
 }
 .langlestur__haus {
@@ -1887,7 +1912,7 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   color: var(--gull-dokkt);
 }
 .veftre__fjoldi dt.ljost {
-  color: var(--gull);
+  color: var(--gull-texti);
 }
 .veftre__fjoldi dd {
   font: 500 13px var(--sans);

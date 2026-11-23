@@ -4,7 +4,10 @@ import Mynd from './Mynd.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
 
-const { b } = Astro.props as { b: any };
+// stig: fyrirsagnastig smáfyrirsagna (2 ef ekkert h2 er komið á undan á síðunni, annars 3).
+// samhengi: síðasta h2 á undan – gefur töflum nafn fyrir skjálesara.
+const { b, stig = 3, samhengi } = Astro.props as { b: any; stig?: 2 | 3; samhengi?: string };
+const H = stig === 2 ? 'h2' : 'h3';
 
 const tafla =
   b.t === 'tafla'
@@ -31,7 +34,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 
 {b.t === 'h2' && <h2 class="b-h2">{b.texti}</h2>}
 
-{b.t === 'h3' && <h3 class="b-h3">{b.texti}</h3>}
+{b.t === 'h3' && <H class="b-h3">{b.texti}</H>}
 
 {
   b.t === 'listi' && (
@@ -110,12 +113,12 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
   tafla && (
     <div class="b-tafla-ytri">
     <div class="b-tafla__visbending" aria-hidden="true">Strjúktu til hliðar →</div>
-    <div class="b-tafla" role="region" aria-label={b.titill ?? 'Tafla'} tabindex="0">
+    <div class="b-tafla" role="region" aria-label={b.titill ?? (samhengi ? `${samhengi} – tafla` : 'Tafla')} tabindex="0">
       <table class:list={['tafla', `tafla--${tafla.dalkar}`]}>
         <thead>
           <tr>
             {b.dalkar.map((d: string) => (
-              <th scope="col">{d}</th>
+              <th scope="col">{d || <span class="sr-only">Liður</span>}</th>
             ))}
           </tr>
         </thead>
@@ -185,7 +188,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 {
   b.t === 'folk' && (
     <section class="b-folk">
-      <h3 class="b-folk__titill">{b.titill}</h3>
+      <H class="b-folk__titill">{b.titill}</H>
       <dl class="b-folk__listi">
         {b.atridi.map((a: any) => (
           <div>
@@ -201,7 +204,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
 {
   b.t === 'nofn' && (
     <section class="b-nofn">
-      <h3 class="b-nofn__titill">{b.titill}</h3>
+      <H class="b-nofn__titill">{b.titill}</H>
       <ul class="b-nofn__listi">
         {b.atridi.map((n: string) => (
           <li>{n}</li>
@@ -216,7 +219,7 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
     <div class="b-nefndir">
       {b.atridi.map((a: any) => (
         <div class="b-nefndir__kort">
-          <h3>{a.heiti}</h3>
+          <H>{a.heiti}</H>
           <p>{a.texti}</p>
         </div>
       ))}

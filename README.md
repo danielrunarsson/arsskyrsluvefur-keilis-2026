@@ -24,6 +24,20 @@ npm run preview   # skoða dist/ staðbundið
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.
 
+## Aðgengi (WCAG 2.2 AA)
+
+Vefurinn stenst axe-prófun (WCAG 2.0–2.2 A/AA + best practices) á öllum síðum, bæði á farsíma og skjáborði.
+
+- **Litir:** `#AE9453` (gull merkisins) er notað á fleti, súlur og línur – **ekki á texta**. Á texta:
+  `--gull-dokkt` `#816932` (5,3:1 á hvítu, 4,6:1 á ljósgulli) og `--gull-texti` `#A68D4F` (3,2:1, aðeins stór texti).
+  Hnappar eru `--gull-dokkt` með hvítum texta.
+- **Lyklaborð:** „Fara beint í efni“ er fyrsti tengill á hverri síðu. Valmyndin („Efni“) og efnisyfirlit langlesturs
+  opnast með Enter/Space og lokast með Escape. Allir gagnvirkir hlutir hafa sýnilegan fókusramma.
+- **Skjálesarar:** tölur sem telja upp lesast alltaf með réttu lokagildi (talningin sjálf er falin skjálesurum).
+  Fyrirsagnaröð er rétt sjálfkrafa, töflur fá nafn eftir kaflanum sínum, PDF-tenglar segja að þeir opnist í nýjum flipa.
+- **Á hverju deployi** keyrir Lighthouse (`@netlify/plugin-lighthouse`, stillt í `netlify.toml`) á lykilsíðum.
+  Deploy fellur ef aðgengi < 0,95 eða best practices < 0,9. Einkunnir sjást í deploy-yfirliti Netlify.
+
 ## Regla: allar myndir fá lýsingu (alt)
 
 Lýsingin er lesin upp í skjálesurum og birtist ef mynd hleðst ekki. Hún segir **hvað er á myndinni** (á gröfum: hvað gögnin sýna), ekki bara „mynd“.

@@ -102,7 +102,7 @@ const yfirlysing = (t: string) => {
               {b.texti.slice(1)}
             </p>
           ) : (
-            <Blokk b={b} />
+            <Blokk b={b} stig={2} samhengi={sida.heiti} />
           ),
         )
       }
@@ -120,7 +120,7 @@ const yfirlysing = (t: string) => {
               {h.titill}
             </h2>
           </header>
-          {h.blokkir.map((b) => <Blokk b={b} />)}
+          {h.blokkir.map((b) => <Blokk b={b} stig={3} samhengi={h.titill} />)}
         </section>
       ))
     }
@@ -145,7 +145,7 @@ const yfirlysing = (t: string) => {
                 </div>
               </div>
             ) : (
-              <Blokk b={b} />
+              <Blokk b={b} stig={3} samhengi={lok.h2} />
             ),
           )}
         </section>

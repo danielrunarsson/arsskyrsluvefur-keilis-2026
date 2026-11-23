@@ -37,8 +37,11 @@ function snida(t: Tala, gildi: number): string {
   return t.formerki + heil + (auka ? ',' + auka : '');
 }
 
+// Talningin fer fram í sýnilegum bút sem skjálesarar sleppa (aria-hidden);
+// rétta lokagildið er alltaf til staðar í földum texta fyrir skjálesara.
+const synilegt = (el: HTMLElement) => (el as any).__syn as HTMLElement;
 const setja = (el: HTMLElement, butar: Bútur[], hlutfall: number) => {
-  el.textContent = butar.map((b) => (typeof b === 'string' ? b : snida(b, b.gildi * hlutfall))).join('');
+  synilegt(el).textContent = butar.map((b) => (typeof b === 'string' ? b : snida(b, b.gildi * hlutfall))).join('');
 };
 
 const mykja = (x: number) => 1 - Math.pow(1 - x, 3);
@@ -53,7 +56,7 @@ function telja(el: HTMLElement) {
       setja(el, butar, mykja(x));
       requestAnimationFrame(skref);
     } else {
-      el.textContent = lok;
+      synilegt(el).textContent = lok;
     }
   };
   requestAnimationFrame(skref);
@@ -73,8 +76,14 @@ function hefja() {
       if (!butar.some((b) => typeof b !== 'string')) continue;
       (el as any).__butar = butar;
       el.dataset.lokagildi = texti;
-      el.setAttribute('aria-label', texti.trim());
       el.style.fontVariantNumeric = 'tabular-nums';
+      const syn = document.createElement('span');
+      syn.setAttribute('aria-hidden', 'true');
+      const falid = document.createElement('span');
+      falid.className = 'sr-only';
+      falid.textContent = texti;
+      el.replaceChildren(syn, falid);
+      (el as any).__syn = syn;
       setja(el, butar, 0);
     }
     const sja = new IntersectionObserver(
@@ -93,6 +102,15 @@ function hefja() {
     vaxa.forEach((el) => sja.observe(el));
   }
   html.classList.add('hreyfing-tilbuin');
+
+  // Valmyndarskúffur (<details>): Escape lokar og skilar fókus á hnappinn.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    for (const d of document.querySelectorAll<HTMLDetailsElement>('details.skuffa[open], details.langlestur__yfirlit-farsimi[open]')) {
+      d.open = false;
+      d.querySelector<HTMLElement>('summary')?.focus();
+    }
+  });
 
   // Töflur: skuggar og vísbending eftir skrunstöðu.
   for (const ytri of document.querySelectorAll<HTMLElement>('.b-tafla-ytri')) {

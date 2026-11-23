@@ -40,12 +40,12 @@ const haegri = kaflar.slice(3, 4);
             <nav class="haus__kaflar" aria-label="Fleiri kaflar">
               {haegri.map((k) => <a href={k.href}>{k.heiti}</a>)}
             </nav>
-            <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓</a>
+            <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓<span class="sr-only"> (PDF, opnast í nýjum flipa)</span></a>
           </>
         ) : (
           <>
             <span class="haus__merking">{efni.heiti}</span>
-            <a class="hnappur hnappur--litill" href={efni.kynningPdf} target="_blank" rel="noopener">PDF ↓</a>
+            <a class="hnappur hnappur--litill" href={efni.kynningPdf} target="_blank" rel="noopener">PDF ↓<span class="sr-only"> – kynning stjórnar, opnast í nýjum flipa</span></a>
           </>
         )
       }
@@ -74,7 +74,7 @@ const haegri = kaflar.slice(3, 4);
             </div>
           ))
         }
-        <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓</a>
+        <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓<span class="sr-only"> (PDF, opnast í nýjum flipa)</span></a>
       </nav>
     </details>
   </div>

@@ -15,6 +15,13 @@ const { slug } = Astro.params;
 const { sida: s, kafli, fyrirsogn, kicker, fyrri, naesta } = sidaMeta(slug);
 const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
 const langlestur = s.snid === 'langlestur' && !s.vantar;
+// Samhengi hverrar blokkar: smáfyrirsagnir verða h2 þar til fyrsta h2 kemur (rétt fyrirsagnaröð),
+// og töflur fá nafn síðasta h2 á undan.
+let sidastaH2: string | undefined;
+const blokkir = s.blokkir.map((b: any) => {
+  if (b.t === 'h2') sidastaH2 = b.texti;
+  return { b, stig: (sidastaH2 ? 3 : 2) as 2 | 3, samhengi: sidastaH2 ?? s.heiti };
+});
 // Fyrirsögn í gæsalöppum: lokagæsalappir koma á eftir skáletraða hlutanum.
 const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '“' : '';
 ---
@@ -32,7 +39,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '�
     }
   </nav>
 
-  <main>
+  <main id="efni" tabindex="-1">
     {
       s.portrett ? (
         <header class="sidu-haus sidu-haus--portrett">
@@ -113,7 +120,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '�
             </div>
           )
         }
-        {s.blokkir.map((b: any) => <Blokk b={b} />)}
+        {blokkir.map(({ b, stig, samhengi }: any) => <Blokk b={b} stig={stig} samhengi={samhengi} />)}
 
         <nav class="fyrri-naesta" aria-label="Fyrri og næsta síða">
           <a class="fyrri-naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>

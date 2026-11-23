@@ -14,17 +14,20 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
 <Grunnur deilikort="forsida">
   <Haus gerd="forsida" />
 
-  <div class="upplysingar">
-    <span>{efni.heiti}</span>
-    <span class="upplysingar__mid">Golfklúbburinn Keilir · Hafnarfirði</span>
-    <span class="upplysingar__adalfundur">{efni.adalfundur}</span>
-  </div>
+  <section aria-label="Um ársskýrsluna">
+    <div class="upplysingar">
+      <span>{efni.heiti}</span>
+      <span class="upplysingar__mid">Golfklúbburinn Keilir · Hafnarfirði</span>
+      <span class="upplysingar__adalfundur">{efni.adalfundur}</span>
+    </div>
 
-  <a class="gullbordi" href={efni.kynningPdf} target="_blank" rel="noopener">
-    Smelltu hér til að skoða kynningu stjórnar á aðalfundi →
-  </a>
+    <a class="gullbordi" href={efni.kynningPdf} target="_blank" rel="noopener">
+      Smelltu hér til að skoða kynningu stjórnar á aðalfundi →
+      <span class="sr-only">(PDF, opnast í nýjum flipa)</span>
+    </a>
+  </section>
 
-  <main>
+  <main id="efni" tabindex="-1">
     <section class="hetja">
       <h1 class="hetja__fyrirsogn">
         {fs.fyrirsogn}&shy;<em>{fs.fyrirsognSkaletrun}</em>
