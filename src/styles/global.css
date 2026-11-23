@@ -2099,3 +2099,35 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 .veftre__fjoldi dt {
   font-family: var(--serif-display);
 }
+
+/* ───────── Síðuskiptingar (View Transitions, án JavaScript) ─────────
+   Hausinn stendur kyrr; efnið dofnar út og rennur mjúklega inn. Vafrar án stuðnings
+   (t.d. Firefox) opna síður eins og áður. Slökkt ef notandi biður um minni hreyfingu. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+  .haus {
+    view-transition-name: haus;
+  }
+  ::view-transition-old(root) {
+    animation: 160ms ease-in both sidaUt;
+  }
+  ::view-transition-new(root) {
+    animation: 320ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both sidaInn;
+  }
+  ::view-transition-group(haus) {
+    animation-duration: 0s;
+  }
+}
+@keyframes sidaUt {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes sidaInn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
