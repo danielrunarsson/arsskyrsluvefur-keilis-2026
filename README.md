@@ -23,6 +23,11 @@ npm run preview   # skoða dist/ staðbundið
 - `snid: "langlestur"` (valkvætt á síðu): langlestrarútgáfa, t.d. ávarp formanns. Búin til úr blokkunum:
   fallstafur á innganginum, hvert `h2` verður númeraður kafli („Heiti – Fyrirsögn“ → „01 · Heiti“ + fyrirsögn),
   efnisyfirlit (fast á skjáborði, fellanlegt á farsíma) og síðasti kaflinn með `undirskrift` verður lokakassi.
+- **Lesframvinda** (`components/Lesframvinda.astro` + `scripts/lesframvinda.ts`): 3 px gyllt lína efst á skjánum
+  sem fyllist frá upphafi `main` að lokum greinarinnar. Alltaf á langlestrarsíðum, sjálfkrafa á öðrum undirsíðum
+  ef efnið er lengra en 2,5 skjáhæðir; aldrei á forsíðu. Á langlestri: teljari „04 / 11“ á farsíma og núverandi
+  kafli fær `aria-current` í efnisyfirlitinu. Línan og teljarinn eru `aria-hidden` (engar tilkynningar við skrun);
+  án JavaScript birtist ekkert.
 
 ## Letur og afköst
 

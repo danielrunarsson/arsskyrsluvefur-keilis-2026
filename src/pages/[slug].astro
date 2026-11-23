@@ -5,6 +5,7 @@ import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Blokk from '../components/Blokk.astro';
 import Langlestur from '../components/Langlestur.astro';
+import Lesframvinda from '../components/Lesframvinda.astro';
 import { sidur, sidaMeta, slod } from '../lib/skyrsla.js';
 
 export function getStaticPaths() {
@@ -28,6 +29,7 @@ const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '�
 
 <Grunnur titill={s.heiti} lysing={inngangur ?? s.fyrirsogn ?? s.heiti} deilikort={s.slug} tegund="article">
   <Haus gerd="undirsida" kafliId={kafli.id} slug={s.slug} />
+  {!s.vantar && <Lesframvinda langlestur={langlestur} />}
 
   <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
     {

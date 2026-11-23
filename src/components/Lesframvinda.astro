@@ -1,0 +1,76 @@
+---
+// Lesframvinda: mjó gyllt lína efst á skjánum sem fyllist eftir því sem lesið er
+// frá upphafi <main> að lokum greinarinnar (ekki fótur). Á langlestrarsíðum líka
+// kaflateljari („04 / 11“) á farsíma og núverandi hluti merktur í föstu yfirliti.
+// Án JavaScript: falin (hidden). Skrautlína og teljari eru aria-hidden – engin
+// tilkynning til skjálesara við skrun; yfirlitið fær aria-current í staðinn.
+// Á öðrum undirsíðum birtist línan aðeins ef efnið er langt (> 2,5 skjáhæðir).
+interface Props {
+  langlestur?: boolean;
+}
+const { langlestur = false } = Astro.props;
+---
+
+<div class="lesframvinda" data-lesframvinda={langlestur ? 'langlestur' : 'sjalfvirk'} aria-hidden="true" hidden>
+  <div class="lesframvinda__lina"></div>
+  {langlestur && <div class="lesframvinda__teljari"><span class="lesframvinda__nu">01</span> / <span class="lesframvinda__alls">01</span></div>}
+</div>
+
+<style is:global>
+  .lesframvinda {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 20;
+    pointer-events: none;
+  }
+  .lesframvinda__lina {
+    height: 3px;
+    background: var(--gull);
+    transform: scaleX(var(--framvinda, 0));
+    transform-origin: 0 50%;
+    will-change: transform;
+  }
+  .lesframvinda__teljari {
+    position: absolute;
+    top: 3px;
+    right: var(--gutter);
+    padding: 5px 9px;
+    background: #fff;
+    border: 1px solid var(--lina-fin);
+    border-top: 0;
+    font: 600 12px/1 var(--sans);
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+    color: var(--gull-dokkt);
+    opacity: 0;
+    visibility: hidden;
+  }
+  .lesframvinda--hluti .lesframvinda__teljari {
+    opacity: 1;
+    visibility: visible;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .lesframvinda__teljari {
+      transition:
+        opacity 0.2s,
+        visibility 0.2s;
+    }
+  }
+  @media (min-width: 900px) {
+    .lesframvinda__teljari {
+      display: none;
+    }
+  }
+  /* Núverandi hluti í föstu yfirliti (tölvuskjár). */
+  .langlestur__yfirlit a[aria-current] {
+    color: var(--gull-dokkt);
+  }
+  .langlestur__yfirlit a[aria-current] .langlestur__nr {
+    font-weight: 700;
+  }
+</style>
+
+<script>
+  import { hefjaLesframvindu } from '../scripts/lesframvinda.ts';
+  hefjaLesframvindu();
+</script>
