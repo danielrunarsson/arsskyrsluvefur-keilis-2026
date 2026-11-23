@@ -3,6 +3,7 @@ import Grunnur from '../layouts/Grunnur.astro';
 import Haus from '../components/Haus.astro';
 import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
+import Studningsadilar from '../components/Studningsadilar.astro';
 import { efni, kaflar, sidur, slod } from '../lib/skyrsla.js';
 
 const fs = efni.forsida;
@@ -98,9 +99,7 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
 
     <section class="studningsadilar" aria-labelledby="studningsadilar">
       <h2 id="studningsadilar" class="studningsadilar__titill">Stuðningsaðilar Keilis</h2>
-      <ul class="studningsadilar__listi">
-        {fs.studningsadilar.map((n: string) => <li>{n}</li>)}
-      </ul>
+      <Studningsadilar nofn={fs.studningsadilar} />
     </section>
   </main>
 

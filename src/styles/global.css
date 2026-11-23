@@ -537,11 +537,38 @@ h3 {
 .studningsadilar__titill {
   font: 400 28px/1.1 var(--serif);
 }
-.studningsadilar__listi {
+.logoveggur {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--lina);
+}
+.logoveggur__item {
+  min-height: 96px;
+  padding: 16px 8px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 20px;
-  font: 400 15px/1.5 var(--sans);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-bottom: 1px solid var(--lina);
+  text-align: center;
+}
+.logoveggur__merki {
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0.82;
+}
+.logoveggur__item:hover .logoveggur__merki {
+  opacity: 1;
+}
+.logoveggur__nafn {
+  font: 500 9px/1.2 var(--sans);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--daufur);
+}
+.logoveggur__texti {
+  font: 400 17px/1.2 var(--serif);
   color: var(--aukatexti);
 }
 
@@ -655,9 +682,19 @@ h3 {
   .studningsadilar__titill {
     font-size: 36px;
   }
-  .studningsadilar__listi {
-    gap: 10px 28px;
-    font-size: 16px;
+  .logoveggur {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+  .logoveggur__item {
+    min-height: 112px;
+    padding: 20px 12px;
+  }
+  .logoveggur__texti {
+    font-size: 19px;
+  }
+  .logoveggur__nafn {
+    font-size: 10px;
+    letter-spacing: 0.1em;
   }
 }
 

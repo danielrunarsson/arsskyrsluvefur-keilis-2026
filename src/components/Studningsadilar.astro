@@ -1,0 +1,63 @@
+---
+// Lógóveggur stuðningsaðila. Merki eru í src/assets/studningsadilar/<slug>.png,
+// þar sem slug er dregið af nafninu í efnisskránni (t.d. „HS Orka“ → hs-orka.png).
+// Ef merki vantar birtist nafnið sjálft. Merki eru jöfnuð að sjónrænu flatarmáli
+// svo breið orðmerki og ferköntuð tákn virðist jafnstór.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const { nofn } = Astro.props as { nofn: string[] };
+
+const merki = import.meta.glob<ImageMetadata>('../assets/studningsadilar/*.png', { eager: true, import: 'default' });
+
+const STAFIR: Record<string, string> = { á: 'a', ð: 'd', é: 'e', í: 'i', ó: 'o', ú: 'u', ý: 'y', þ: 'th', æ: 'ae', ö: 'o' };
+const slugify =(n: string) =>
+  n
+    .toLowerCase()
+    .replace(/[áðéíóúýþæö]/g, (c) => STAFIR[c])
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+// Merki sem eru tákn án nafns: nafnið birtist undir.
+const MED_NAFNI = new Set(['hafnarfjardarbaer', 'islandsbanki', 'landsbankinn', 'steypustodin']);
+
+// Sjónrænt flatarmál (px²) og hámarksmál á skjáborði.
+const FLATARMAL = 3200;
+const MAX_B = 150;
+const MAX_H = 60;
+
+const atridi = nofn.map((nafn) => {
+  const slug = slugify(nafn);
+  const m = merki[`../assets/studningsadilar/${slug}.png`];
+  if (!m) return { nafn, slug };
+  const r = m.width / m.height;
+  let h = Math.sqrt(FLATARMAL / r);
+  h = Math.min(h, MAX_H, MAX_B / r);
+  return { nafn, slug, m, b: Math.round(h * r), h: Math.round(h), medNafni: MED_NAFNI.has(slug) };
+});
+---
+
+<ul class="logoveggur">
+  {
+    atridi.map((a) => (
+      <li class="logoveggur__item" title={a.nafn}>
+        {a.m ? (
+          <>
+            <Image
+              src={a.m}
+              alt={a.nafn}
+              width={a.b * 2}
+              height={a.h * 2}
+              style={`width:${a.b}px;height:${a.h}px`}
+              class="logoveggur__merki"
+              loading="lazy"
+            />
+            {a.medNafni && <span class="logoveggur__nafn">{a.nafn}</span>}
+          </>
+        ) : (
+          <span class="logoveggur__texti">{a.nafn}</span>
+        )}
+      </li>
+    ))
+  }
+</ul>
