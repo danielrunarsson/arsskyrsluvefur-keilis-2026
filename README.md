@@ -167,6 +167,20 @@ hinar dofna og kall sýnir fullt gildi og hlutfall af heild, t.d. „228,0 mkr. 
 
 Án `fyrra` breytist ekkert í útliti. Efnisathugunin stöðvar build ef `fyrra` er ekki tala eða `fyrraPct` er utan 0–100.
 
+## PDF-forskoðanir
+
+Spjald `pdf`-blokkar sýnir mynd af fyrstu síðu skjalsins úr
+`src/assets/pdf-forskodun/<skráarheiti án .pdf>.png` (fundin eftir skráarheiti, svo `src` má vera
+ytri slóð eða staðbundin `/skjol/…`). Vanti mynd birtist röndótt staðgengilsmynd. Þegar PDF-skjal
+bætist við eða breytist:
+
+```sh
+npm run pdf-forskodun          # teiknar forskoðanir sem vantar
+npm run pdf-forskodun -- --allt # teiknar allar aftur
+```
+
+Myndirnar (600 px breiðar) eru vistaðar í git; skriftan keyrir ekki í byggingu.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

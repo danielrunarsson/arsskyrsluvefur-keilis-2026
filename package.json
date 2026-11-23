@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "athuga": "node scripts/athuga.mjs"
+    "athuga": "node scripts/athuga.mjs",
+    "pdf-forskodun": "node scripts/pdf-forskodun.mjs"
   },
   "engines": {
     "node": ">=22.23.4"
@@ -21,7 +22,9 @@
     "sharp": "^0.35.5"
   },
   "devDependencies": {
+    "@napi-rs/canvas": "^1.2.0",
     "@netlify/plugin-lighthouse": "^6.0.4",
+    "pdfjs-dist": "^6.5.438",
     "subset-font": "^2.9.0"
   }
 }

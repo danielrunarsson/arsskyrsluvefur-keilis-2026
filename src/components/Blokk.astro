@@ -11,6 +11,12 @@ import { skjalStaerd } from '../lib/skjol.js';
 const { b, stig = 3, samhengi } = Astro.props as { b: any; stig?: 2 | 3; samhengi?: string };
 const H = stig === 2 ? 'h2' : 'h3';
 
+// Forskoðun PDF-skjals (fyrsta síða, búin til með `npm run pdf-forskodun`), fundin eftir
+// skráarheiti svo hún virki hvort sem src er ytri slóð eða staðbundin (/skjol/…).
+const forskodanir = Object.keys(import.meta.glob('../assets/pdf-forskodun/*.png'));
+const pdfNafn = b.t === 'pdf' ? String(b.src).split(/[?#]/)[0].split('/').pop()!.replace(/\.pdf$/i, '') : '';
+const pdfForskodun = pdfNafn && forskodanir.includes(`../assets/pdf-forskodun/${pdfNafn}.png`) ? `pdf-forskodun/${pdfNafn}.png` : null;
+
 const tafla =
   b.t === 'tafla'
     ? {
@@ -154,7 +160,14 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 {
   b.t === 'pdf' && (
     <div class="b-pdf">
-      <div class="b-pdf__forskodun rendur">PDF-forskoðun · {b.titill}</div>
+      {pdfForskodun ? (
+        <a class="b-pdf__forskodun b-pdf__forskodun--mynd rendur" href={b.src} target="_blank" rel="noopener">
+          <Mynd src={pdfForskodun} alt={`Fyrsta síða: ${b.titill}`} sizes="340px" widths={[320, 600]} class="b-pdf__sida" />
+          <span class="sr-only">(PDF, opnast í nýjum flipa)</span>
+        </a>
+      ) : (
+        <div class="b-pdf__forskodun rendur">PDF-forskoðun · {b.titill}</div>
+      )}
       <div class="b-pdf__hlid">
         <div class="b-pdf__lysing">
           <span class="merking-gull">Skjal</span>
