@@ -4,6 +4,7 @@ import Haus from '../components/Haus.astro';
 import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Blokk from '../components/Blokk.astro';
+import Langlestur from '../components/Langlestur.astro';
 import { sidur, sidaMeta, slod } from '../lib/skyrsla.js';
 
 export function getStaticPaths() {
@@ -13,6 +14,9 @@ export function getStaticPaths() {
 const { slug } = Astro.params;
 const { sida: s, kafli, fyrirsogn, kicker, fyrri, naesta } = sidaMeta(slug);
 const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
+const langlestur = s.snid === 'langlestur' && !s.vantar;
+// Fyrirsögn í gæsalöppum: lokagæsalappir koma á eftir skáletraða hlutanum.
+const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '“' : '';
 ---
 
 <Grunnur titill={s.heiti} lysing={inngangur}>
@@ -34,7 +38,11 @@ const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
         <header class="sidu-haus sidu-haus--portrett">
           <div class="sidu-haus__texti">
             <div class="yfirmerking yfirmerking--gull">{kicker}</div>
-            <h1 class="sidu-haus__fyrirsogn sidu-haus__fyrirsogn--portrett">{fyrirsogn}</h1>
+            <h1 class:list={['sidu-haus__fyrirsogn sidu-haus__fyrirsogn--portrett', { 'sidu-haus__fyrirsogn--langlestur': langlestur }]}>
+              {fyrirsogn}
+              {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
+              {lokagaesalappir}
+            </h1>
             <div class="sidu-haus__hofundur">
               <Mynd src={s.portrett} class="sidu-haus__avatar" sizes="56px" widths={[112]} eager />
               <span>
@@ -55,11 +63,27 @@ const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
       ) : (
         <header class="sidu-haus">
           <div class="yfirmerking yfirmerking--gull">{kicker}</div>
-          <h1 class="sidu-haus__fyrirsogn">{fyrirsogn}</h1>
+          <h1 class="sidu-haus__fyrirsogn">
+            {fyrirsogn}
+            {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
+            {lokagaesalappir}
+          </h1>
         </header>
       )
     }
 
+    {
+      langlestur && (
+        <Langlestur sida={s}>
+          <nav class="fyrri-naesta" aria-label="Fyrri og næsta síða">
+            <a class="fyrri-naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>
+            <a class="fyrri-naesta__naesta" href={naesta.href} rel="next">Næst: {naesta.heiti} →</a>
+          </nav>
+        </Langlestur>
+      )
+    }
+
+    {!langlestur && (
     <div class="meginmal">
       <nav class="systur systur--hlid" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
         <div class="systur__kafli">{kafli.heiti}</div>
@@ -97,6 +121,7 @@ const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
         </nav>
       </article>
     </div>
+    )}
   </main>
 
   <Fotur gerd="undirsida" />

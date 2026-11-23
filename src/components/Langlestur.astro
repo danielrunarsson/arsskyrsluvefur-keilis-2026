@@ -1,0 +1,157 @@
+---
+// Langlestrarútgáfa (snid: "langlestur"), t.d. ávarp formanns.
+// Byggð sjálfkrafa úr blokkum síðunnar:
+//  - blokkir á undan fyrsta h2 = upphaf (kveðja + inngangur með fallstaf)
+//  - hvert h2 hefur nýjan númeraðan hluta; „Heiti – Fyrirsögn“ verður merki + fyrirsögn
+//  - síðasti hluti sem inniheldur undirskrift verður lokakassi (ekki númeraður)
+import Blokk from './Blokk.astro';
+import Texti from './Texti.astro';
+import Mynd from './Mynd.astro';
+import { efni } from '../lib/skyrsla.js';
+
+const { sida } = Astro.props as { sida: any };
+const blokkir: any[] = sida.blokkir;
+
+const fyrsta = blokkir.findIndex((b) => b.t === 'h2');
+const upphaf = fyrsta < 0 ? blokkir : blokkir.slice(0, fyrsta);
+const hlutar: { h2: string; blokkir: any[] }[] = [];
+for (const b of fyrsta < 0 ? [] : blokkir.slice(fyrsta)) {
+  if (b.t === 'h2') hlutar.push({ h2: b.texti, blokkir: [] });
+  else hlutar.at(-1)!.blokkir.push(b);
+}
+const sidasti = hlutar.at(-1);
+const lok = sidasti?.blokkir.some((b) => b.t === 'undirskrift') ? hlutar.pop() : null;
+
+const storFyrsti = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+const numerad = hlutar.map((h, i) => {
+  const [merki, ...rest] = h.h2.split(' – ');
+  const nr = String(i + 1).padStart(2, '0');
+  return {
+    ...h,
+    nr,
+    id: `hluti-${nr}`,
+    merki: rest.length ? merki : null,
+    titill: rest.length ? storFyrsti(rest.join(' – ')) : h.h2,
+    yfirlit: rest.length ? merki : h.h2,
+  };
+});
+
+const kvedja = upphaf[0]?.t === 'p' && upphaf[0].texti.length < 80 ? upphaf[0] : null;
+const restUpphafs = kvedja ? upphaf.slice(1) : upphaf;
+
+// Lokakassi: tilvitnun verður yfirlýsing, síðasti hluti eftir „ – “ í skáletri.
+const lokMerki = lok?.h2.replace(' – ', ' · ');
+const yfirlysing = (t: string) => {
+  const i = t.lastIndexOf(' – ');
+  return i < 0 ? { fyrri: t, seinni: '' } : { fyrri: t.slice(0, i + 3), seinni: t.slice(i + 3) };
+};
+---
+
+<div class="langlestur">
+  <details class="langlestur__yfirlit-farsimi">
+    <summary>
+      <span>Í þessu ávarpi</span>
+      <span class="langlestur__fjoldi">{numerad.length} kaflar</span>
+    </summary>
+    <ol>
+      {
+        numerad.map((h) => (
+          <li>
+            <a href={`#${h.id}`}>
+              <span class="langlestur__nr">{h.nr}</span>
+              {h.yfirlit}
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </details>
+
+  <nav class="langlestur__yfirlit" aria-label="Efni ávarpsins">
+    <div class="langlestur__yfirlit-titill">Í þessu ávarpi</div>
+    {
+      numerad.map((h) => (
+        <a href={`#${h.id}`}>
+          <span class="langlestur__nr">{h.nr}</span>
+          {h.yfirlit}
+        </a>
+      ))
+    }
+    <a class="hnappur langlestur__pdf" href={efni.kynningPdf} target="_blank" rel="noopener">
+      Kynning stjórnar (PDF) ↓
+    </a>
+  </nav>
+
+  <article class="langlestur__texti">
+    <section class="langlestur__hluti">
+      {
+        kvedja && (
+          <p class="langlestur__kvedja">
+            <Texti texti={kvedja.texti} />
+          </p>
+        )
+      }
+      {
+        restUpphafs.map((b) =>
+          b.t === 'inngangur' ? (
+            <p class="langlestur__fallstafur">
+              <span class="langlestur__fallstafur-stafur" aria-hidden="true">
+                {b.texti.charAt(0)}
+              </span>
+              <span class="sr-only">{b.texti.charAt(0)}</span>
+              {b.texti.slice(1)}
+            </p>
+          ) : (
+            <Blokk b={b} />
+          ),
+        )
+      }
+    </section>
+
+    {
+      numerad.map((h) => (
+        <section class="langlestur__hluti" id={h.id} aria-labelledby={`${h.id}-titill`}>
+          <header class="langlestur__haus">
+            <span class="langlestur__merki">
+              {h.nr}
+              {h.merki && <> · {h.merki}</>}
+            </span>
+            <h2 class="langlestur__titill" id={`${h.id}-titill`}>
+              {h.titill}
+            </h2>
+          </header>
+          {h.blokkir.map((b) => <Blokk b={b} />)}
+        </section>
+      ))
+    }
+
+    {
+      lok && (
+        <section class="langlestur__lok" aria-label={lok.h2}>
+          <span class="langlestur__merki">{lokMerki}</span>
+          {lok.blokkir.map((b) =>
+            b.t === 'tilvitnun' ? (
+              <p class="langlestur__yfirlysing">
+                {yfirlysing(b.texti).fyrri}
+                <em>{yfirlysing(b.texti).seinni}</em>
+              </p>
+            ) : b.t === 'undirskrift' ? (
+              <div class="langlestur__undirskrift">
+                {sida.portrett && <Mynd src={sida.portrett} class="langlestur__avatar" sizes="56px" widths={[112]} />}
+                <div>
+                  <span class="langlestur__undirskrift-nafn">{b.nafn}</span>
+                  <br />
+                  <span class="langlestur__undirskrift-titill">{b.titill}</span>
+                </div>
+              </div>
+            ) : (
+              <Blokk b={b} />
+            ),
+          )}
+        </section>
+      )
+    }
+
+    <slot />
+  </article>
+</div>

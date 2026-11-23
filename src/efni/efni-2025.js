@@ -43,7 +43,7 @@ export default {
     // ───────── SKÝRSLA STJÓRNAR ─────────
     {
       slug: "avarp", kafli: "stjorn", heiti: "Ávarp formanns",
-      fyrirsogn: "„Keilir er meira en bara golfvöllur, við erum gefandi samfélag.“",
+      fyrirsogn: "„Keilir er meira en bara golfvöllur, ", fyrirsognSkaletrun: "við erum gefandi samfélag.", snid: "langlestur",
       kicker: "Ávarp formanns · Aðalfundur Golfklúbbsins Keilis 2025",
       portrett: "myndir/u/2025/12/gummi_stjorn_24-scaled.jpg", hofundur: "Guðmundur Örn Óskarsson, formaður", lestur: "8 mín.",
       heimild: "https://2025.keilir.is/skyrsla-stjornar-avarp-formanns/",

@@ -1555,6 +1555,238 @@ h3 {
   }
 }
 
+/* ───────── Langlestur (ávarp formanns) ───────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.sidu-haus__fyrirsogn em {
+  font-style: italic;
+  color: var(--gull);
+}
+.langlestur {
+  padding: 24px var(--gutter) 0;
+}
+.langlestur__yfirlit {
+  display: none;
+}
+.langlestur__yfirlit-farsimi {
+  border-top: 1px solid var(--blek);
+  border-bottom: 1px solid var(--lina);
+  margin-bottom: 8px;
+}
+.langlestur__yfirlit-farsimi > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 14px 0;
+  list-style: none;
+  cursor: pointer;
+  font: 600 12px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--daufur);
+}
+.langlestur__yfirlit-farsimi > summary::-webkit-details-marker {
+  display: none;
+}
+.langlestur__yfirlit-farsimi > summary::after {
+  content: '+';
+  font: 400 20px/1 var(--sans);
+  color: var(--gull-dokkt);
+  margin-left: 12px;
+}
+.langlestur__yfirlit-farsimi[open] > summary::after {
+  content: '−';
+}
+.langlestur__fjoldi {
+  margin-left: auto;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.langlestur__yfirlit-farsimi ol {
+  padding-bottom: 12px;
+}
+.langlestur__yfirlit-farsimi a,
+.langlestur__yfirlit a:not(.hnappur) {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  padding: 9px 0;
+  border-top: 1px solid var(--lina-fin);
+  font: 500 15px/1.35 var(--sans);
+}
+.langlestur__nr {
+  color: var(--gull-dokkt);
+  font-variant-numeric: tabular-nums;
+}
+
+.langlestur__texti {
+  max-width: 760px;
+  font: 400 19px/1.65 var(--serif);
+  color: var(--meginmal);
+  text-wrap: pretty;
+  min-width: 0;
+}
+.langlestur__texti .b-p,
+.langlestur__texti .b-listi {
+  font-size: inherit;
+  max-width: none;
+}
+.langlestur__hluti {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding-top: 40px;
+  scroll-margin-top: 16px;
+}
+.langlestur__kvedja {
+  font-weight: 500;
+  color: var(--blek);
+}
+.langlestur__fallstafur {
+  font-size: 21px;
+  line-height: 1.55;
+}
+.langlestur__fallstafur-stafur {
+  float: left;
+  font: 400 72px/0.8 var(--serif);
+  color: var(--gull);
+  padding: 8px 10px 0 0;
+}
+.langlestur__haus {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 20px;
+  border-top: 1px solid var(--blek);
+}
+.langlestur__merki {
+  font: 600 13px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.langlestur__titill {
+  font: 400 30px/1.1 var(--serif);
+  letter-spacing: -0.015em;
+  color: var(--blek);
+  text-wrap: balance;
+}
+.langlestur__lok {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 56px;
+  padding: 28px 20px;
+  background: var(--gull-ljost);
+}
+.langlestur__yfirlysing {
+  font: 400 24px/1.3 var(--serif);
+  color: var(--blek);
+  text-wrap: balance;
+}
+.langlestur__yfirlysing em {
+  font-style: italic;
+  color: var(--gull-dokkt);
+}
+.langlestur__undirskrift {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--lina);
+  font: 500 15px/1.4 var(--sans);
+}
+.langlestur__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: var(--myndgrunnur);
+  filter: grayscale(1);
+  flex: none;
+}
+.langlestur__undirskrift-nafn {
+  font: italic 400 20px var(--serif);
+}
+.langlestur__undirskrift-titill {
+  color: var(--daufur);
+}
+.langlestur .fyrri-naesta {
+  margin-top: 48px;
+}
+
+@media (min-width: 900px) {
+  .sidu-haus__fyrirsogn--langlestur {
+    font-size: clamp(44px, 5.83vw, 84px);
+  }
+  .langlestur {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 120px;
+    padding: 40px var(--gutter) 0;
+  }
+  .langlestur__yfirlit-farsimi {
+    display: none;
+  }
+  .langlestur__yfirlit {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-top: 56px;
+    position: sticky;
+    top: 0;
+    align-self: start;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
+  .langlestur__yfirlit-titill {
+    font: 600 13px var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--daufur);
+    padding-bottom: 12px;
+  }
+  .langlestur__pdf {
+    margin-top: 28px;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    white-space: normal;
+  }
+  .langlestur__texti {
+    font-size: 21px;
+  }
+  .langlestur__hluti {
+    padding-top: 56px;
+    scroll-margin-top: 24px;
+  }
+  .langlestur__fallstafur {
+    font-size: 24px;
+  }
+  .langlestur__fallstafur-stafur {
+    font-size: 104px;
+    padding: 10px 14px 0 0;
+  }
+  .langlestur__titill {
+    font-size: 40px;
+  }
+  .langlestur__lok {
+    margin-top: 72px;
+    padding: 48px;
+  }
+  .langlestur__yfirlysing {
+    font-size: 30px;
+  }
+}
+
 /* ───────── Innra veftré ───────── */
 .veftre {
   padding: 40px var(--gutter) 72px;
