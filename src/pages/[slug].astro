@@ -19,7 +19,7 @@ const langlestur = s.snid === 'langlestur' && !s.vantar;
 const lokagaesalappir = s.fyrirsognSkaletrun && fyrirsogn.startsWith('„') ? '“' : '';
 ---
 
-<Grunnur titill={s.heiti} lysing={inngangur}>
+<Grunnur titill={s.heiti} lysing={inngangur ?? s.fyrirsogn ?? s.heiti} deilikort={s.slug} tegund="article">
   <Haus gerd="undirsida" kafliId={kafli.id} slug={s.slug} />
 
   <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>

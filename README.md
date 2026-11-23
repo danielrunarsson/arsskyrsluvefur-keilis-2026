@@ -33,6 +33,17 @@ Tölur inni í texta (`p`, `listi`, `inngangur`) hreyfast ekki.
 - Íslenskt talnasnið helst í gegnum talninguna (2.192 · 569,3 · +21% · −4% · 337 → 774 · 14 klst.).
 - Með „draga úr hreyfingu“ (prefers-reduced-motion) eða án JavaScript birtast lokagildin strax.
 
+## Deiling (Facebook, LinkedIn, Slack o.fl.)
+
+Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort (1200×630 JPEG) sem er teiknað við build:
+`/deiling/forsida.jpg` og `/deiling/<slug>.jpg`.
+
+- Kortið er búið til úr efninu: kaflamerki, fyrirsögn (gyllt skáletur ef `fyrirsognSkaletrun`), og til hægri
+  portrett síðunnar (grátóna), fyrsta mynd hennar eða – ef engin mynd – fyrsta talan úr `tolur` blokk.
+- Kóði: `src/deiling/kort.ts` (Satori + resvg, letur í `src/deiling/letur/`) og `src/pages/deiling/[slug].jpg.ts`.
+- Slóðir í töggum nota aðallén Netlify (`URL`), svo þær verða sjálfkrafa `https://2026.keilir.is` þegar lénið er orðið aðallén.
+- Prófa: [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) og [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/).
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
