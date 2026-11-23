@@ -440,6 +440,23 @@ main:focus {
   letter-spacing: -0.03em;
   overflow-wrap: break-word;
   hyphens: manual;
+  /* Leturstærð lagar sig að dálkinum: --breidd (em) er breidd lengstu línu/orðs, reiknuð við build
+     (src/lib/fyrirsogn.js). Stærðin fer aldrei yfir --mest né undir --minnst. */
+  container-type: inline-size;
+  --mest: 64px;
+  --minnst: 36px;
+}
+.hetja__fyrirsogn-texti {
+  display: block;
+  font-size: max(var(--minnst), min(var(--mest), 100cqi / var(--breidd, 6)));
+}
+.hetja__lina {
+  display: block;
+  text-wrap: balance;
+}
+/* Skáletraður orðhópur helst saman á línu ef hann kemst fyrir (brotnar annars eðlilega). */
+.hetja__samfellt {
+  display: inline-block;
 }
 .hetja__fyrirsogn em {
   font-style: italic;
@@ -641,6 +658,8 @@ main:focus {
     font-size: clamp(64px, 11.67vw, 168px);
     line-height: 0.88;
     letter-spacing: -0.035em;
+    --mest: 168px;
+    --minnst: 48px;
   }
   .hetja__inngangur {
     padding-bottom: 12px;

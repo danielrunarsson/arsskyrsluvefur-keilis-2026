@@ -113,6 +113,11 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
   // ── Forsíða
   const fs = efni.forsida;
   for (const k of ['fyrirsogn', 'inngangur']) if (!fs[k]) v('forsíða', `„${k}“ vantar`);
+  // „|“ = línuskil í forsíðufyrirsögn (src/lib/fyrirsogn.js); tvöföld „||“ gefa tóma línu sem er sleppt.
+  for (const k of ['fyrirsogn', 'fyrirsognSkaletrun']) {
+    if (fs[k] !== undefined && typeof fs[k] !== 'string') v(`forsíða.${k}`, 'á að vera texti');
+    else if (/\|\s*\|/.test(fs[k] ?? '')) w(`forsíða.${k}`, `tvöföld línuskil („||“) í „${fs[k]}“`);
+  }
   if (fs.mynd) athugaMynd('forsíða.mynd', fs.mynd);
   (fs.lykiltolur ?? []).forEach((l, i) => { if (!l.tala || !l.texti) v(`forsíða.lykiltolur[${i}]`, 'tala og texti verða að vera til'); });
   (fs.greinar ?? []).forEach((g, i) => {
@@ -126,6 +131,8 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
   for (const s of efni.sidur) {
     const st = `síða „${s.slug}“`;
     ohnapp(st, s, SIDA);
+    for (const k of ['fyrirsogn', 'fyrirsognSkaletrun'])
+      if (typeof s[k] === 'string' && s[k].includes('|')) w(st, `„|“ (línuskil) virkar aðeins í forsíðufyrirsögn og birtist hér óbreytt`);
     if (s.kafli && !kaflaIds.has(s.kafli)) v(st, `kafli „${s.kafli}“ er ekki til${uppastunga(s.kafli, [...kaflaIds])}`);
     if (s.portrett) athugaMynd(`${st}.portrett`, s.portrett);
     if (s.stada && s.stada !== 'vantar') v(st, `stada má aðeins vera „vantar“ (er „${s.stada}“)`);

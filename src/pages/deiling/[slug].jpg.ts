@@ -2,6 +2,7 @@
 import type { APIRoute } from 'astro';
 import { teikna, type Kort } from '../../deiling/kort';
 import { efni, sidur, kaflar } from '../../lib/skyrsla.js';
+import { anLinuskila } from '../../lib/fyrirsogn.js';
 
 export function getStaticPaths() {
   return [{ params: { slug: 'forsida' } }, ...sidur.map((s) => ({ params: { slug: s.slug } }))];
@@ -12,7 +13,8 @@ const stadbundin = (src?: string) => (src && src.startsWith('myndir/') ? src : u
 function kortFyrir(slug: string): Kort {
   if (slug === 'forsida') {
     const fs = efni.forsida;
-    return { yfirmerki: efni.adalfundur, titill: fs.fyrirsogn, skaletrun: fs.fyrirsognSkaletrun, mynd: stadbundin(fs.mynd), ar: efni.heiti };
+    // „|“ (línuskil á forsíðu) eiga ekki við á kortinu.
+    return { yfirmerki: efni.adalfundur, titill: anLinuskila(fs.fyrirsogn), skaletrun: anLinuskila(fs.fyrirsognSkaletrun) || undefined, mynd: stadbundin(fs.mynd), ar: efni.heiti };
   }
   const s: any = sidur.find((x) => x.slug === slug);
   const k = kaflar.find((x) => x.id === s.kafli)!;
