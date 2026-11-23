@@ -11,7 +11,7 @@
 # Tómt = engin gestatalning. Talning er aðeins á lifandi vef, aldrei í forskoðunum.
 [context.production.environment]
   SYNA_VANTAR = "false"
-  GOATCOUNTER_KODI = ""
+  GOATCOUNTER_KODI = "keilir2026"
 
 # Previews and branch deploys show the "Efni vantar" pages and /innra/veftre/.
 [context.deploy-preview.environment]
