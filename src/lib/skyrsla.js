@@ -51,6 +51,7 @@ export function sidaMeta(slug) {
     kicker: s.kicker || k.heiti,
     fyrri: ut(sidur[i - 1]),
     naesta: ut(sidur[i + 1]),
+    naestaSida: sidur[i + 1] ?? null,
   };
 }
 

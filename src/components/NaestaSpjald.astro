@@ -1,0 +1,178 @@
+---
+// „Næsti kafli“-spjald neðst á undirsíðum: mynd, merki, fyrirsögn og stutt brot úr næstu síðu,
+// svo skýrslan lesist eins og tímarit. Á síðustu síðu vísar spjaldið aftur á forsíðu.
+// „← fyrri“ helst sem lítill tengill fyrir ofan.
+import Mynd from './Mynd.astro';
+import { efni, kaflar, slod } from '../lib/skyrsla.js';
+
+interface Props {
+  fyrri: { heiti: string; href: string };
+  naestaSida: any | null;
+  kafliId: string;
+}
+const { fyrri, naestaSida: n, kafliId } = Astro.props;
+
+const hreint = (t?: string) => String(t ?? '').replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
+const stytta = (t: string, max = 150) => (t.length > max ? t.slice(0, max - 1).replace(/\s+\S*$/, '') + '…' : t);
+const fyrstaMynd = (s: any): string | undefined => {
+  if (s.portrett) return s.portrett;
+  const b = s.blokkir?.find((x: any) => x.t === 'mynd' || x.t === 'myndir');
+  const src = b?.src ?? b?.atridi?.[0]?.src ?? b?.atridi?.[0];
+  return typeof src === 'string' && src.startsWith('myndir/') ? src : undefined;
+};
+
+let spjald;
+if (n) {
+  const k = kaflar.find((x) => x.id === n.kafli)!;
+  const nyrKafli = n.kafli !== kafliId;
+  const texti = n.blokkir?.find((b: any) => b.t === 'inngangur' || b.t === 'p')?.texti;
+  spjald = {
+    href: slod(n.slug),
+    merki: nyrKafli ? `Næsti kafli · ${k.nr} ${k.heiti}` : 'Næst í kaflanum',
+    titill: n.fyrirsogn ? hreint(n.fyrirsogn) + (n.fyrirsognSkaletrun ? ' ' + n.fyrirsognSkaletrun : '') : n.heiti,
+    undir: n.fyrirsogn && n.fyrirsogn !== n.heiti ? n.heiti : null,
+    brot: texti ? stytta(hreint(texti)) : null,
+    mynd: fyrstaMynd(n),
+    portrett: !!n.portrett,
+  };
+} else {
+  spjald = {
+    href: '/',
+    merki: 'Skýrslunni lokið',
+    titill: 'Aftur á forsíðu',
+    undir: efni.heiti,
+    brot: hreint(efni.forsida.inngangur),
+    mynd: efni.forsida.mynd?.startsWith('myndir/') ? efni.forsida.mynd : undefined,
+    portrett: false,
+  };
+}
+---
+
+<nav class="naesta" aria-label="Fyrri og næsta síða">
+  <a class="naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>
+  <a class:list={['naesta__spjald', { 'naesta__spjald--an-myndar': !spjald.mynd }]} href={spjald.href} rel="next">
+    {
+      spjald.mynd && (
+        <div class:list={['naesta__mynd', { 'naesta__mynd--portrett': spjald.portrett }]}>
+          <Mynd src={spjald.mynd} skraut class="naesta__img" sizes="(min-width: 900px) 420px, 100vw" widths={[480, 840]} />
+        </div>
+      )
+    }
+    <div class="naesta__texti">
+      <span class="naesta__merki">{spjald.merki}</span>
+      <span class="naesta__titill">{spjald.titill}</span>
+      {spjald.undir && <span class="naesta__undir">{spjald.undir}</span>}
+      {spjald.brot && <span class="naesta__brot">{spjald.brot}</span>}
+      <span class="naesta__or" aria-hidden="true">Lesa áfram →</span>
+    </div>
+  </a>
+</nav>
+
+<style is:global>
+  .naesta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--blek);
+  }
+  .naesta__fyrri {
+    align-self: flex-start;
+    font: 600 14px var(--sans);
+    color: var(--daufur);
+  }
+  .naesta__spjald {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border: 1px solid var(--blek);
+    background: #fff;
+    color: var(--blek);
+  }
+  .naesta__spjald:hover {
+    color: var(--blek);
+  }
+  .naesta__spjald--an-myndar {
+    background: var(--gull-ljost);
+  }
+  .naesta__mynd {
+    overflow: hidden;
+    background: var(--myndgrunnur);
+  }
+  .naesta__img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  .naesta__mynd--portrett .naesta__img {
+    object-position: top;
+    filter: grayscale(1) contrast(1.05);
+  }
+  .naesta__texti {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+  .naesta__merki {
+    font: 600 12px var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gull-dokkt);
+  }
+  .naesta__titill {
+    font: 300 30px/1.05 var(--serif-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .naesta__undir {
+    font: 500 14px var(--sans);
+    color: var(--daufur);
+  }
+  .naesta__brot {
+    font: 400 16px/1.55 var(--serif);
+    color: var(--aukatexti);
+    text-wrap: pretty;
+  }
+  .naesta__or {
+    margin-top: 6px;
+    font: 600 15px var(--sans);
+    color: var(--gull-dokkt);
+  }
+  .naesta__spjald:hover .naesta__or,
+  .naesta__spjald:focus-visible .naesta__or {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .naesta__img {
+      transition: scale 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .naesta__spjald:hover .naesta__img {
+      scale: 1.03;
+    }
+  }
+  @media (min-width: 900px) {
+    .naesta {
+      margin-top: 56px;
+    }
+    .naesta__spjald {
+      grid-template-columns: 40% minmax(0, 1fr);
+      min-height: 260px;
+    }
+    .naesta__spjald--an-myndar {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .naesta__img {
+      height: 100%;
+      min-height: 260px;
+    }
+    .naesta__texti {
+      padding: 32px 36px;
+      justify-content: center;
+    }
+    .naesta__titill {
+      font-size: 40px;
+    }
+  }
+</style>

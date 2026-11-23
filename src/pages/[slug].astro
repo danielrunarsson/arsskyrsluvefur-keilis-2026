@@ -5,6 +5,7 @@ import Fotur from '../components/Fotur.astro';
 import Mynd from '../components/Mynd.astro';
 import Blokk from '../components/Blokk.astro';
 import Langlestur from '../components/Langlestur.astro';
+import NaestaSpjald from '../components/NaestaSpjald.astro';
 import Lesframvinda from '../components/Lesframvinda.astro';
 import { sidur, sidaMeta, slod } from '../lib/skyrsla.js';
 
@@ -13,7 +14,7 @@ export function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const { sida: s, kafli, fyrirsogn, kicker, fyrri, naesta } = sidaMeta(slug);
+const { sida: s, kafli, fyrirsogn, kicker, fyrri, naestaSida } = sidaMeta(slug);
 const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
 const langlestur = s.snid === 'langlestur' && !s.vantar;
 // Samhengi hverrar blokkar: smáfyrirsagnir verða h2 þar til fyrsta h2 kemur (rétt fyrirsagnaröð),
@@ -90,10 +91,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
     {
       langlestur && (
         <Langlestur sida={s}>
-          <nav class="fyrri-naesta" aria-label="Fyrri og næsta síða">
-            <a class="fyrri-naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>
-            <a class="fyrri-naesta__naesta" href={naesta.href} rel="next">Næst: {naesta.heiti} →</a>
-          </nav>
+          <NaestaSpjald fyrri={fyrri} naestaSida={naestaSida} kafliId={kafli.id} />
         </Langlestur>
       )
     }
@@ -130,10 +128,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
         }
         {blokkir.map(({ b, stig, samhengi }: any) => <Blokk b={b} stig={stig} samhengi={samhengi} />)}
 
-        <nav class="fyrri-naesta" aria-label="Fyrri og næsta síða">
-          <a class="fyrri-naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>
-          <a class="fyrri-naesta__naesta" href={naesta.href} rel="next">{naesta.heiti} →</a>
-        </nav>
+        <NaestaSpjald fyrri={fyrri} naestaSida={naestaSida} kafliId={kafli.id} />
       </article>
     </div>
     )}
