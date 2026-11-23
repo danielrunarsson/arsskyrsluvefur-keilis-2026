@@ -1,0 +1,108 @@
+---
+import Grunnur from '../layouts/Grunnur.astro';
+import Haus from '../components/Haus.astro';
+import Fotur from '../components/Fotur.astro';
+import Mynd from '../components/Mynd.astro';
+import { efni, kaflar, sidur, slod } from '../lib/skyrsla.js';
+
+const fs = efni.forsida;
+const avarp = sidur[0] ? slod(sidur[0].slug) : null;
+const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
+---
+
+<Grunnur>
+  <Haus gerd="forsida" />
+
+  <div class="upplysingar">
+    <span>{efni.heiti}</span>
+    <span class="upplysingar__mid">Golfklúbburinn Keilir · Hafnarfirði</span>
+    <span class="upplysingar__adalfundur">{efni.adalfundur}</span>
+  </div>
+
+  <a class="gullbordi" href={efni.kynningPdf} target="_blank" rel="noopener">
+    Smelltu hér til að skoða kynningu stjórnar á aðalfundi →
+  </a>
+
+  <main>
+    <section class="hetja">
+      <h1 class="hetja__fyrirsogn">
+        {fs.fyrirsogn}&shy;<em>{fs.fyrirsognSkaletrun}</em>
+      </h1>
+      <div class="hetja__inngangur">
+        <p>{fs.inngangur}</p>
+        {avarp && <a class="tengill-strik" href={avarp}>Lesa ávarp formanns →</a>}
+      </div>
+    </section>
+
+    {
+      fs.mynd && (
+        <figure class="adalmynd">
+          <Mynd src={fs.mynd} alt={fs.myndatexti ?? ''} class="adalmynd__img" eager />
+          {fs.myndatexti && <figcaption class="myndatexti">{fs.myndatexti}</figcaption>}
+        </figure>
+      )
+    }
+
+    <dl class="lykiltolur">
+      {
+        fs.lykiltolur.map((l: any) => (
+          <div class="lykiltolur__item">
+            <dt class="lykiltolur__tala">{l.tala}</dt>
+            <dd class="lykiltolur__texti">
+              {l.texti}
+              <br />
+              <span class="lykiltolur__breyting">{l.breyting}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <section class="efnisyfirlit" aria-labelledby="efnisyfirlit">
+      <div class="efnisyfirlit__haus">
+        <div class="yfirmerking">Í þessu hefti</div>
+        <h2 id="efnisyfirlit" class="efnisyfirlit__titill">Efnisyfirlit</h2>
+      </div>
+      <ol class="efnisyfirlit__listi">
+        {
+          kaflar.map((k) => (
+            <li>
+              <a href={k.href}>
+                <span class="efnisyfirlit__nr">{k.nr}</span>
+                <span class="efnisyfirlit__heiti">{k.heiti}</span>
+                <span class="efnisyfirlit__sidur">{k.sidurTexti}</span>
+                <span class="efnisyfirlit__or" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="greinar" aria-label="Valdar greinar">
+      {
+        greinar.map((g: any) => {
+          const Tag = g.href ? 'a' : 'div';
+          return (
+            <Tag class="grein" href={g.href ?? undefined}>
+              <Mynd src={g.mynd} class="grein__img" sizes="(min-width: 900px) 430px, 100vw" widths={[480, 860, 1200]} />
+              <div class="grein__kicker">{g.kicker}</div>
+              <h3 class="grein__titill">{g.titill}</h3>
+              <p class="grein__texti">{g.texti}</p>
+              {g.href && <span class="grein__meira">Lesa meira →</span>}
+            </Tag>
+          );
+        })
+      }
+    </section>
+
+    <section class="studningsadilar" aria-labelledby="studningsadilar">
+      <h2 id="studningsadilar" class="studningsadilar__titill">Stuðningsaðilar Keilis</h2>
+      <ul class="studningsadilar__listi">
+        {fs.studningsadilar.map((n: string) => <li>{n}</li>)}
+      </ul>
+    </section>
+  </main>
+
+  <Fotur gerd="forsida" />
+</Grunnur>

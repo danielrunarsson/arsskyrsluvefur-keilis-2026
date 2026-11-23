@@ -1,0 +1,89 @@
+---
+// Haus forsíðu og undirsíðna. Á farsíma: merki til vinstri og „Efni ☰“ skúffa
+// (<details>, virkar án JavaScript). Frá 900px: haus eins og í hönnuninni.
+import { Image } from 'astro:assets';
+import logo from '../assets/keilir-logo.png';
+import { efni, kaflar, slod } from '../lib/skyrsla.js';
+
+interface Props {
+  gerd: 'forsida' | 'undirsida';
+  kafliId?: string;
+  slug?: string;
+}
+const { gerd, kafliId, slug } = Astro.props;
+const kafli = kaflar.find((k) => k.id === kafliId);
+const vinstri = kaflar.slice(0, 3);
+const haegri = kaflar.slice(3, 4);
+---
+
+<header class:list={['haus', `haus--${gerd}`]}>
+  <div class="haus__rod">
+    <div class="haus__vinstri">
+      {
+        gerd === 'forsida' ? (
+          <nav class="haus__kaflar" aria-label="Kaflar">
+            {vinstri.map((k) => <a href={k.href}>{k.heiti}</a>)}
+          </nav>
+        ) : (
+          kafli && <span class="haus__merking">{kafli.nr} — {kafli.heiti}</span>
+        )
+      }
+    </div>
+    <a class="haus__merki" href="/" aria-label="Forsíða – Golfklúbburinn Keilir">
+      <Image src={logo} alt="" width={112} height={112} class="haus__logo" loading="eager" />
+      <span class="haus__nafn">KEILIR</span>
+    </a>
+    <div class="haus__haegri">
+      {
+        gerd === 'forsida' ? (
+          <>
+            <nav class="haus__kaflar" aria-label="Fleiri kaflar">
+              {haegri.map((k) => <a href={k.href}>{k.heiti}</a>)}
+            </nav>
+            <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓</a>
+          </>
+        ) : (
+          <>
+            <span class="haus__merking">{efni.heiti}</span>
+            <a class="hnappur hnappur--litill" href={efni.kynningPdf} target="_blank" rel="noopener">PDF ↓</a>
+          </>
+        )
+      }
+    </div>
+
+    <details class="skuffa">
+      <summary>Efni <span aria-hidden="true">☰</span></summary>
+      <nav class="skuffa__innihald" aria-label="Efnisyfirlit">
+        <a href="/" class="skuffa__forsida">Forsíða</a>
+        {
+          kaflar.map((k) => (
+            <div class="skuffa__kafli">
+              <div class="skuffa__kaflaheiti">
+                {k.nr} · {k.heiti}
+              </div>
+              {k.sidur.map((s) => (
+                <a href={slod(s.slug)} aria-current={s.slug === slug ? 'page' : undefined}>
+                  {s.heiti}
+                </a>
+              ))}
+            </div>
+          ))
+        }
+        <a class="hnappur" href={efni.kynningPdf} target="_blank" rel="noopener">Sækja PDF ↓</a>
+      </nav>
+    </details>
+  </div>
+
+  {
+    gerd === 'undirsida' && (
+      <nav class="kaflavalmynd" aria-label="Kaflar">
+        <a href="/" class="kaflavalmynd__forsida">Forsíða</a>
+        {kaflar.map((k) => (
+          <a href={k.href} aria-current={k.id === kafliId ? 'true' : undefined}>
+            {k.heiti}
+          </a>
+        ))}
+      </nav>
+    )
+  }
+</header>

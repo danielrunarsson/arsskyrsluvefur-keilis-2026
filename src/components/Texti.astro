@@ -1,0 +1,7 @@
+---
+// Texti með **feitletrun**.
+import { butar } from '../lib/skyrsla.js';
+const { texti } = Astro.props as { texti: string };
+---
+
+{butar(texti).map((b) => (b.feitt ? <strong>{b.texti}</strong> : b.texti))}

@@ -1,0 +1,258 @@
+---
+// Ein efnisblokk úr efnisskránni (b.t ræður gerð). Sjá README fyrir lýsingu á hverri gerð.
+import Mynd from './Mynd.astro';
+import Texti from './Texti.astro';
+import { slod } from '../lib/skyrsla.js';
+
+const { b } = Astro.props as { b: any };
+
+const tafla =
+  b.t === 'tafla'
+    ? {
+        dalkar: b.dalkar.length,
+        radir: b.radir.map((r: any) => (Array.isArray(r) ? { c: r } : r)),
+      }
+    : null;
+const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
+  .map((a: any) => ({ ...a, href: slod(a.slug) }))
+  .filter((a: any) => a.href);
+const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : '');
+---
+
+{b.t === 'inngangur' && <p class="b-inngangur">{b.texti}</p>}
+
+{
+  b.t === 'p' && (
+    <p class="b-p">
+      <Texti texti={b.texti} />
+    </p>
+  )
+}
+
+{b.t === 'h2' && <h2 class="b-h2">{b.texti}</h2>}
+
+{b.t === 'h3' && <h3 class="b-h3">{b.texti}</h3>}
+
+{
+  b.t === 'listi' && (
+    <ul class="b-listi">
+      {b.atridi.map((a: string) => (
+        <li>
+          <Texti texti={a} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+{
+  b.t === 'tolur' && (
+    <dl class="b-tolur">
+      {b.atridi.map((a: any) => (
+        <div>
+          <dt>{a.tala}</dt>
+          <dd>{a.texti}</dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+{
+  b.t === 'tilvitnun' && (
+    <blockquote class="b-tilvitnun">„{b.texti}“</blockquote>
+  )
+}
+
+{
+  b.t === 'mynd' && (
+    <figure class="b-mynd">
+      <Mynd src={b.src} alt={b.texti ?? ''} class="b-mynd__img" />
+      {b.texti && <figcaption class="myndatexti">{b.texti}</figcaption>}
+    </figure>
+  )
+}
+
+{
+  b.t === 'myndir' && (
+    <div class="b-myndir">
+      {b.atridi.map((src: string) => (
+        <Mynd src={src} class="b-myndir__img" sizes="(min-width: 900px) 656px, 100vw" />
+      ))}
+    </div>
+  )
+}
+
+{
+  b.t === 'myndband' && (
+    <figure class="b-myndband">
+      <video
+        src={b.src}
+        controls
+        preload="metadata"
+        playsinline
+        class:list={['b-myndband__video', { 'b-myndband__video--lodrett': b.lodrett }]}
+      />
+      <figcaption class="myndatexti">▶ {b.texti}</figcaption>
+    </figure>
+  )
+}
+
+{
+  tafla && (
+    <div class="b-tafla" role="region" aria-label={b.titill ?? 'Tafla'} tabindex="0">
+      <table class:list={['tafla', `tafla--${tafla.dalkar}`]}>
+        <thead>
+          <tr>
+            {b.dalkar.map((d: string) => (
+              <th scope="col">{d}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {tafla.radir.map((r: any) =>
+            r.milli ? (
+              <tr class="tafla__milli">
+                <th colspan={tafla.dalkar} scope="colgroup">
+                  {r.c[0]}
+                </th>
+              </tr>
+            ) : (
+              <tr class:list={{ tafla__feitt: r.feitt, tafla__samtala: r.samtala }}>
+                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : <td>{v}</td>))}
+              </tr>
+            ),
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+{
+  b.t === 'sulur' && (
+    <figure class="b-sulur">
+      <figcaption class="b-sulur__titill">{b.titill}</figcaption>
+      <ul class="b-sulur__listi">
+        {b.atridi.map((a: any) => (
+          <li class:list={['b-sulur__rod', sulurLitur(a) && `b-sulur__rod--${sulurLitur(a)}`]}>
+            <span class="b-sulur__heiti">{a.heiti}</span>
+            <span class="b-sulur__braut" aria-hidden="true">
+              <span class="b-sulur__sula" style={`width:${a.pct}%`} />
+            </span>
+            <span class="b-sulur__gildi">{a.gildi}</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  b.t === 'pdf' && (
+    <div class="b-pdf">
+      <div class="b-pdf__forskodun rendur">PDF-forskoðun · {b.titill}</div>
+      <div class="b-pdf__hlid">
+        <div class="b-pdf__lysing">
+          <span class="merking-gull">Skjal</span>
+          <span class="b-pdf__titill">{b.titill}</span>
+        </div>
+        <div class="b-pdf__hnappar">
+          <a class="hnappur hnappur--breidd" href={b.src} download>
+            Sækja · {b.staerd}
+          </a>
+          <a class="b-pdf__opna" href={b.src} target="_blank" rel="noopener">
+            Opna í nýjum flipa ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  b.t === 'folk' && (
+    <section class="b-folk">
+      <h3 class="b-folk__titill">{b.titill}</h3>
+      <dl class="b-folk__listi">
+        {b.atridi.map((a: any) => (
+          <div>
+            <dt>{a.nafn}</dt>
+            <dd>{a.hlutverk}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+{
+  b.t === 'nofn' && (
+    <section class="b-nofn">
+      <h3 class="b-nofn__titill">{b.titill}</h3>
+      <ul class="b-nofn__listi">
+        {b.atridi.map((n: string) => (
+          <li>{n}</li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+{
+  b.t === 'nefndir' && (
+    <div class="b-nefndir">
+      {b.atridi.map((a: any) => (
+        <div class="b-nefndir__kort">
+          <h3>{a.heiti}</h3>
+          <p>{a.texti}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+{
+  b.t === 'grof' && (
+    <div class="b-grof">
+      {b.atridi.map((a: any) => (
+        <figure class="b-grof__item">
+          <figcaption class="merking-gull">{a.heiti}</figcaption>
+          <Mynd src={a.src} alt={a.heiti} class="b-grof__img" sizes="(min-width: 900px) 640px, 100vw" />
+        </figure>
+      ))}
+    </div>
+  )
+}
+
+{
+  b.t === 'undirsidur' && tenglar.length > 0 && (
+    <div class="b-undirsidur">
+      {tenglar.map((a: any) => (
+        <a href={a.href}>
+          <span class="b-undirsidur__heiti">{a.heiti}</span>
+          <span class="b-undirsidur__meira">Sjá nánar →</span>
+        </a>
+      ))}
+    </div>
+  )
+}
+
+{
+  b.t === 'tenglar' && tenglar.length > 0 && (
+    <div class="b-tenglar">
+      {tenglar.map((a: any) => (
+        <a href={a.href}>{a.heiti} →</a>
+      ))}
+    </div>
+  )
+}
+
+{
+  b.t === 'undirskrift' && (
+    <div class="b-undirskrift">
+      <span class="b-undirskrift__nafn">{b.nafn}</span>
+      <span class="b-undirskrift__titill">{b.titill}</span>
+    </div>
+  )
+}

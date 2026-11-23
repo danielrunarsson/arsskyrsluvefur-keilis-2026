@@ -1,0 +1,61 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/keilir-logo.png';
+import { efni, eldriSkyrslur } from '../lib/skyrsla.js';
+
+interface Props {
+  gerd: 'forsida' | 'undirsida';
+}
+const { gerd } = Astro.props;
+---
+
+{
+  gerd === 'forsida' ? (
+    <footer class="fotur fotur--stor">
+      <div class="fotur__merki">
+        <Image src={logo} alt="" width={176} height={176} class="fotur__logo fotur__logo--stort" />
+        <span>
+          Golfklúbburinn Keilir
+          <br />
+          Stofnaður 1967
+        </span>
+      </div>
+      <div>
+        Steinholti 1, 220 Hafnarfirði
+        <br />
+        565-3360 · <a href="mailto:keilir@keilir.is">keilir@keilir.is</a>
+      </div>
+      {eldriSkyrslur.length > 0 && (
+        <div>
+          Eldri ársskýrslur
+          <br />
+          {eldriSkyrslur.map((e, i) => (
+            <>
+              {i > 0 && ' · '}
+              <a class="undirstrikad" href={e.href}>
+                {e.ar}
+              </a>
+            </>
+          ))}
+        </div>
+      )}
+      <div>
+        Kynning stjórnar á aðalfundi
+        <br />
+        <a class="undirstrikad" href={efni.kynningPdf} target="_blank" rel="noopener">
+          Sækja PDF
+        </a>
+      </div>
+    </footer>
+  ) : (
+    <footer class="fotur fotur--litill">
+      <div class="fotur__merki">
+        <Image src={logo} alt="" width={112} height={112} class="fotur__logo" />
+        <span>Golfklúbburinn Keilir · Steinholti 1, 220 Hafnarfirði</span>
+      </div>
+      <span>
+        565-3360 · <a href="mailto:keilir@keilir.is">keilir@keilir.is</a>
+      </span>
+    </footer>
+  )
+}

@@ -1,0 +1,1563 @@
+/* Ársskýrsluvefur Keilis – mobile first.
+   Grunnstílar miðast við farsíma; @media (min-width: 900px) gefur hönnunina í 1440px.
+   Gildi úr hönnunarhandoff (README „Design Tokens“). */
+
+:root {
+  --blek: #15130f;
+  --meginmal: #1f1d19;
+  --aukatexti: #4a463f;
+  --daufur: #5e5a52;
+  --gull: #ae9453;
+  --gull-dokkt: #8a7136;
+  --gull-ljost: #f5f0e3;
+  --gull-folt: #fbf8f1;
+  --gull-dauft: #d9cba3;
+  --lina: #dedad0;
+  --lina-fin: #e6e2d9;
+  --fotur-texti: #e8e3d8;
+  --myndgrunnur: #cfc8b8;
+
+  --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
+  --gutter: 20px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --gutter: 56px;
+  }
+}
+
+/* ───────── Grunnur ───────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--blek);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+.sida {
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: clip;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: var(--gull-dokkt);
+}
+a:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--gull);
+  outline-offset: 3px;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+picture {
+  display: contents;
+}
+picture > source {
+  display: none;
+}
+h1,
+h2,
+h3,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ul,
+ol {
+  margin: 0;
+}
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+h1,
+h2,
+h3 {
+  font-weight: 400;
+}
+
+/* ───────── Sameiginlegt ───────── */
+.hnappur {
+  display: inline-block;
+  background: var(--gull);
+  color: #fff;
+  font: 700 14px var(--sans);
+  padding: 10px 18px;
+  white-space: nowrap;
+}
+.hnappur:hover {
+  color: #fff;
+  background: var(--gull-dokkt);
+}
+.hnappur--litill {
+  padding: 10px 16px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.hnappur--breidd {
+  display: block;
+  text-align: center;
+  padding: 14px;
+  font-size: 15px;
+  white-space: normal;
+}
+.myndatexti {
+  font: italic 400 15px/1.4 var(--serif);
+  color: var(--daufur);
+}
+.yfirmerking {
+  font: 500 13px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--daufur);
+}
+.yfirmerking--gull {
+  font-weight: 600;
+  color: var(--gull-dokkt);
+}
+.merking-gull {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.rendur {
+  background: repeating-linear-gradient(135deg, var(--gull-ljost) 0 14px, var(--gull-folt) 14px 28px);
+}
+.undirstrikad {
+  text-decoration: underline;
+}
+.tengill-strik {
+  align-self: flex-start;
+  font: 600 15px var(--sans);
+  border-bottom: 1px solid var(--blek);
+  padding-bottom: 4px;
+}
+
+/* ───────── Haus ───────── */
+.haus {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+}
+.haus__rod {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px var(--gutter);
+  border-bottom: 1px solid var(--blek);
+}
+.haus__vinstri,
+.haus__haegri {
+  display: none;
+}
+.haus__merki {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.haus__merki:hover {
+  color: inherit;
+}
+.haus__logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.haus__nafn {
+  font: 600 18px/1 var(--serif);
+  letter-spacing: 0.24em;
+  padding-top: 3px;
+}
+.haus__kaflar {
+  display: flex;
+  gap: 28px;
+  font: 500 15px var(--sans);
+}
+.haus__merking {
+  font: 500 13px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Skúffa (farsími) */
+.skuffa > summary {
+  list-style: none;
+  cursor: pointer;
+  font: 500 14px var(--sans);
+  padding: 8px 0 8px 12px;
+  user-select: none;
+}
+.skuffa > summary::-webkit-details-marker {
+  display: none;
+}
+.skuffa[open] > summary span {
+  color: var(--gull-dokkt);
+}
+.skuffa__innihald {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border-bottom: 1px solid var(--blek);
+  padding: 8px var(--gutter) 24px;
+  max-height: calc(100vh - 64px);
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.skuffa__forsida {
+  font: 600 15px var(--sans);
+  padding-top: 12px;
+}
+.skuffa__kafli {
+  display: flex;
+  flex-direction: column;
+}
+.skuffa__kaflaheiti {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+  padding-bottom: 8px;
+}
+.skuffa__kafli a {
+  font: 500 16px/1.3 var(--sans);
+  padding: 10px 0;
+  border-top: 1px solid var(--lina-fin);
+}
+.skuffa__kafli a[aria-current] {
+  font-weight: 700;
+  border-top-color: var(--blek);
+}
+.skuffa .hnappur {
+  text-align: center;
+  padding: 14px;
+}
+
+.kaflavalmynd {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .haus__rod {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    padding: 24px var(--gutter);
+  }
+  .haus__vinstri,
+  .haus__haegri {
+    display: flex;
+    align-items: center;
+  }
+  .haus__haegri {
+    justify-content: flex-end;
+    gap: 28px;
+  }
+  .haus--undirsida .haus__haegri {
+    gap: 20px;
+  }
+  .haus__merki {
+    gap: 14px;
+  }
+  .haus__logo {
+    width: 56px;
+    height: 56px;
+  }
+  .haus__nafn {
+    font-size: 26px;
+    letter-spacing: 0.28em;
+    padding-top: 5px;
+  }
+  .skuffa {
+    display: none;
+  }
+  .kaflavalmynd {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    padding: 16px var(--gutter);
+    border-bottom: 1px solid var(--lina);
+    font: 500 15px var(--sans);
+  }
+  .kaflavalmynd__forsida {
+    color: var(--daufur);
+  }
+  .kaflavalmynd a[aria-current] {
+    font-weight: 700;
+    border-bottom: 2px solid var(--gull);
+    padding-bottom: 4px;
+  }
+}
+
+/* ───────── Forsíða ───────── */
+.upplysingar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding: 8px var(--gutter);
+  font: 500 11px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--lina);
+}
+.upplysingar__mid {
+  display: none;
+}
+.gullbordi {
+  display: block;
+  background: var(--gull);
+  color: var(--blek);
+  text-align: center;
+  padding: 14px var(--gutter);
+  font: 400 15px/1.4 var(--sans);
+}
+.gullbordi:hover {
+  color: var(--blek);
+  background: #b9a064;
+}
+
+.hetja {
+  padding: 28px var(--gutter) 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.hetja__fyrirsogn {
+  font: 400 64px/0.9 var(--serif);
+  letter-spacing: -0.03em;
+  overflow-wrap: break-word;
+  hyphens: manual;
+}
+.hetja__fyrirsogn em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gull);
+}
+.hetja__inngangur {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.hetja__inngangur p {
+  font: 400 18px/1.45 var(--serif);
+  text-wrap: pretty;
+}
+
+.adalmynd__img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: var(--myndgrunnur);
+}
+.adalmynd .myndatexti {
+  padding: 12px var(--gutter) 0;
+}
+
+.lykiltolur {
+  margin: 40px var(--gutter) 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 2px solid var(--blek);
+}
+.lykiltolur__item {
+  padding: 14px 12px 14px 0;
+  border-bottom: 1px solid var(--lina);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.lykiltolur__item:nth-child(even) {
+  padding-left: 12px;
+  border-left: 1px solid var(--lina);
+}
+.lykiltolur__tala {
+  font: 400 34px/1 var(--serif);
+  color: var(--gull-dokkt);
+  letter-spacing: -0.02em;
+}
+.lykiltolur__texti {
+  font: 500 12px/1.4 var(--sans);
+}
+.lykiltolur__breyting {
+  color: var(--gull-dokkt);
+  font-weight: 700;
+}
+
+.efnisyfirlit {
+  padding: 56px var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.efnisyfirlit__haus {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.efnisyfirlit__titill {
+  font: 400 36px/1.05 var(--serif);
+}
+.efnisyfirlit__listi {
+  border-bottom: 1px solid var(--blek);
+}
+.efnisyfirlit__listi a {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 20px;
+  gap: 6px 12px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-top: 1px solid var(--blek);
+}
+.efnisyfirlit__nr {
+  font: 400 16px var(--serif);
+  color: var(--gull-dokkt);
+}
+.efnisyfirlit__heiti {
+  font: 400 24px/1.15 var(--serif);
+}
+.efnisyfirlit__sidur {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  font: 400 14px/1.6 var(--sans);
+  color: var(--aukatexti);
+}
+.efnisyfirlit__or {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+.greinar {
+  padding: 56px var(--gutter) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 48px;
+}
+.grein {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.grein__img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: var(--myndgrunnur);
+}
+.grein__kicker {
+  font: 500 13px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.grein__titill {
+  font: 400 28px/1.1 var(--serif);
+  text-wrap: pretty;
+}
+.grein__texti {
+  font: 400 16px/1.6 var(--sans);
+  color: var(--aukatexti);
+  text-wrap: pretty;
+}
+.grein__meira {
+  font: 600 15px var(--sans);
+  color: var(--gull-dokkt);
+}
+
+.studningsadilar {
+  margin: 72px var(--gutter) 0;
+  padding-top: 28px;
+  border-top: 1px solid var(--blek);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.studningsadilar__titill {
+  font: 400 28px/1.1 var(--serif);
+}
+.studningsadilar__listi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  font: 400 15px/1.5 var(--sans);
+  color: var(--aukatexti);
+}
+
+@media (min-width: 900px) {
+  .upplysingar {
+    padding: 14px var(--gutter);
+    font-size: 13px;
+  }
+  .upplysingar__mid {
+    display: inline;
+  }
+  .gullbordi {
+    padding: 18px var(--gutter);
+    font-size: 18px;
+  }
+  .hetja {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 64px;
+    align-items: end;
+    padding: 72px var(--gutter) 48px;
+  }
+  .hetja__fyrirsogn {
+    font-size: clamp(64px, 11.67vw, 168px);
+    line-height: 0.88;
+    letter-spacing: -0.035em;
+  }
+  .hetja__inngangur {
+    padding-bottom: 12px;
+  }
+  .hetja__inngangur p {
+    font-size: 24px;
+    line-height: 1.4;
+  }
+  .adalmynd {
+    padding: 0 var(--gutter);
+  }
+  .adalmynd__img {
+    height: 620px;
+  }
+  .adalmynd .myndatexti {
+    padding: 12px 0 0;
+  }
+  .lykiltolur {
+    margin-top: 72px;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    border-bottom: 1px solid var(--blek);
+  }
+  .lykiltolur__item,
+  .lykiltolur__item:nth-child(even) {
+    padding: 28px 24px 28px 0;
+    border: 0;
+    gap: 8px;
+  }
+  .lykiltolur__tala {
+    font-size: 60px;
+  }
+  .lykiltolur__texti {
+    font-size: 14px;
+  }
+  .efnisyfirlit {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 64px;
+    padding-top: 96px;
+  }
+  .efnisyfirlit__titill {
+    font-size: 48px;
+  }
+  .efnisyfirlit__listi a {
+    grid-template-columns: 64px 280px minmax(0, 1fr) 24px;
+    gap: 24px;
+    padding: 22px 0;
+  }
+  .efnisyfirlit__nr {
+    font-size: 18px;
+  }
+  .efnisyfirlit__heiti {
+    font-size: 30px;
+  }
+  .efnisyfirlit__sidur {
+    grid-column: 3;
+    grid-row: 1;
+    font-size: 15px;
+  }
+  .efnisyfirlit__or {
+    grid-column: 4;
+  }
+  .greinar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+    padding-top: 96px;
+  }
+  .grein {
+    gap: 16px;
+  }
+  .grein__img {
+    height: 340px;
+  }
+  .grein__titill {
+    font-size: 34px;
+  }
+  .studningsadilar {
+    margin-top: 120px;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 64px;
+  }
+  .studningsadilar__titill {
+    font-size: 36px;
+  }
+  .studningsadilar__listi {
+    gap: 10px 28px;
+    font-size: 16px;
+  }
+}
+
+/* ───────── Fótur ───────── */
+.fotur {
+  background: var(--blek);
+  color: var(--fotur-texti);
+  font: 400 15px/1.7 var(--sans);
+}
+.fotur a:hover {
+  color: var(--gull);
+}
+.fotur__merki {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  line-height: 1.5;
+}
+.fotur__logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex: none;
+}
+.fotur__logo--stort {
+  width: 72px;
+  height: 72px;
+}
+.fotur--stor {
+  margin-top: 72px;
+  padding: 40px var(--gutter);
+  display: grid;
+  gap: 24px;
+}
+.fotur--litill {
+  margin-top: 72px;
+  padding: 32px var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+  .fotur--stor {
+    margin-top: 96px;
+    padding: 56px var(--gutter);
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .fotur__logo--stort {
+    width: 88px;
+    height: 88px;
+  }
+  .fotur--litill {
+    margin-top: 96px;
+    padding: 40px var(--gutter);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ───────── Undirsíða ───────── */
+.systur--farsimi {
+  display: flex;
+  gap: 18px;
+  padding: 12px var(--gutter);
+  border-bottom: 1px solid var(--lina);
+  font: 500 13px var(--sans);
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.systur--farsimi::-webkit-scrollbar {
+  display: none;
+}
+.systur--farsimi a {
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+}
+.systur--farsimi a[aria-current] {
+  font-weight: 700;
+  border-bottom-color: var(--blek);
+}
+.systur--hlid {
+  display: none;
+}
+
+.sidu-haus {
+  padding: 32px var(--gutter) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sidu-haus__fyrirsogn {
+  font: 400 48px/0.95 var(--serif);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.sidu-haus__fyrirsogn--portrett {
+  font-weight: 300;
+  font-size: 40px;
+  line-height: 1.02;
+}
+.sidu-haus__texti {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sidu-haus__hofundur {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 500 14px/1.35 var(--sans);
+  color: var(--daufur);
+}
+.sidu-haus__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  background: var(--myndgrunnur);
+  filter: grayscale(1);
+  flex: none;
+}
+.sidu-haus__portrett {
+  display: none;
+}
+
+.meginmal {
+  padding: 32px var(--gutter) 0;
+}
+.blokkir {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+@media (min-width: 900px) {
+  .systur--farsimi {
+    display: none;
+  }
+  .systur--hlid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-self: start;
+  }
+  .systur__kafli {
+    font: 600 12px var(--sans);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--daufur);
+    padding-bottom: 12px;
+  }
+  .systur--hlid a {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 0;
+    border-top: 1px solid var(--lina-fin);
+    font: 500 15px/1.35 var(--sans);
+    color: var(--aukatexti);
+  }
+  .systur--hlid a:hover {
+    color: var(--gull-dokkt);
+  }
+  .systur--hlid a[aria-current] {
+    font-weight: 700;
+    color: var(--blek);
+    border-top-color: var(--blek);
+  }
+  .systur__punktur {
+    color: var(--gull);
+  }
+
+  .sidu-haus {
+    padding: 88px var(--gutter) 0;
+    gap: 24px;
+    max-width: 1100px;
+  }
+  .sidu-haus__fyrirsogn {
+    font-size: clamp(48px, 7.8vw, 112px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  .sidu-haus--portrett {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 96px;
+    align-items: end;
+  }
+  .sidu-haus__texti {
+    gap: 28px;
+  }
+  .sidu-haus__fyrirsogn--portrett {
+    font-size: clamp(44px, 5.56vw, 80px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+  }
+  .sidu-haus__avatar {
+    display: none;
+  }
+  .sidu-haus__portrett {
+    display: block;
+    width: 100%;
+    height: 560px;
+    object-fit: cover;
+    object-position: top;
+    background: var(--myndgrunnur);
+    filter: grayscale(1) contrast(1.05);
+  }
+  .meginmal {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 96px;
+    padding-top: 72px;
+  }
+}
+
+/* ───────── Blokkir ───────── */
+.b-inngangur {
+  max-width: 820px;
+  font: 400 21px/1.5 var(--serif);
+  text-wrap: pretty;
+}
+.b-p {
+  max-width: 760px;
+  font: 400 18px/1.6 var(--serif);
+  color: var(--meginmal);
+  text-wrap: pretty;
+}
+.b-p strong,
+.b-listi strong {
+  font-weight: 600;
+  color: var(--blek);
+}
+.b-h2 {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--blek);
+  max-width: 820px;
+  font: 400 30px/1.1 var(--serif);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.b-h3 {
+  margin-top: 8px;
+  font: 600 13px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.b-listi {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 760px;
+  font: 400 18px/1.55 var(--serif);
+  color: var(--meginmal);
+}
+.b-listi li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 4px;
+}
+.b-listi li::before {
+  content: '—';
+  color: var(--gull);
+  font-weight: 600;
+}
+
+.b-tolur {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 2px solid var(--blek);
+  border-bottom: 1px solid var(--lina);
+  margin: 12px 0;
+}
+.b-tolur > div {
+  padding: 16px 12px 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.b-tolur dt {
+  font: 400 32px/1 var(--serif);
+  color: var(--gull-dokkt);
+  letter-spacing: -0.02em;
+}
+.b-tolur dd {
+  font: 500 13px/1.4 var(--sans);
+  color: var(--aukatexti);
+}
+
+.b-tilvitnun {
+  margin: 12px 0;
+  padding: 28px 0;
+  border-top: 1px solid var(--gull);
+  border-bottom: 1px solid var(--gull);
+  max-width: 860px;
+  font: italic 300 30px/1.15 var(--serif);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.b-mynd {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0;
+}
+.b-mynd__img,
+.b-myndir__img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  background: var(--myndgrunnur);
+}
+.b-myndir {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.b-myndband {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0;
+}
+.b-myndband__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--blek);
+}
+.b-myndband__video--lodrett {
+  width: 360px;
+  aspect-ratio: 9 / 16;
+}
+
+/* Töflur */
+.b-tafla {
+  overflow-x: auto;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 0 var(--gutter);
+}
+.tafla {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font: 500 13px var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+.tafla th,
+.tafla td {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--lina-fin);
+  text-align: right;
+  font-weight: inherit;
+  vertical-align: baseline;
+}
+.tafla th:first-child {
+  text-align: left;
+}
+.tafla th + th,
+.tafla td {
+  padding-left: 16px;
+}
+.tafla--4 :is(th, td):nth-child(2),
+.tafla--4 :is(th, td):nth-child(3) {
+  width: 120px;
+}
+.tafla--4 :is(th, td):nth-child(4) {
+  width: 56px;
+}
+.tafla--3 :is(th, td):nth-child(2),
+.tafla--3 :is(th, td):nth-child(3) {
+  width: 130px;
+}
+.tafla thead th {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--blek);
+  font-size: 11px;
+  color: var(--daufur);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.tafla thead th + th {
+  padding-left: 16px;
+}
+.tafla tbody td:nth-child(3) {
+  color: var(--daufur);
+}
+.tafla__feitt :is(th, td) {
+  font-weight: 700;
+  border-bottom-color: var(--lina);
+}
+.tafla__feitt td:nth-child(3),
+.tafla__samtala td:nth-child(3) {
+  color: inherit;
+}
+.tafla__samtala :is(th, td) {
+  font-weight: 700;
+  background: var(--gull-ljost);
+  border-bottom: 2px solid var(--blek);
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.tafla__samtala th {
+  padding-left: 12px;
+}
+.tafla__samtala td:last-child {
+  padding-right: 12px;
+}
+.tafla__milli th {
+  padding: 22px 0 8px;
+  text-align: left;
+  font: 600 12px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+
+/* Súlurit */
+.b-sulur {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 12px 0;
+}
+.b-sulur__titill {
+  font: 400 22px var(--serif);
+}
+.b-sulur__listi {
+  border-top: 1px solid var(--blek);
+}
+.b-sulur__rod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'heiti gildi' 'braut braut';
+  gap: 6px 12px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--lina-fin);
+  font: 500 13px/1.3 var(--sans);
+}
+.b-sulur__heiti {
+  grid-area: heiti;
+}
+.b-sulur__braut {
+  grid-area: braut;
+  display: block;
+}
+.b-sulur__sula {
+  display: block;
+  height: 10px;
+  background: var(--blek);
+}
+.b-sulur__rod--aherslu .b-sulur__sula {
+  background: var(--gull);
+}
+.b-sulur__rod--daufur .b-sulur__sula {
+  background: var(--gull-dauft);
+}
+.b-sulur__gildi {
+  grid-area: gildi;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* PDF */
+.b-pdf {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  border: 1px solid var(--blek);
+  margin: 12px 0;
+}
+.b-pdf__forskodun {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  text-align: center;
+  font: 500 12px var(--mono);
+  color: var(--gull-dokkt);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.b-pdf__hlid {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid var(--blek);
+}
+.b-pdf__lysing,
+.b-pdf__hnappar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.b-pdf__titill {
+  font: 400 24px/1.15 var(--serif);
+}
+.b-pdf__opna {
+  font: 600 14px var(--sans);
+  text-align: center;
+  padding: 8px;
+}
+
+/* Fólk og nöfn */
+.b-folk,
+.b-nofn {
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0;
+}
+.b-folk__titill,
+.b-nofn__titill {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--daufur);
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--blek);
+}
+.b-nofn__titill {
+  padding-bottom: 10px;
+  border-bottom-width: 1px;
+  margin-bottom: 12px;
+}
+.b-folk__listi {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 40px;
+}
+.b-folk__listi > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--lina-fin);
+}
+.b-folk__listi dt {
+  font: 400 19px/1.25 var(--serif);
+}
+.b-folk__listi dd {
+  font: 500 13px/1.3 var(--sans);
+  color: var(--gull-dokkt);
+  text-align: right;
+}
+.b-nofn__listi {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 16px;
+  font: 400 15px/1.45 var(--sans);
+  color: var(--meginmal);
+}
+
+/* Nefndir */
+.b-nefndir {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 8px 0;
+}
+.b-nefndir__kort {
+  padding: 20px;
+  background: var(--gull-ljost);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.b-nefndir__kort h3 {
+  font: 400 21px/1.2 var(--serif);
+}
+.b-nefndir__kort p {
+  font: 400 15px/1.55 var(--sans);
+  color: var(--aukatexti);
+}
+
+/* Gröf */
+.b-grof {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin: 12px 0;
+}
+.b-grof__item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--blek);
+  padding-top: 12px;
+}
+.b-grof__img {
+  width: 100%;
+  height: 240px;
+  object-fit: contain;
+  background: var(--gull-folt);
+}
+
+/* Undirsíður og tenglar */
+.b-undirsidur {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+.b-undirsidur a {
+  min-height: 112px;
+  padding: 20px;
+  border: 1px solid var(--blek);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+.b-undirsidur__heiti {
+  font: 400 24px/1.1 var(--serif);
+}
+.b-undirsidur__meira {
+  font: 600 14px var(--sans);
+  color: var(--gull-dokkt);
+}
+.b-tenglar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0;
+}
+.b-tenglar a {
+  border: 1px solid var(--blek);
+  padding: 12px 18px;
+  font: 600 15px var(--sans);
+}
+
+.b-undirskrift {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 16px;
+  padding-top: 20px;
+  border-top: 1px solid var(--lina);
+}
+.b-undirskrift__nafn {
+  font: italic 400 24px var(--serif);
+}
+.b-undirskrift__titill {
+  font: 500 14px var(--sans);
+  color: var(--daufur);
+}
+
+/* Efni vantar */
+.vantar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border: 1px dashed var(--gull);
+}
+.vantar__merki {
+  font: 600 13px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+}
+.vantar__texti {
+  font: 400 26px/1.15 var(--serif);
+  max-width: 640px;
+}
+.vantar__heimild {
+  font: 500 13px var(--mono);
+  color: var(--aukatexti);
+  overflow-wrap: anywhere;
+}
+
+.fyrri-naesta {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid var(--blek);
+  font: 600 15px/1.35 var(--sans);
+}
+.fyrri-naesta__fyrri {
+  color: var(--daufur);
+}
+.fyrri-naesta__naesta {
+  color: var(--gull-dokkt);
+  text-align: right;
+}
+
+@media (min-width: 900px) {
+  .b-inngangur {
+    font-size: 26px;
+  }
+  .b-p {
+    font-size: 20px;
+    line-height: 1.65;
+  }
+  .b-h2 {
+    margin-top: 40px;
+    font-size: 40px;
+  }
+  .b-listi {
+    font-size: 20px;
+  }
+  .b-listi li {
+    grid-template-columns: 28px 1fr;
+  }
+  .b-tolur {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .b-tolur > div {
+    padding: 22px 24px 22px 0;
+  }
+  .b-tolur dt {
+    font-size: 52px;
+  }
+  .b-tolur dd {
+    font-size: 14px;
+  }
+  .b-tilvitnun {
+    margin: 24px 0;
+    padding: 40px 0;
+    font-size: 44px;
+  }
+  .b-mynd__img {
+    height: 520px;
+  }
+  .b-myndir {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .b-myndir__img {
+    height: 340px;
+  }
+  .b-myndband__video--lodrett {
+    height: 640px;
+    width: 360px;
+  }
+  .b-tafla {
+    margin: 0;
+    padding: 0;
+    overflow-x: visible;
+  }
+  .tafla {
+    min-width: 0;
+    font-size: 15px;
+  }
+  .tafla--4 :is(th, td):nth-child(2),
+  .tafla--4 :is(th, td):nth-child(3) {
+    width: 166px;
+  }
+  .tafla--4 :is(th, td):nth-child(4) {
+    width: 80px;
+  }
+  .tafla--3 :is(th, td):nth-child(2),
+  .tafla--3 :is(th, td):nth-child(3) {
+    width: 186px;
+  }
+  .tafla thead th {
+    font-size: 12px;
+  }
+  .b-sulur__titill {
+    font-size: 28px;
+  }
+  .b-sulur__rod {
+    grid-template-columns: 240px minmax(0, 1fr) 80px;
+    grid-template-areas: 'heiti braut gildi';
+    gap: 16px;
+    padding: 11px 0;
+    font-size: 15px;
+  }
+  .b-sulur__sula {
+    height: 14px;
+  }
+  .b-pdf {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .b-pdf__forskodun {
+    height: 300px;
+    font-size: 13px;
+  }
+  .b-pdf__hlid {
+    padding: 28px;
+    border-top: 0;
+    border-left: 1px solid var(--blek);
+  }
+  .b-pdf__titill {
+    font-size: 26px;
+  }
+  .b-folk__listi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .b-folk__listi dt {
+    font-size: 22px;
+  }
+  .b-nofn__listi {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px 32px;
+    font-size: 16px;
+  }
+  .b-nefndir {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .b-nefndir__kort {
+    padding: 24px;
+  }
+  .b-nefndir__kort h3 {
+    font-size: 22px;
+  }
+  .b-grof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .b-grof__img {
+    height: 280px;
+  }
+  .b-undirsidur {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .b-undirsidur a {
+    min-height: 140px;
+    padding: 24px;
+  }
+  .b-undirsidur__heiti {
+    font-size: 28px;
+  }
+  .vantar {
+    padding: 56px;
+    gap: 20px;
+  }
+  .vantar__texti {
+    font-size: 36px;
+  }
+  .vantar__heimild {
+    font-size: 14px;
+  }
+  .fyrri-naesta {
+    margin-top: 56px;
+  }
+}
+
+/* ───────── Innra veftré ───────── */
+.veftre {
+  padding: 40px var(--gutter) 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.veftre__haus {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  border-bottom: 2px solid var(--blek);
+  padding-bottom: 24px;
+}
+.veftre__haus h1 {
+  font: 400 36px/1 var(--serif);
+}
+.veftre__fjoldi {
+  display: flex;
+  gap: 32px;
+}
+.veftre__fjoldi > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.veftre__fjoldi dt {
+  font: 400 40px/1 var(--serif);
+}
+.veftre__fjoldi dt.gull {
+  color: var(--gull-dokkt);
+}
+.veftre__fjoldi dt.ljost {
+  color: var(--gull);
+}
+.veftre__fjoldi dd {
+  font: 500 13px var(--sans);
+  color: var(--daufur);
+}
+.veftre__kaflar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px 24px;
+}
+.veftre__kaflar h2 {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gull-dokkt);
+  padding-bottom: 10px;
+}
+.veftre__sida {
+  display: grid;
+  grid-template-columns: 14px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--lina-fin);
+  font: 500 15px/1.3 var(--sans);
+}
+.veftre__punktur {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--gull);
+}
+.veftre__punktur--vantar {
+  background: none;
+  border: 1.5px solid var(--gull);
+}
+.veftre__merki {
+  font: 500 12px var(--mono);
+  color: var(--daufur);
+}

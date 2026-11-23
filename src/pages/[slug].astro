@@ -1,0 +1,103 @@
+---
+import Grunnur from '../layouts/Grunnur.astro';
+import Haus from '../components/Haus.astro';
+import Fotur from '../components/Fotur.astro';
+import Mynd from '../components/Mynd.astro';
+import Blokk from '../components/Blokk.astro';
+import { sidur, sidaMeta, slod } from '../lib/skyrsla.js';
+
+export function getStaticPaths() {
+  return sidur.map((s) => ({ params: { slug: s.slug } }));
+}
+
+const { slug } = Astro.params;
+const { sida: s, kafli, fyrirsogn, kicker, fyrri, naesta } = sidaMeta(slug);
+const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
+---
+
+<Grunnur titill={s.heiti} lysing={inngangur}>
+  <Haus gerd="undirsida" kafliId={kafli.id} slug={s.slug} />
+
+  <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
+    {
+      kafli.sidur.map((y: any) => (
+        <a href={slod(y.slug)} aria-current={y.slug === s.slug ? 'page' : undefined}>
+          {y.heiti}
+        </a>
+      ))
+    }
+  </nav>
+
+  <main>
+    {
+      s.portrett ? (
+        <header class="sidu-haus sidu-haus--portrett">
+          <div class="sidu-haus__texti">
+            <div class="yfirmerking yfirmerking--gull">{kicker}</div>
+            <h1 class="sidu-haus__fyrirsogn sidu-haus__fyrirsogn--portrett">{fyrirsogn}</h1>
+            <div class="sidu-haus__hofundur">
+              <Mynd src={s.portrett} class="sidu-haus__avatar" sizes="56px" widths={[112]} eager />
+              <span>
+                {s.hofundur}
+                {s.lestur && <span class="sidu-haus__lestur"> · {s.lestur} lestur</span>}
+              </span>
+            </div>
+          </div>
+          <Mynd
+            src={s.portrett}
+            alt={s.hofundur ?? ''}
+            class="sidu-haus__portrett"
+            sizes="(min-width: 900px) 680px, 1px"
+            widths={[680, 1360]}
+            eager
+          />
+        </header>
+      ) : (
+        <header class="sidu-haus">
+          <div class="yfirmerking yfirmerking--gull">{kicker}</div>
+          <h1 class="sidu-haus__fyrirsogn">{fyrirsogn}</h1>
+        </header>
+      )
+    }
+
+    <div class="meginmal">
+      <nav class="systur systur--hlid" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
+        <div class="systur__kafli">{kafli.heiti}</div>
+        {
+          kafli.sidur.map((y: any) => (
+            <a href={slod(y.slug)} aria-current={y.slug === s.slug ? 'page' : undefined}>
+              <span>{y.heiti}</span>
+              {y.slug === s.slug && (
+                <span class="systur__punktur" aria-hidden="true">
+                  ●
+                </span>
+              )}
+            </a>
+          ))
+        }
+      </nav>
+
+      <article class="blokkir">
+        {
+          s.vantar && (
+            <div class="vantar rendur">
+              <div class="vantar__merki">Efni vantar</div>
+              <p class="vantar__texti">Síðan er tilbúin í sniðmátinu og fyllist þegar efnið er komið í efnisskrána.</p>
+              <div class="vantar__heimild">
+                Heimild: <a href={s.heimild}>{s.heimild}</a>
+              </div>
+            </div>
+          )
+        }
+        {s.blokkir.map((b: any) => <Blokk b={b} />)}
+
+        <nav class="fyrri-naesta" aria-label="Fyrri og næsta síða">
+          <a class="fyrri-naesta__fyrri" href={fyrri.href} rel="prev">← {fyrri.heiti}</a>
+          <a class="fyrri-naesta__naesta" href={naesta.href} rel="next">{naesta.heiti} →</a>
+        </nav>
+      </article>
+    </div>
+  </main>
+
+  <Fotur gerd="undirsida" />
+</Grunnur>
