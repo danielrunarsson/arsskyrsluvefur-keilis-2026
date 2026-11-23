@@ -30,6 +30,7 @@ const deilimynd = deilikort && Astro.site ? new URL(`/deiling/${deilikort}.jpg`,
     <meta name="theme-color" content="#FFFFFF" />
     {(noindex || synaVantar) && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
 
     <!-- Deiling: Facebook, LinkedIn, Slack, Messenger o.fl. -->
     <meta property="og:type" content={tegund} />

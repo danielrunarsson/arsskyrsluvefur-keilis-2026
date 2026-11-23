@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
-// Full slóð vefsins (fyrir deilitögg og canonical). Netlify gefur URL (aðallén vefsins)
+// Full slóð vefsins (fyrir deilitögg, canonical og sitemap). Netlify gefur URL (aðallén vefsins)
 // og DEPLOY_PRIME_URL (slóð forskoðunar). Þegar 2026.keilir.is verður aðallén í Netlify
 // breytist URL sjálfkrafa.
 const site =
@@ -13,4 +14,16 @@ export default defineConfig({
   site,
   trailingSlash: 'always',
   build: { format: 'directory' },
+  integrations: [
+    sitemap({
+      // Innra veftréð er aldrei í sitemap.
+      filter: (slod) => !new URL(slod).pathname.startsWith('/innra/'),
+      // Forsíðan fremst; sitemap uppfærist við hvert build.
+      serialize: (faersla) => ({
+        ...faersla,
+        lastmod: new Date().toISOString(),
+        priority: new URL(faersla.url).pathname === '/' ? 1.0 : 0.7,
+      }),
+    }),
+  ],
 });

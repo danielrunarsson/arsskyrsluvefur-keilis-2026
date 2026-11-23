@@ -44,6 +44,13 @@ Hver síða fær Open Graph-, X/Twitter- og canonical-tögg og eigið deilikort 
 - Slóðir í töggum nota aðallén Netlify (`URL`), svo þær verða sjálfkrafa `https://2026.keilir.is` þegar lénið er orðið aðallén.
 - Prófa: [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) og [LinkedIn Post Inspector](https://www.linkedin.com/post-inspector/).
 
+## Leitarvélar: sitemap, robots.txt og canonical
+
+- **Sitemap:** `/sitemap-index.xml` (búið til við hvert build með `@astrojs/sitemap`). Inniheldur allar birtar síður; `/innra/` er aldrei með. Forsíða fær forgang 1.0, aðrar 0.7.
+- **robots.txt** (`src/pages/robots.txt.ts`): í production eru leitarvélar velkomnar og vísað á sitemap. Í forskoðunum og greinum (`SYNA_VANTAR=true`) er allt bannað, svo hálfkláraðar síður lendi ekki í leit.
+- **Canonical:** hver síða vísar á eigin fulla slóð á aðalléninu.
+- Eftir að 2026.keilir.is er orðið aðallén: skrá sitemap-slóðina í [Google Search Console](https://search.google.com/search-console).
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
