@@ -2,6 +2,37 @@
    Grunnstílar miðast við farsíma; @media (min-width: 900px) gefur hönnunina í 1440px.
    Gildi úr hönnunarhandoff (README „Design Tokens“). */
 
+/* Letur – sjálfhýst (public/fonts), breytileg (variable) WOFF2, Latin + íslenska.
+   Leyfi: SIL Open Font License, sjá public/fonts/*-OFL.txt. */
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader-italic.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-italic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --blek: #15130f;
   --meginmal: #1f1d19;
@@ -18,7 +49,7 @@
   --myndgrunnur: #cfc8b8;
 
   --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
-  --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --sans: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   --gutter: 20px;
@@ -205,6 +236,9 @@ h3 {
 
 /* Skúffa (farsími) */
 .skuffa > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   list-style: none;
   cursor: pointer;
   font: 500 14px var(--sans);
@@ -214,7 +248,7 @@ h3 {
 .skuffa > summary::-webkit-details-marker {
   display: none;
 }
-.skuffa[open] > summary span {
+.skuffa[open] > summary .skuffa__tafn {
   color: var(--gull-dokkt);
 }
 .skuffa__innihald {

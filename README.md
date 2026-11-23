@@ -37,6 +37,7 @@ src/
   layouts/         Grunnur (<head>, letur)
   pages/           index.astro (forsíða), [slug].astro (undirsíður), innra/[sida].astro (veftré)
   styles/global.css  mobile first; @media (min-width: 900px) = hönnun í 1440px
+public/fonts/      Inter og Newsreader, sjálfhýst (breytileg WOFF2, latnesk og íslensk tákn, OFL-leyfi)
 ```
 
 ## Netlify
