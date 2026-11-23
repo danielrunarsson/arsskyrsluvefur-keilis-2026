@@ -38,7 +38,10 @@ const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : ''
     <ul class="b-listi">
       {b.atridi.map((a: string) => (
         <li>
-          <Texti texti={a} />
+          {/* Textinn í einn reit: annars verður hver feitletraður bútur sér grindarreitur. */}
+          <span>
+            <Texti texti={a} />
+          </span>
         </li>
       ))}
     </ul>
