@@ -19,7 +19,7 @@ const BLOKKIR = {
   myndir: ['*atridi'],
   myndband: ['*src', 'texti', 'lodrett'],
   tafla: ['*dalkar', '*radir', 'titill'],
-  sulur: ['*titill', '*atridi'],
+  sulur: ['*titill', '*atridi', 'eining', 'hlutfallAf', 'ar', 'fyrraAr'],
   pdf: ['*titill', '*src', 'staerd'],
   folk: ['*titill', '*atridi'],
   nofn: ['*titill', '*atridi'],
@@ -29,6 +29,9 @@ const BLOKKIR = {
   tenglar: ['*atridi'],
   undirskrift: ['*nafn', 'titill'],
 };
+// Leyfð svið hverrar súlu í `sulur`. fyrra/fyrraPct = valkvæður samanburður við fyrra ár.
+const SULA = ['heiti', 'gildi', 'pct','aherslu', 'daufur', 'fyrra', 'fyrraPct'];
+const ER_TALA = (g) => (typeof g === 'number' ? Number.isFinite(g) : /^[−-]?\d{1,3}(\.\d{3})*(,\d+)?$|^[−-]?\d+(,\d+)?$/.test(String(g).trim()));
 const SIDA = ['*slug', '*kafli', '*heiti', 'fyrirsogn', 'fyrirsognSkaletrun', 'kicker', 'portrett', 'portrettAlt',
   'hofundur', 'lestur', 'heimild', 'stada', 'snid', '*blokkir'];
 
@@ -171,6 +174,13 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           atr.forEach((a, j) => {
             if (!a?.heiti || a?.gildi === undefined) v(bs, `súla ${j + 1}: heiti og gildi verða að vera til`);
             if (typeof a?.pct !== 'number' || a.pct < 0 || a.pct > 100) v(bs, `súla ${j + 1} („${a?.heiti}“): pct á að vera tala 0–100 (er ${a?.pct})`);
+            ohnapp(`${bs} › súla ${j + 1}`, a, SULA);
+            const s = `súla ${j + 1} („${a?.heiti}“)`;
+            if (a?.fyrra !== undefined && !ER_TALA(a.fyrra)) v(bs, `${s}: fyrra á að vera tala, t.d. "202,4" (er ${a.fyrra})`);
+            if (a?.fyrraPct !== undefined) {
+              if (a?.fyrra === undefined) v(bs, `${s}: fyrraPct án fyrra – bættu við fyrra-gildinu`);
+              if (typeof a.fyrraPct !== 'number' || a.fyrraPct < 0 || a.fyrraPct > 100) v(bs, `${s}: fyrraPct á að vera tala 0–100 (er ${a.fyrraPct})`);
+            }
           });
           break;
         case 'folk':

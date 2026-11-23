@@ -1,0 +1,260 @@
+---
+// Súlurit (`sulur` blokk) – gagnvirkt: sveima, smella/ýta eða fókus með lyklaborði á röð
+// dregur hana fram (hinar dofna) og sýnir kall með fullu gildi og hlutfalli af heild.
+// Valkvæður samanburður: `fyrra` (og `fyrraPct`) á atriði teiknar mjóa súlu fyrir fyrra ár.
+// Hlutföll eru reiknuð við build; JavaScript sér aðeins um hvaða röð er virk.
+import efni from '../efni/index.js';
+
+const { b } = Astro.props as { b: any };
+
+/** Les íslenska tölu („35.575“, „228,0“) eða tölu. Skilar null ef ólæsilegt. */
+const lesa = (g: unknown): number | null => {
+  if (typeof g === 'number') return Number.isFinite(g) ? g : null;
+  const s = String(g ?? '').trim().replace(/\s/g, '').replace(/\./g, '').replace(',', '.').replace('−', '-');
+  const n = Number(s);
+  return s && Number.isFinite(n) ? n : null;
+};
+/** Íslenskt talnasnið: þúsundapunktar, aukastafir með kommu, formerki „−“. */
+const snida = (n: number, aukastafir = 0, formerki = false) => {
+  const [heil, auka] = Math.abs(n).toFixed(aukastafir).split('.');
+  const f = n < 0 ? '−' : formerki && n > 0 ? '+' : '';
+  return f + heil.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (auka ? ',' + auka : '');
+};
+const hlutfall = (x: number) => (x > 0 && x < 0.5 ? '<1' : snida(x));
+const birta = (g: unknown) => (typeof g === 'number' ? snida(g, Number.isInteger(g) ? 0 : 1) : String(g));
+
+const ar = b.ar ?? efni.ar ?? '';
+const fyrraAr = b.fyrraAr ?? (Number(ar) ? String(Number(ar) - 1) : 'Fyrra ár');
+const eining = b.eining ? ` ${b.eining}` : '';
+const af = b.hlutfallAf ?? 'heild';
+
+// Heild = summa allra raða nema daufra (dauf röð er samanburður, t.d. fyrra ár).
+const heild = b.atridi.reduce((s: number, a: any) => s + (a.daufur ? 0 : lesa(a.gildi) ?? 0), 0);
+const hefurFyrra = b.atridi.some((a: any) => a.fyrra !== undefined);
+const sulurLitur = (a: any) => (a.aherslu ? 'aherslu' : a.daufur ? 'daufur' : '');
+
+const radir = b.atridi.map((a: any) => {
+  const v = lesa(a.gildi);
+  const f = a.fyrra !== undefined ? lesa(a.fyrra) : null;
+  const hlut = !a.daufur && v !== null && heild > 0 ? `${hlutfall((v / heild) * 100)}% af ${af}` : '';
+  const fyrraPct =
+    a.fyrra === undefined ? null : a.fyrraPct ?? (v && f !== null ? Math.min(100, (a.pct * f) / v) : 0);
+  const breyting = v !== null && f ? ` (${snida(((v - f) / f) * 100, 1, true)}%)` : '';
+  const fyrraTexti = a.fyrra !== undefined ? `${fyrraAr}: ${birta(a.fyrra)}${eining}${breyting}` : '';
+  const stada = a.pct > 66 ? 'haegri' : a.pct < 33 ? 'vinstri' : 'midja';
+  return { a, hlut, fyrraPct, fyrraTexti, stada };
+});
+---
+
+<figure class:list={['b-sulur', hefurFyrra && 'b-sulur--samanburdur']} data-vaxa data-sulurit>
+  <figcaption class="b-sulur__titill">{b.titill}</figcaption>
+  {
+    hefurFyrra && (
+      <div class="b-sulur__skyring" aria-hidden="true">
+        <span><i class="b-sulur__lykill" />{ar}</span>
+        <span><i class="b-sulur__lykill b-sulur__lykill--fyrra" />{fyrraAr}</span>
+      </div>
+    )
+  }
+  <ul class="b-sulur__listi">
+    {
+      radir.map(({ a, hlut, fyrraPct, fyrraTexti, stada }: any) => (
+        <li class:list={['b-sulur__rod', sulurLitur(a) && `b-sulur__rod--${sulurLitur(a)}`]} tabindex="0">
+          <span class="b-sulur__heiti">{a.heiti}</span>
+          <span class="b-sulur__braut" aria-hidden="true">
+            <span class="b-sulur__sula" style={`width:${a.pct}%`} />
+            {fyrraPct !== null && <span class="b-sulur__sula b-sulur__sula--fyrra" style={`width:${fyrraPct}%`} />}
+            <span class:list={['b-sulur__kall', `b-sulur__kall--${stada}`]} style={`--x:${a.pct}%`}>
+              <span>
+                {a.gildi}
+                {eining}
+                {hlut && ` · ${hlut}`}
+              </span>
+              {fyrraTexti && <span class="b-sulur__kall-fyrra">{fyrraTexti}</span>}
+            </span>
+          </span>
+          <span class="b-sulur__gildi" data-telja>{a.gildi}</span>
+          {(eining || hlut || fyrraTexti) && (
+            <span class="sr-only">
+              {[eining.trim(), hlut, fyrraTexti].filter(Boolean).join(', ')}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<style is:global>
+  /* Gagnvirkni súlurits – grunnstílar .b-sulur* eru í global.css */
+  .b-sulur__rod {
+    position: relative;
+    cursor: default;
+    transition: color 0.15s;
+  }
+  .b-sulur__rod:focus {
+    outline: none;
+  }
+  .b-sulur__rod:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: 2px;
+  }
+  .b-sulur__braut {
+    position: relative;
+  }
+  .b-sulur__sula {
+    transition-property: transform, opacity;
+  }
+  .b-sulur.er-virk .b-sulur__rod:not(.virk) {
+    color: var(--daufur);
+  }
+  .b-sulur.er-virk .b-sulur__rod:not(.virk) .b-sulur__sula {
+    opacity: 0.25;
+  }
+  .b-sulur__rod.virk .b-sulur__heiti {
+    font-weight: 600;
+  }
+
+  /* Kall: undir súlunni, við enda hennar */
+  .b-sulur__kall {
+    position: absolute;
+    z-index: 3;
+    top: calc(100% + 8px);
+    left: var(--x);
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+    width: max-content;
+    max-width: min(300px, 86vw);
+    padding: 7px 10px;
+    background: var(--blek);
+    color: #fff;
+    font: 500 12.5px/1.35 var(--sans);
+    font-variant-numeric: tabular-nums;
+    white-space: normal;
+    pointer-events: none;
+    box-shadow: 0 4px 14px rgb(21 19 15 / 0.18);
+  }
+  .b-sulur__kall::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    border: 6px solid transparent;
+    border-bottom-color: var(--blek);
+  }
+  .b-sulur__kall--vinstri {
+    left: 0;
+  }
+  .b-sulur__kall--vinstri::before {
+    left: max(2px, calc(var(--x) - 6px));
+  }
+  .b-sulur__kall--midja {
+    transform: translateX(-50%);
+  }
+  .b-sulur__kall--midja::before {
+    left: calc(50% - 6px);
+  }
+  .b-sulur__kall--haegri {
+    left: auto;
+    right: calc(100% - var(--x));
+  }
+  .b-sulur__kall--haegri::before {
+    right: 0;
+  }
+  .b-sulur__rod.virk .b-sulur__kall {
+    display: flex;
+  }
+  .b-sulur__kall-fyrra {
+    color: var(--lina);
+  }
+
+  /* Samanburður við fyrra ár */
+  .b-sulur__sula--fyrra {
+    height: 4px;
+    margin-top: 3px;
+    background: var(--daufur);
+  }
+  .b-sulur__rod--aherslu .b-sulur__sula--fyrra,
+  .b-sulur__rod--daufur .b-sulur__sula--fyrra {
+    background: var(--daufur);
+  }
+  .b-sulur__skyring {
+    display: flex;
+    gap: 18px;
+    margin-top: -6px;
+    font: 500 12px var(--sans);
+    color: var(--aukatexti);
+  }
+  .b-sulur__skyring span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .b-sulur__lykill {
+    display: inline-block;
+    width: 18px;
+    height: 10px;
+    background: var(--blek);
+  }
+  .b-sulur__lykill--fyrra {
+    height: 4px;
+    background: var(--daufur);
+  }
+  @media (min-width: 900px) {
+    .b-sulur__sula--fyrra {
+      height: 5px;
+    }
+    .b-sulur__kall {
+      font-size: 13px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .b-sulur__rod,
+    .b-sulur__sula {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Ein virk röð í senn: músin ræður meðan hún er yfir ritinu, annars fókus (lyklaborð eða snerting).
+  for (const rit of document.querySelectorAll<HTMLElement>('[data-sulurit]')) {
+    const radir = [...rit.querySelectorAll<HTMLElement>('.b-sulur__rod')];
+    let sveima: HTMLElement | null = null;
+    const uppfaera = () => {
+      const f = document.activeElement as HTMLElement | null;
+      const virk = sveima ?? (f && radir.includes(f) ? f : null);
+      for (const r of radir) r.classList.toggle('virk', r === virk);
+      rit.classList.toggle('er-virk', !!virk);
+    };
+    for (const r of radir) {
+      r.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        sveima = r;
+        uppfaera();
+      });
+      // Snerting: tryggja fókus (sumir vafrar setja ekki fókus á tabindex-reit við snertingu).
+      r.addEventListener('pointerup', (e) => {
+        if (e.pointerType !== 'mouse' && document.activeElement !== r) r.focus({ preventScroll: true });
+      });
+    }
+    rit.addEventListener('pointerleave', () => {
+      sveima = null;
+      uppfaera();
+    });
+    rit.addEventListener('focusin', uppfaera);
+    rit.addEventListener('focusout', () => setTimeout(uppfaera));
+    rit.addEventListener('keydown', (e) => {
+      const i = radir.indexOf(document.activeElement as HTMLElement);
+      if (i < 0) return;
+      const nyr =
+        e.key === 'ArrowDown' ? radir[i + 1] : e.key === 'ArrowUp' ? radir[i - 1] :
+        e.key === 'Home' ? radir[0] : e.key === 'End' ? radir.at(-1) : undefined;
+      if (e.key === 'Escape') (document.activeElement as HTMLElement).blur();
+      else if (nyr) {
+        e.preventDefault();
+        nyr.focus();
+      }
+    });
+  }
+</script>

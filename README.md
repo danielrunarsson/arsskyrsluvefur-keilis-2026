@@ -139,6 +139,30 @@ Talið með [GoatCounter](https://www.goatcounter.com): engar vafrakökur, engar
 - Kóðinn má aðeins innihalda a–z, 0–9 og bandstrik; annað er hunsað.
 - Tölurnar sjást á `https://<kóði>.goatcounter.com`.
 
+## Súlurit (`sulur`)
+
+Gagnvirkt (`src/components/Sulurit.astro`): músin, snerting eða lyklaborð (Tab, ↑/↓, Home/End, Esc) dregur röð fram,
+hinar dofna og kall sýnir fullt gildi og hlutfall af heild, t.d. „228,0 mkr. · 40% af tekjum“. Skjálesarar fá sama texta
+í hverri röð. Hlutföll eru reiknuð við build; daufar raðir (`daufur: true`, t.d. fyrra ár) teljast ekki með í heildinni.
+
+```js
+{ t: "sulur", titill: "Tekjur, mkr.", eining: "mkr.", hlutfallAf: "tekjum",
+  atridi: [{ heiti: "Félagsgjöld", gildi: "228,0", pct: 100, fyrra: "202,4" }, …] }
+```
+
+| Svið | Skylda | Lýsing |
+|---|---|---|
+| `titill`, `atridi` | já | Fyrirsögn og raðir |
+| `eining` | nei | Eining í kalli og fyrir skjálesara („mkr.“, „hringir“) |
+| `hlutfallAf` | nei | „40% af …“ (sjálfgefið „heild“) |
+| `ar`, `fyrraAr` | nei | Merki í skýringu og kalli (sjálfgefið ár efnisskrár og árið á undan) |
+| `atridi[].heiti`, `gildi`, `pct` | já | Heiti, gildi (íslenskt snið) og lengd súlu 0–100 |
+| `atridi[].aherslu` / `daufur` | nei | Gyllt súla / dauf súla (samanburður, utan heildar) |
+| `atridi[].fyrra` | nei | Gildi fyrra árs, t.d. `"202,4"`: mjó súla undir, skýring (2025/2024) og breyting í kalli („+12,6%“) |
+| `atridi[].fyrraPct` | nei | Lengd mjóu súlunnar 0–100; reiknuð úr `pct × fyrra / gildi` ef henni er sleppt |
+
+Án `fyrra` breytist ekkert í útliti. Efnisathugunin stöðvar build ef `fyrra` er ekki tala eða `fyrraPct` er utan 0–100.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
