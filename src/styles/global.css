@@ -428,18 +428,6 @@ main:focus {
 .upplysingar__mid {
   display: none;
 }
-.gullbordi {
-  display: block;
-  background: var(--gull);
-  color: var(--blek);
-  text-align: center;
-  padding: 14px var(--gutter);
-  font: 400 15px/1.4 var(--sans);
-}
-.gullbordi:hover {
-  color: var(--blek);
-  background: #b9a064;
-}
 
 .hetja {
   padding: 28px var(--gutter) 20px;
@@ -641,10 +629,6 @@ main:focus {
   }
   .upplysingar__mid {
     display: inline;
-  }
-  .gullbordi {
-    padding: 18px var(--gutter);
-    font-size: 18px;
   }
   .hetja {
     display: grid;
