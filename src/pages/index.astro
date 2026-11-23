@@ -46,7 +46,7 @@ const greinar = fs.greinar.map((g: any) => ({ ...g, href: slod(g.slug) }));
         <p>{fs.inngangur}</p>
         <div class="hetja__adgerdir">
           {avarp && <a class="tengill-strik" href={avarp}>Lesa ávarp formanns →</a>}
-          <Deila titill={efni.heiti} />
+          <Deila titill={efni.heiti} haegri />
         </div>
       </div>
     </section>

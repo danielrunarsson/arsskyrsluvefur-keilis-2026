@@ -2157,10 +2157,12 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   gap: 16px 24px;
 }
 .sidu-haus .deila {
   margin-top: 4px;
+  align-self: flex-start;
 }
 
 /* Leitarhnappur í haus: í síma við hliðina á „Efni ☰“, á tölvu í hægri hluta haussins. */
@@ -2169,7 +2171,8 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   padding: 8px;
 }
 @media (min-width: 900px) {
-  .leitarhnappur--farsimi {
+  /* Meira vægi en .leitarhnappur (sem hleðst á eftir úr Leit.astro), svo hann felist örugglega. */
+  .haus .leitarhnappur.leitarhnappur--farsimi {
     display: none;
   }
 }
