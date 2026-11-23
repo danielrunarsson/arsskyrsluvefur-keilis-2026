@@ -17,6 +17,19 @@ const forskodanir = Object.keys(import.meta.glob('../assets/pdf-forskodun/*.png'
 const pdfNafn = b.t === 'pdf' ? String(b.src).split(/[?#]/)[0].split('/').pop()!.replace(/\.pdf$/i, '') : '';
 const pdfForskodun = pdfNafn && forskodanir.includes(`../assets/pdf-forskodun/${pdfNafn}.png`) ? `pdf-forskodun/${pdfNafn}.png` : null;
 
+// Myndband: rammi í réttum hlutföllum, lesinn úr forsíðumynd (poster) við build –
+// ferkantað, lárétt og lóðrétt myndband birtist þá óskorið.
+let myndbandHlutfall: { b: number; h: number } | null = null;
+if (b.t === 'myndband' && typeof b.poster === 'string' && b.poster.startsWith('/')) {
+  try {
+    const { default: sharp } = await import('sharp');
+    const m = await sharp(`public${b.poster}`).metadata();
+    if (m.width && m.height) myndbandHlutfall = { b: m.width, h: m.height };
+  } catch {
+    // Engin forsíðumynd fannst: eldri hegðun (16:9, eða 9:16 með lodrett).
+  }
+}
+
 const tafla =
   b.t === 'tafla'
     ? {
@@ -110,7 +123,13 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
         controls
         preload="metadata"
         playsinline
-        class:list={['b-myndband__video', { 'b-myndband__video--lodrett': b.lodrett }]}
+        width={myndbandHlutfall?.b}
+        height={myndbandHlutfall?.h}
+        style={myndbandHlutfall ? `aspect-ratio:${myndbandHlutfall.b} / ${myndbandHlutfall.h};--hlutfall:${(myndbandHlutfall.b / myndbandHlutfall.h).toFixed(4)}` : undefined}
+        class:list={[
+          'b-myndband__video',
+          { 'b-myndband__video--hlutfall': myndbandHlutfall, 'b-myndband__video--lodrett': b.lodrett && !myndbandHlutfall },
+        ]}
       />
       <figcaption class="myndatexti">▶ {b.texti}</figcaption>
     </figure>
