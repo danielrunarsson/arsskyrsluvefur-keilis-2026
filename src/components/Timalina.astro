@@ -1,7 +1,9 @@
 ---
 // Tímalína golfársins (efni.forsida.timalina). Hver færsla: dagsetning, titill, texti, og valkvætt
-// stór tala (telur upp), mynd og tengill á síðu. Færslur renna mjúklega inn þegar þær birtast;
-// án JavaScript eða með „draga úr hreyfingu“ birtist allt strax.
+// stór tala (telur upp), mynd og tengill á síðu. Færslurnar liggja lárétt í rennu sem skrunast hægt
+// af sjálfu sér; lesandi getur dregið hana með músinni, strokið í síma eða notað örvalykla.
+// Sjálfvirka skrunið stöðvast þegar músin er yfir, fókus er inni eða ýtt er á „Stöðva“ (WCAG 2.2.2).
+// Án JavaScript eða með „draga úr hreyfingu“ er rennan kyrr og skrunast aðeins handvirkt.
 import Mynd from './Mynd.astro';
 import { efni, slod } from '../lib/skyrsla.js';
 
@@ -12,48 +14,64 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
   atridi.length > 0 && (
     <section class="timalina" aria-labelledby="timalina-titill" data-timalina>
       <div class="timalina__haus">
-        <div class="yfirmerking">Tímalína</div>
-        <h2 id="timalina-titill" class="timalina__titill">
-          Golfárið <em>{efni.ar}</em>
-        </h2>
+        <div class="timalina__fyrirsogn">
+          <div class="yfirmerking">Tímalína</div>
+          <h2 id="timalina-titill" class="timalina__titill">
+            Golfárið <em>{efni.ar}</em>
+          </h2>
+        </div>
+        <button type="button" class="timalina__hnappur" data-timalina-hnappur hidden>
+          <span class="timalina__hnappur-takn" aria-hidden="true" />
+          <span data-timalina-hnappur-texti>Stöðva</span>
+        </button>
       </div>
-      <ol class="timalina__listi">
-        {atridi.map((a: any) => (
-          <li class="timalina__atridi">
-            <div class="timalina__dags">{a.dags}</div>
-            <div class="timalina__punktur" aria-hidden="true" />
-            <div class="timalina__efni">
-              <h3 class="timalina__heiti">
-                {a.href ? <a href={a.href}>{a.titill}</a> : a.titill}
-              </h3>
-              {a.texti && <p class="timalina__texti">{a.texti}</p>}
-              {a.tala && (
-                <p class="timalina__tala">
-                  <span class="timalina__tala-gildi" data-telja>
-                    {a.tala}
-                  </span>
-                  <span class="timalina__tala-texti">{a.taliTexti}</span>
-                </p>
-              )}
-              {a.mynd && (
-                <Mynd src={a.mynd} alt={a.alt} class="timalina__mynd" sizes="(min-width: 900px) 420px, calc(100vw - 80px)" widths={[400, 600, 840]} />
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
+      <div class="timalina__skrun" data-timalina-skrun tabindex="0" role="region" aria-labelledby="timalina-titill">
+        <ol class="timalina__listi">
+          {atridi.map((a: any) => (
+            <li class="timalina__atridi">
+              <div class="timalina__dags">{a.dags}</div>
+              <div class="timalina__punktur" aria-hidden="true" />
+              <div class="timalina__efni">
+                <h3 class="timalina__heiti">
+                  {a.href ? <a href={a.href}>{a.titill}</a> : a.titill}
+                </h3>
+                {a.texti && <p class="timalina__texti">{a.texti}</p>}
+                {a.tala && (
+                  <p class="timalina__tala">
+                    <span class="timalina__tala-gildi" data-telja>
+                      {a.tala}
+                    </span>
+                    <span class="timalina__tala-texti">{a.taliTexti}</span>
+                  </p>
+                )}
+                {a.mynd && (
+                  <Mynd src={a.mynd} alt={a.alt} class="timalina__mynd" sizes="(min-width: 900px) 328px, 236px" widths={[240, 330, 480, 660]} />
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   )
 }
 
 <style is:global>
   .timalina {
-    padding: 56px var(--gutter) 0;
+    --breidd: 268px; /* breidd hverrar færslu, með bili að næstu */
+    padding-top: 56px;
     display: flex;
     flex-direction: column;
     gap: 28px;
   }
   .timalina__haus {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 var(--gutter);
+  }
+  .timalina__fyrirsogn {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -66,32 +84,89 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
     font-weight: 300;
     color: var(--gull-texti);
   }
-  .timalina__listi {
-    position: relative;
-    display: flex;
-    flex-direction: column;
+
+  /* Stöðva/spila hnappur */
+  .timalina__hnappur {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--lina);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--gull-dokkt);
+    font: 600 13px var(--sans);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    flex-shrink: 0;
   }
-  /* Lóðrétta línan */
-  .timalina__listi::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 5px;
-    width: 1px;
-    background: var(--lina);
+  .timalina__hnappur:hover {
+    border-color: var(--gull-dokkt);
+  }
+  .timalina__hnappur:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: 3px;
+  }
+  .timalina__hnappur[hidden] {
+    display: none;
+  }
+  /* Tákn: tvö strik (stöðva) eða þríhyrningur (spila) */
+  .timalina__hnappur-takn {
+    width: 10px;
+    height: 12px;
+    border-left: 3px solid currentColor;
+    border-right: 3px solid currentColor;
+  }
+  .timalina__hnappur[aria-pressed='true'] .timalina__hnappur-takn {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 0 6px 10px;
+    border-color: transparent transparent transparent currentColor;
+  }
+
+  /* Rennan */
+  .timalina__skrun {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 4px var(--gutter) 20px;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: thin;
+    scrollbar-color: var(--lina) transparent;
+  }
+  .timalina__skrun:focus-visible {
+    outline: 2px solid var(--gull-dokkt);
+    outline-offset: -2px;
+  }
+  @media (pointer: fine) {
+    .timalina__skrun {
+      cursor: grab;
+    }
+  }
+  .timalina__skrun.dregur {
+    cursor: grabbing;
+    user-select: none;
+  }
+  .timalina__skrun.dregur a {
+    pointer-events: none;
+  }
+  .timalina__listi {
+    display: flex;
+    width: max-content;
   }
   .timalina__atridi {
-    position: relative;
+    box-sizing: border-box;
+    width: var(--breidd);
+    padding-right: 32px;
     display: grid;
-    grid-template-columns: 11px minmax(0, 1fr);
-    grid-template-areas: 'punktur dags' '. efni';
-    column-gap: 18px;
-    row-gap: 6px;
-    padding-bottom: 32px;
+    grid-template-areas: 'dags' 'punktur' 'efni';
+    row-gap: 14px;
+    align-content: start;
   }
   .timalina__atridi:last-child {
-    padding-bottom: 0;
+    width: calc(var(--breidd) - 32px);
+    padding-right: 0;
   }
   .timalina__dags {
     grid-area: dags;
@@ -102,12 +177,25 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
   }
   .timalina__punktur {
     grid-area: punktur;
-    align-self: center;
+    position: relative;
     width: 11px;
     height: 11px;
     border-radius: 50%;
     border: 1.5px solid var(--gull);
     background: #fff;
+  }
+  /* Lárétta línan: frá hægri brún punktsins að næsta punkti */
+  .timalina__punktur::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 1.5px);
+    width: calc(var(--breidd) - 11px);
+    height: 1px;
+    background: var(--lina);
+  }
+  .timalina__atridi:last-child .timalina__punktur::after {
+    display: none;
   }
   .timalina__efni {
     grid-area: efni;
@@ -116,7 +204,7 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
     gap: 8px;
   }
   .timalina__heiti {
-    font: 400 26px/1.1 var(--serif-display);
+    font: 400 24px/1.1 var(--serif-display);
     letter-spacing: -0.01em;
   }
   .timalina__heiti a {
@@ -126,8 +214,7 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
     border-bottom-color: var(--gull-dokkt);
   }
   .timalina__texti {
-    max-width: 560px;
-    font: 400 17px/1.55 var(--serif);
+    font: 400 16px/1.55 var(--serif);
     color: var(--meginmal);
   }
   .timalina__tala {
@@ -148,11 +235,11 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
   }
   .timalina__mynd {
     width: 100%;
-    max-width: 420px;
-    height: 220px;
+    height: 160px;
     object-fit: cover;
     margin-top: 6px;
     background: var(--myndgrunnur);
+    -webkit-user-drag: none;
   }
 
   /* Færslur renna inn þegar þær birtast (aðeins með JavaScript og án „minni hreyfingar“). */
@@ -178,37 +265,33 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
 
   @media (min-width: 900px) {
     .timalina {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 64px;
+      --breidd: 380px;
       padding-top: 96px;
+      gap: 40px;
     }
     .timalina__titill {
       font-size: 48px;
     }
-    .timalina__listi::before {
-      left: calc(170px + 28px + 5px);
-    }
     .timalina__atridi {
-      grid-template-columns: 170px 11px minmax(0, 1fr);
-      grid-template-areas: 'dags punktur efni';
-      column-gap: 28px;
-      padding-bottom: 44px;
+      padding-right: 52px;
+    }
+    .timalina__atridi:last-child {
+      width: calc(var(--breidd) - 52px);
     }
     .timalina__dags {
-      text-align: right;
-      padding-top: 8px;
       font-size: 13px;
     }
-    .timalina__punktur {
-      align-self: start;
-      margin-top: 10px;
-    }
     .timalina__heiti {
-      font-size: 32px;
+      font-size: 30px;
+    }
+    .timalina__texti {
+      font-size: 17px;
     }
     .timalina__tala-gildi {
       font-size: 52px;
+    }
+    .timalina__mynd {
+      height: 200px;
     }
   }
 </style>
@@ -217,6 +300,12 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
   const rot = document.querySelector<HTMLElement>('[data-timalina]');
   if (rot) {
     const atridi = [...rot.querySelectorAll<HTMLElement>('.timalina__atridi')];
+    const skrun = rot.querySelector<HTMLElement>('[data-timalina-skrun]')!;
+    const hnappur = rot.querySelector<HTMLButtonElement>('[data-timalina-hnappur]')!;
+    const hnappurTexti = rot.querySelector<HTMLElement>('[data-timalina-hnappur-texti]')!;
+    const rolegt = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Færslur birtast mjúklega þegar þær koma í sýn.
     if ('IntersectionObserver' in window) {
       rot.classList.add('timalina--js');
       const sja = new IntersectionObserver(
@@ -228,11 +317,147 @@ const atridi = (efni.forsida.timalina ?? []).map((a: any) => ({ ...a, href: a.sl
             }
           }
         },
-        { threshold: 0.25, rootMargin: '0px 0px -10% 0px' },
+        { threshold: 0.01, rootMargin: '0px 0px -10% 0px' },
       );
       atridi.forEach((a) => sja.observe(a));
     } else {
       atridi.forEach((a) => a.classList.add('synilegt'));
+    }
+
+    // Draga með mús: smella, halda inni og draga til hliðar.
+    let dregid = false;
+    let byrjunX = 0;
+    let byrjunSkrun = 0;
+    let virkurBendill: number | null = null;
+    skrun.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      virkurBendill = e.pointerId;
+      byrjunX = e.clientX;
+      byrjunSkrun = skrun.scrollLeft;
+      dregid = false;
+    });
+    skrun.addEventListener('pointermove', (e) => {
+      if (e.pointerId !== virkurBendill) return;
+      const dx = e.clientX - byrjunX;
+      if (!dregid && Math.abs(dx) > 5) {
+        dregid = true;
+        skrun.classList.add('dregur');
+        skrun.setPointerCapture(e.pointerId);
+      }
+      if (dregid) {
+        skrun.scrollLeft = byrjunSkrun - dx;
+        snert();
+      }
+    });
+    const sleppa = (e: PointerEvent) => {
+      if (e.pointerId !== virkurBendill) return;
+      virkurBendill = null;
+      skrun.classList.remove('dregur');
+    };
+    skrun.addEventListener('pointerup', sleppa);
+    skrun.addEventListener('pointercancel', sleppa);
+    // Smellur sem endar drátt á ekki að opna tengil.
+    skrun.addEventListener(
+      'click',
+      (e) => {
+        if (dregid) {
+          e.preventDefault();
+          e.stopPropagation();
+          dregid = false;
+        }
+      },
+      true,
+    );
+    skrun.addEventListener('dragstart', (e) => e.preventDefault());
+
+    // Sjálfvirkt skrun (ekki með „draga úr hreyfingu“).
+    const HRADI = 28; // px á sekúndu
+    const BID_EFTIR_SNERTINGU = 3000; // ms
+    const BID_VID_ENDA = 2500; // ms
+    let stodvad = false; // lesandi ýtti á „Stöðva“
+    let yfir = false; // mús yfir rennunni
+    let fokusInni = false;
+    let iSyn = false;
+    let snertTimi = 0;
+    let endaTimi = 0;
+    let stada = skrun.scrollLeft;
+    let sidast = 0;
+
+    function snert() {
+      snertTimi = performance.now();
+      stada = skrun.scrollLeft;
+    }
+
+    function maRulla() {
+      return !stodvad && !yfir && !fokusInni && iSyn && !document.hidden && virkurBendill === null;
+    }
+
+    function skref(nu: number) {
+      requestAnimationFrame(skref);
+      const dt = Math.min(100, nu - (sidast || nu));
+      sidast = nu;
+      if (!maRulla() || nu - snertTimi < BID_EFTIR_SNERTINGU) {
+        stada = skrun.scrollLeft;
+        return;
+      }
+      const mest = skrun.scrollWidth - skrun.clientWidth;
+      if (mest <= 0) return;
+      if (stada >= mest - 1) {
+        // Á enda: bíða aðeins, renna svo mjúklega aftur á byrjun.
+        if (!endaTimi) endaTimi = nu;
+        if (nu - endaTimi > BID_VID_ENDA) {
+          endaTimi = 0;
+          skrun.scrollTo({ left: 0, behavior: 'smooth' });
+          stada = 0;
+          snertTimi = nu - BID_EFTIR_SNERTINGU + 1500; // gefa bakrennslinu tíma
+        }
+        return;
+      }
+      stada = Math.min(mest, stada + (HRADI * dt) / 1000);
+      skrun.scrollLeft = stada;
+    }
+
+    if (!rolegt) {
+      hnappur.hidden = false;
+      hnappur.setAttribute('aria-pressed', 'false');
+      hnappur.addEventListener('click', () => {
+        stodvad = !stodvad;
+        hnappur.setAttribute('aria-pressed', String(stodvad));
+        hnappurTexti.textContent = stodvad ? 'Spila' : 'Stöðva';
+        snertTimi = 0;
+        stada = skrun.scrollLeft;
+      });
+      skrun.addEventListener('mouseenter', () => (yfir = true));
+      skrun.addEventListener('mouseleave', () => {
+        yfir = false;
+        snert();
+      });
+      // Aðeins fókus með lyklaborði stöðvar (músarsmellur í rennuna á ekki að stöðva hana varanlega).
+      skrun.addEventListener('focusin', (e) => {
+        fokusInni = (e.target as HTMLElement).matches(':focus-visible');
+      });
+      skrun.addEventListener('focusout', () => {
+        fokusInni = false;
+        snert();
+      });
+      skrun.addEventListener('touchstart', snert, { passive: true });
+      skrun.addEventListener('touchmove', snert, { passive: true });
+      skrun.addEventListener('wheel', snert, { passive: true });
+      skrun.addEventListener('keydown', snert);
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(
+          ([f]) => {
+            iSyn = f.isIntersecting;
+            sidast = 0;
+          },
+          { threshold: 0.2 },
+        ).observe(skrun);
+      } else {
+        iSyn = true;
+      }
+      snertTimi = performance.now() - BID_EFTIR_SNERTINGU + 1200; // stutt bið áður en hún fer af stað
+      requestAnimationFrame(skref);
     }
   }
 </script>
