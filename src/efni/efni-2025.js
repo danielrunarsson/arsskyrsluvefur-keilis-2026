@@ -2,6 +2,8 @@
 // Fyrir 2026: afritið þessa skrá sem efni-2026.js, skiptið út efni og stillið „efni“ í sniðmátinu.
 // Blokkagerðir (t): inngangur, p, h2, h3, listi, tolur, tilvitnun, mynd, myndir, myndband, tafla, sulur,
 // pdf, folk, nofn, nefndir, grof, undirsidur, tenglar, undirskrift. **feitletrun** virkar í p og listi.
+import ithrottastarf2026 from "./ithrottastarf-2026.js";
+
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
 const S = "/skjol/"; // PDF-skjöl í public/skjol/ (stærð reiknuð sjálfkrafa við build)
@@ -269,25 +271,8 @@ export default {
       ]
     },
 
-    // ───────── ÍÞRÓTTASTARF ─────────
-    {
-      slug: "ithrottastarf", kafli: "ithrottir", heiti: "Íþróttastarf Keilis",
-      fyrirsogn: "Flottur stígandi", kicker: "Íþróttastarf Keilis",
-      portrett: "myndir/portrett/birgir-bjorn-magnusson.jpg", portrettAlt: "Birgir Björn Magnússon íþróttastjóri, brosandi í hvítri pólóskyrtu Keilis.", hofundur: "Birgir Björn Magnússon, íþróttastjóri Keilis",
-      heimild: "https://2025.keilir.is/ithrottastarf/",
-      blokkir: [
-        { t: "inngangur", texti: "Í þessari skýrslu er hægt að sjá tölulegar upplýsingar um fjölda iðkenda á æfingum, íslandsmeistaratitla, sigra og verðlaunapalla í íþróttastarfinu og þátttöku í mótum fullorðinna, ungmenna og barna." },
-        { t: "p", texti: "Hægt er að sjá stíganda í starfinu sem átt sér stað árið 2025 með fjölgun iðkenda og bættum árangri. Þessi stígandi kemur frá auknum áhuga og metnaði kylfinga okkar sem er bersýnilegur í æfingaaðstöðum klúbbsins þar sem iðkendur okkar æfa sig á degi hverjum." },
-        { t: "p", texti: "Okkar helsta hlutverk sem íþróttastarf er að varðveita og rækta þennan áhuga og metnað iðkenda okkar á íþróttinni til þess að halda þessum stíganda til framtíðar með enn meiri fjölgun iðkenda, fleiri keppendum og bættum árangri." },
-        { t: "undirsidur", atridi: [
-          { heiti: "Ársskýrsla íþróttastjóra", slug: "ithrottastjori" }, { heiti: "Nefndir og ráð", slug: "nefndir-rad" }, { heiti: "Íþróttafólk Hafnarfjarðar", slug: "ithrottafolk" }, { heiti: "Árangur og þátttaka", slug: "arangur" }, { heiti: "Meistaramót 2025", slug: "meistaramot" }] }
-      ]
-    },
-    { slug: "ithrottastjori", kafli: "ithrottir", heiti: "Ársskýrsla íþróttastjóra", portrett: "myndir/portrett/birgir-bjorn-magnusson.jpg", portrettAlt: "Birgir Björn Magnússon íþróttastjóri, brosandi í hvítri pólóskyrtu Keilis.", hofundur: "Birgir Björn Magnússon, íþróttastjóri Keilis", stada: "vantar", heimild: "https://2025.keilir.is/arsskyrslaithrottastjora/", blokkir: [] },
-    { slug: "nefndir-rad", kafli: "ithrottir", heiti: "Nefndir og ráð", stada: "vantar", heimild: "https://2025.keilir.is/arsskyrsla-ithrottastarf-nefndir-rad/", blokkir: [] },
-    { slug: "ithrottafolk", kafli: "ithrottir", heiti: "Íþróttafólk Hafnarfjarðar", stada: "vantar", heimild: "https://2025.keilir.is/ithrottastarf-ithrottafolk-hafnarfjardar/", blokkir: [] },
-    { slug: "arangur", kafli: "ithrottir", heiti: "Árangur og þátttaka", stada: "vantar", heimild: "https://2025.keilir.is/ithrottastarf-arangur/", blokkir: [] },
-    { slug: "meistaramot", kafli: "ithrottir", heiti: "Meistaramót 2025", stada: "vantar", heimild: "https://2025.keilir.is/ithrottastarf-meistaramot/", blokkir: [] },
+    // ───────── ÍÞRÓTTASTARF (2026, sjá ithrottastarf-2026.js) ─────────
+    ...ithrottastarf2026,
 
     // ───────── FÉLAGSSTARF ─────────
     {

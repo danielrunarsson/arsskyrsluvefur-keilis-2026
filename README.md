@@ -196,6 +196,22 @@ npm run pdf-forskodun -- --allt # teiknar allar aftur
 
 Myndirnar (600 px breiðar) eru vistaðar í git; skriftan keyrir ekki í byggingu.
 
+## Textatöflur (`tafla` með `snid: "texti"`)
+
+Venjuleg `tafla` er hönnuð fyrir tölur (3–4 dálkar, hægrijafnað, fyrra ár grátt). Fyrir nöfn og lýsingar
+(t.d. verðlaunasæti, sveitir, þjálfarateymi) er `snid: "texti"`: vinstrijafnað, línuskil í reitum, hvaða fjöldi
+dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafjölda í textatöflum.
+
+```js
+{ t: "tafla", snid: "texti", titill: "Þjálfarateymi Keilis 2026", dalkar: ["Nafn", "Hlutverk", "Menntun"], radir: [["Axel Bóasson", "Afreks- og yfirþjálfari", "PGA golfkennari"], …] }
+```
+
+## Íþróttastarf 2026 (`src/efni/ithrottastarf-2026.js`)
+
+Íþróttakaflinn 2026 (11 síður, efni frá íþróttastjóra) býr í sérskrá sem er flutt inn í síðulistann í
+`efni-2025.js` (`...ithrottastarf2026`), svo hann rekist ekki á aðrar breytingar í efnisskránni. Myndirnar eru í
+`src/assets/myndir/ithrottir-2026/`. Þegar skipt er yfir í `efni-2026.js` fylgir innflutningurinn með.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

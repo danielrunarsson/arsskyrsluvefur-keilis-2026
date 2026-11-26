@@ -1295,6 +1295,25 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
 .tafla tbody td:nth-child(3) {
   color: var(--daufur);
 }
+/* Textatafla (tafla með snid: "texti"): nöfn og lýsingar, vinstrijöfnuð með línuskilum. */
+.tafla.tafla--texti {
+  min-width: 640px;
+  table-layout: auto;
+  font: 400 14px/1.45 var(--sans);
+}
+.tafla.tafla--texti :is(th, td) {
+  width: auto;
+  text-align: left;
+  vertical-align: top;
+}
+.tafla.tafla--texti tbody th:first-child {
+  min-width: 132px;
+  font-weight: 600;
+}
+.tafla.tafla--texti tbody td:nth-child(3) {
+  color: inherit;
+}
+
 .tafla__feitt :is(th, td) {
   font-weight: 700;
   border-bottom-color: var(--lina);
