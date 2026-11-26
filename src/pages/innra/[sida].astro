@@ -1,6 +1,7 @@
 ---
 // Innra veftré: allar síður og staða efnis. Aðeins byggt þegar síður án efnis
 // eru sýndar (dev og prufu-deploy), aldrei í production.
+// Þrjár stöður: efni ársins MARKAR komið (síða með `efnisar`), efni enn frá fyrra ári, eða vantar efni.
 import Grunnur from '../../layouts/Grunnur.astro';
 import { efni, fjoldi, synaVantar, slod } from '../../lib/skyrsla.js';
 
@@ -8,12 +9,32 @@ export function getStaticPaths() {
   return synaVantar ? [{ params: { sida: 'veftre' } }] : [];
 }
 
-const kaflar = efni.kaflar.map((k: any, i: number) => ({
-  ...k,
-  nr: String(i + 1).padStart(2, '0'),
-  sidur: efni.sidur.filter((s: any) => s.kafli === k.id),
-}));
+const MARKAR = '2026'; // árið sem verið er að uppfæra skýrsluna fyrir (2026.keilir.is)
+
 const vantar = (s: any) => s.stada === 'vantar' || !s.blokkir?.length;
+const stada = (s: any) => (vantar(s) ? 'vantar' : (s.efnisar ?? efni.ar) === MARKAR ? 'nytt' : 'gamalt');
+const STADA_TEXTI: Record<string, string> = {
+  nytt: `efni ${MARKAR} komið`,
+  gamalt: `efni enn frá ${efni.ar}`,
+  vantar: 'vantar efni',
+};
+
+// Forsíðan er talin með (eins og í fjoldi.sidur); hún fær `efnisar` í efni.forsida þegar hún er uppfærð.
+const forsida = { heiti: 'Forsíða', href: '/', blokkir: [1], st: (efni.forsida?.efnisar ?? efni.ar) === MARKAR ? 'nytt' : 'gamalt' };
+const kaflar = [
+  { nr: '00', heiti: 'Forsíða', sidur: [forsida] },
+  ...efni.kaflar.map((k: any, i: number) => ({
+    ...k,
+    nr: String(i + 1).padStart(2, '0'),
+    sidur: efni.sidur
+      .filter((s: any) => s.kafli === k.id)
+      .map((s: any) => ({ ...s, href: slod(s.slug), st: stada(s) })),
+  })),
+];
+const allar = kaflar.flatMap((k: any) => k.sidur);
+const nytt = allar.filter((s: any) => s.st === 'nytt').length;
+const gamalt = allar.filter((s: any) => s.st === 'gamalt').length;
+const pct = (n: number) => `${((n / fjoldi.sidur) * 100).toFixed(1)}%`;
 ---
 
 <Grunnur titill="Veftré" noindex>
@@ -21,26 +42,43 @@ const vantar = (s: any) => s.stada === 'vantar' || !s.blokkir?.length;
     <header class="veftre__haus">
       <h1>{efni.heiti} · veftré</h1>
       <dl class="veftre__fjoldi">
-        <div><dt class="gull" data-telja>{fjoldi.sidur}</dt><dd>síður alls</dd></div>
-        <div><dt data-telja>{fjoldi.sidur - fjoldi.vantar}</dt><dd>með efni</dd></div>
+        <div><dt data-telja>{fjoldi.sidur}</dt><dd>síður alls</dd></div>
+        <div><dt class="gull" data-telja>{nytt}</dt><dd>efni {MARKAR} komið</dd></div>
+        <div><dt data-telja>{gamalt}</dt><dd>enn frá {efni.ar}</dd></div>
         <div><dt class="ljost" data-telja>{fjoldi.vantar}</dt><dd>vantar efni</dd></div>
       </dl>
     </header>
+    <div
+      class="veftre__framvinda"
+      role="img"
+      aria-label={`${nytt} af ${fjoldi.sidur} síðum með efni ${MARKAR}, ${gamalt} enn með efni frá ${efni.ar} og ${fjoldi.vantar} án efnis.`}
+    >
+      <span class="veftre__framvinda-nytt" style={`width:${pct(nytt)}`}></span>
+      <span class="veftre__framvinda-gamalt" style={`width:${pct(gamalt)}`}></span>
+    </div>
     <div class="veftre__kaflar">
       {
         kaflar.map((k: any) => (
           <section>
             <h2>{k.nr} · {k.heiti}</h2>
             {k.sidur.map((s: any) => (
-              <a href={slod(s.slug)} class="veftre__sida">
-                <span class:list={['veftre__punktur', { 'veftre__punktur--vantar': vantar(s) }]} />
-                <span>{s.heiti}</span>
-                <span class="veftre__merki">{vantar(s) ? '—' : s.blokkir.length}</span>
+              <a href={s.href} class="veftre__sida">
+                <span class:list={['veftre__punktur', `veftre__punktur--${s.st}`]} aria-hidden="true" />
+                <span>
+                  {s.heiti}
+                  <span class="sr-only"> ({STADA_TEXTI[s.st]})</span>
+                </span>
+                <span class="veftre__merki">{s === forsida ? '' : s.st === 'vantar' ? '—' : s.blokkir.length}</span>
               </a>
             ))}
           </section>
         ))
       }
     </div>
+    <p class="veftre__skyring">
+      <span><span class="veftre__punktur veftre__punktur--nytt" aria-hidden="true" />Efni {MARKAR} komið (fjöldi blokka)</span>
+      <span><span class="veftre__punktur veftre__punktur--gamalt" aria-hidden="true" />Efni enn frá {efni.ar} – þarf að uppfæra</span>
+      <span><span class="veftre__punktur veftre__punktur--vantar" aria-hidden="true" />Vantar efni – síðan er tilbúin í hönnun</span>
+    </p>
   </main>
 </Grunnur>

@@ -196,6 +196,22 @@ npm run pdf-forskodun -- --allt # teiknar allar aftur
 
 Myndirnar (600 px breiðar) eru vistaðar í git; skriftan keyrir ekki í byggingu.
 
+## Textatöflur (`tafla` með `snid: "texti"`)
+
+Venjuleg `tafla` er hönnuð fyrir tölur (3–4 dálkar, hægrijafnað, fyrra ár grátt). Fyrir nöfn og lýsingar
+(t.d. verðlaunasæti, sveitir, þjálfarateymi) er `snid: "texti"`: vinstrijafnað, línuskil í reitum, hvaða fjöldi
+dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafjölda í textatöflum.
+
+```js
+{ t: "tafla", snid: "texti", titill: "Þjálfarateymi Keilis 2026", dalkar: ["Nafn", "Hlutverk", "Menntun"], radir: [["Axel Bóasson", "Afreks- og yfirþjálfari", "PGA golfkennari"], …] }
+```
+
+## Íþróttastarf 2026 (`src/efni/ithrottastarf-2026.js`)
+
+Íþróttakaflinn 2026 (11 síður, efni frá íþróttastjóra) býr í sérskrá sem er flutt inn í síðulistann í
+`efni-2025.js` (`...ithrottastarf2026`), svo hann rekist ekki á aðrar breytingar í efnisskránni. Myndirnar eru í
+`src/assets/myndir/ithrottir-2026/`. Þegar skipt er yfir í `efni-2026.js` fylgir innflutningurinn með.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
@@ -206,6 +222,13 @@ Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri
 t.d. gamla tengla á síður sem er sleppt í production. Í hönnun skýrslunnar: haus, stór fyrirsögn, hnappur á forsíðu og
 efnisyfirlit úr `kaflar`. Fær `noindex`, enga canonical-slóð og er ekki í sitemap. Allar slóðir í henni eru frá rót (`/…`)
 svo hún virkar á hvaða dýpt sem er. Staðbundið: `npm run build && npm run preview` og opna t.d. `/ekki-til/` (með skástriki).
+
+## Staða 2026 í veftrénu (`efnisar`)
+
+`/innra/veftre/` sýnir þrjár stöður: **efni 2026 komið** (gyllt), **efni enn frá 2025** (grátt – þarf að uppfæra)
+og **vantar efni** (hringur), ásamt framvindustiku og fjölda. Síða telst uppfærð þegar hún hefur `efnisar: "2026"`
+(forsíðan: `forsida.efnisar`); annars gildir `ar` efnisskrárinnar. Árið sem stefnt er að er `MARKAR` í
+`src/pages/innra/[sida].astro`. Þegar efni síðu er uppfært fyrir 2026: bæta `efnisar: "2026"` við síðuna.
 
 ## Síður án efnis (`stada: "vantar"`)
 

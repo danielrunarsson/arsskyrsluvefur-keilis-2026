@@ -18,7 +18,7 @@ const BLOKKIR = {
   mynd: ['*src', 'alt', 'texti'],
   myndir: ['*atridi'],
   myndband: ['*src', 'texti', 'lodrett', 'poster'],
-  tafla: ['*dalkar', '*radir', 'titill'],
+  tafla: ['*dalkar', '*radir', 'titill', 'snid'],
   sulur: ['*titill', '*atridi', 'eining', 'hlutfallAf', 'ar', 'fyrraAr'],
   pdf: ['*titill', '*src', 'staerd'],
   folk: ['*titill', '*atridi'],
@@ -33,7 +33,7 @@ const BLOKKIR = {
 const SULA = ['heiti', 'gildi', 'pct','aherslu', 'daufur', 'fyrra', 'fyrraPct'];
 const ER_TALA = (g) => (typeof g === 'number' ? Number.isFinite(g) : /^[−-]?\d{1,3}(\.\d{3})*(,\d+)?$|^[−-]?\d+(,\d+)?$/.test(String(g).trim()));
 const SIDA = ['*slug', '*kafli', '*heiti', 'fyrirsogn', 'fyrirsognSkaletrun', 'kicker', 'portrett', 'portrettAlt',
-  'hofundur', 'lestur', 'heimild', 'stada', 'snid', '*blokkir'];
+  'hofundur', 'lestur', 'heimild', 'stada', 'snid', 'efnisar', '*blokkir'];
 
 /** Levenshtein-fjarlægð – til að stinga upp á réttu nafni við innsláttarvillu. */
 function fjarlaegd(a, b) {
@@ -184,7 +184,9 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           break;
         case 'tafla': {
           const n = Array.isArray(b.dalkar) ? b.dalkar.length : 0;
-          if (n && ![3, 4].includes(n)) w(bs, `tafla með ${n} dálkum – sniðmátið er hannað fyrir 3 eða 4`);
+          if (b.snid !== undefined && b.snid !== 'texti') w(bs, `óþekkt snið „${b.snid}“ – leyft er aðeins „texti“`);
+          // Textatafla lagar sig að fjölda dálka; aðrar töflur eru hannaðar fyrir 3 eða 4.
+          if (n && b.snid !== 'texti' && ![3, 4].includes(n)) w(bs, `tafla með ${n} dálkum – sniðmátið er hannað fyrir 3 eða 4`);
           (b.radir ?? []).forEach((r, j) => {
             const c = Array.isArray(r) ? r : r?.c;
             if (!Array.isArray(c)) return v(bs, `röð ${j + 1}: á að vera fylki eða { c: [...] }`);

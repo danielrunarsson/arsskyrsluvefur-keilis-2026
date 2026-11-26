@@ -34,6 +34,7 @@ const tafla =
   b.t === 'tafla'
     ? {
         dalkar: b.dalkar.length,
+        texti: b.snid === 'texti', // textatafla: vinstrijöfnuð, tölur telja ekki upp
         radir: b.radir.map((r: any) => (Array.isArray(r) ? { c: r } : r)),
       }
     : null;
@@ -141,7 +142,7 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
     <div class="b-tafla-ytri">
     <div class="b-tafla__visbending" aria-hidden="true">Strjúktu til hliðar →</div>
     <div class="b-tafla" role="region" aria-label={b.titill ?? (samhengi ? `${samhengi} – tafla` : 'Tafla')} tabindex="0">
-      <table class:list={['tafla', `tafla--${tafla.dalkar}`]}>
+      <table class:list={['tafla', `tafla--${tafla.dalkar}`, { 'tafla--texti': tafla.texti }]}>
         <thead>
           <tr>
             {b.dalkar.map((d: string) => (
@@ -159,7 +160,7 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
               </tr>
             ) : (
               <tr class:list={{ tafla__feitt: r.feitt, tafla__samtala: r.samtala }}>
-                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : <td data-telja>{v}</td>))}
+                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : tafla.texti ? <td>{v}</td> : <td data-telja>{v}</td>))}
               </tr>
             ),
           )}
