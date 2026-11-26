@@ -13,10 +13,10 @@ const BLOKKIR = {
   h2: ['*texti'],
   h3: ['*texti'],
   listi: ['*atridi'],
-  tolur: ['*atridi'],
+  tolur: ['*atridi', 'snid'],
   tilvitnun: ['*texti'],
-  mynd: ['*src', 'alt', 'texti'],
-  myndir: ['*atridi'],
+  mynd: ['*src', 'alt', 'texti', 'breidd', 'stada'],
+  myndir: ['*atridi', 'snid'],
   myndband: ['*src', 'texti', 'lodrett', 'poster'],
   tafla: ['*dalkar', '*radir', 'titill', 'snid'],
   sulur: ['*titill', '*atridi', 'eining', 'hlutfallAf', 'ar', 'fyrraAr'],
@@ -32,11 +32,13 @@ const BLOKKIR = {
   flogg: ['*titill', '*atridi', 'eining', 'deila'],
   skorkort: ['*titill', '*atridi', 'lidur', 'ar', 'fyrraAr', 'samtals', 'eining', 'deila'],
   foss: ['*titill', '*atridi', 'eining', 'deila'],
-  skipting: ['*titill', '*atridi', 'eining', 'deila'],
-  arasulur: ['*titill', '*atridi', 'eining', 'deila'],
+  skipting: ['titill', '*atridi', 'eining', 'deila', 'litir', 'merkiFra', 'aukastafir', 'lina'],
+  arasulur: ['*titill', '*atridi', 'eining', 'deila', 'skyring'],
+  tolukort: ['*atridi'],
+  skyring: ['*atridi'],
   skref: ['*atridi'],
-  // Tveir dálkar (texti | kort): hvor dálkur er listi af blokkum.
-  tvidalka: ['vinstri', 'haegri', 'jafnt'],
+  // Band á heilsíðu (snid: "heilsida" á síðu): blokkir, tveir dálkar (vinstri | haegri) og eftir.
+  hluti: ['snid', 'yfirmerking', 'afast', 'blokkir', 'vinstri', 'haegri', 'eftir', 'jafnt', 'midja', 'kort'],
 };
 // Leyfð svið hverrar súlu í `sulur`. fyrra/fyrraPct = valkvæður samanburður við fyrra ár.
 const SULA = ['heiti', 'gildi', 'pct','aherslu', 'daufur', 'fyrra', 'fyrraPct'];
@@ -155,11 +157,11 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
     if (s.kafli && !kaflaIds.has(s.kafli)) v(st, `kafli „${s.kafli}“ er ekki til${uppastunga(s.kafli, [...kaflaIds])}`);
     if (s.portrett) athugaMynd(`${st}.portrett`, s.portrett);
     if (s.stada && s.stada !== 'vantar') v(st, `stada má aðeins vera „vantar“ (er „${s.stada}“)`);
-    if (s.snid && s.snid !== 'langlestur') v(st, `snid má aðeins vera „langlestur“ (er „${s.snid}“)`);
+    if (s.snid && !['langlestur', 'heilsida'].includes(s.snid)) v(st, `snid má aðeins vera „langlestur“ eða „heilsida“ (er „${s.snid}“)`);
     if (!Array.isArray(s.blokkir)) continue;
 
-    // Blokkir inni í tvidalka eru athugaðar eins og aðrar blokkir.
-    const flata = (bl) => bl.flatMap((b) => (b?.t === 'tvidalka' ? [b, ...flata([...(b.vinstri ?? []), ...(b.haegri ?? [])])] : [b]));
+    // Blokkir inni í böndum (hluti) eru athugaðar eins og aðrar blokkir.
+    const flata = (bl) => bl.flatMap((b) => (b?.t === 'hluti' ? [b, ...flata([...(b.blokkir ?? []), ...(b.vinstri ?? []), ...(b.haegri ?? []), ...(b.eftir ?? [])])] : [b]));
     flata(s.blokkir).forEach((b, i) => {
       const bs = `${st} › blokk ${i + 1}${b?.t ? ` (${b.t})` : ''}`;
       if (!b?.t) return v(bs, 'blokkargerð („t“) vantar');
@@ -232,8 +234,12 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
         case 'skref':
           atr.forEach((a, j) => { if (!a?.dags || !a?.tala) v(bs, `skref ${j + 1}: dags og tala verða að vera til`); });
           break;
-        case 'tvidalka':
-          if (!Array.isArray(b.vinstri) && !Array.isArray(b.haegri)) v(bs, 'tvidalka þarf vinstri og/eða haegri (listi af blokkum)');
+        case 'hluti':
+          if (![b.blokkir, b.vinstri, b.haegri, b.eftir].some(Array.isArray)) v(bs, 'hluti þarf blokkir, vinstri, haegri eða eftir (listi af blokkum)');
+          if (b.snid !== undefined && !['hetja', 'dokkt', 'kort', 'fotur'].includes(b.snid)) w(bs, `óþekkt snið „${b.snid}“`);
+          break;
+        case 'tolukort':
+          atr.forEach((a, j) => { if (!a?.heiti || !a?.tala) v(bs, `kort ${j + 1}: heiti og tala verða að vera til`); });
           break;
         case 'folk':
           atr.forEach((a, j) => { if (!a?.nafn) v(bs, `manneskja ${j + 1}: nafn vantar`); });

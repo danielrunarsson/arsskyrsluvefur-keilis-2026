@@ -217,11 +217,18 @@ dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafj�
 Fjármálakaflinn 2026 (yfirlit, rekstrarreikningur, efnahagsreikningur, sjóðstreymi, rekstraráætlun 2027) býr í
 sérskrá á sama hátt og íþróttakaflinn (`...fjarmal2026` í `efni-2025.js`). Slóðirnar eru óbreyttar frá fyrra ári,
 svo Lighthouse-athuganir í `netlify.toml` halda sér. Myndirnar eru í `src/assets/myndir/fjarmal-2026/`.
-Yfirlitið fylgir uppbyggingu skjalsins „Fjármál Keilis 2026“ (í útliti vefsins) og notar fjármálagröfin hér að neðan.
+Yfirlitið er heilsíða (`snid: "heilsida"`) sem fylgir uppbyggingu skjalsins „Fjármál Keilis 2026“ band fyrir band,
+með litum og letri vefsins, og notar fjármálagröfin hér að neðan.
 
-## Fjármálagröf og tveir dálkar
+## Heilsíða, bönd og fjármálagröf
 
-Blokkagerðir í `src/components/Fjarmalagraf.astro`, reiknaðar við build. Tölur telja upp og súlur vaxa eins og annars
+**Heilsíða** (`snid: "heilsida"` á síðu): engin hliðarvalmynd; kaflaflakkið sést efst á öllum skjástærðum og síðan
+er byggð úr böndum í fullri breidd. Ef fyrsta blokkin er `hluti` með `snid: "hetja"` verður hún dökkur haus síðunnar
+(yfirmerking, fyrirsögn og Deila efst í vinstri dálki). Á heilsíðu má líka nota `mynd` með `breidd: "full"` (og
+`stada`, t.d. `"center 60%"`, fyrir myndfókus), `myndir` með `snid: "threnna"` (þrjár myndir hlið við hlið) og
+`tolur` með `snid: "stadreyndir"` (tala og texti með gylltri línu).
+
+Fjármálagröfin eru í `src/components/Fjarmalagraf.astro`, reiknuð við build. Tölur telja upp og súlur vaxa eins og annars
 staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í krónum en birt í m.kr.; `eining` (sjálfgefið
 „m.kr.“) fer í texta fyrir skjálesara.
 
@@ -229,13 +236,15 @@ staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í
 |---|---|---|
 | `flogg` | `titill`, `atridi: [{ ar, gildi }]` | Tvær flaggstangir á flöt, hæð = gildi (t.d. hagnaður tveggja ára) |
 | `skorkort` | `titill`, `lidur`, `ar`, `fyrraAr`, `atridi: [{ heiti, gildi, fyrra }]`, `samtals: { gildi, fyrra }` | Tafla þar sem hver liður er „hola“: súla fyrir árið, strik fyrir fyrra ár, breyting í % |
-| `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lárétt fossrit: `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
-| `skipting` | `titill`, `atridi: [{ heiti, gildi }]` | Heild skipt í hluta (lárétt stika + skýring með %) |
-| `arasulur` | `titill`, `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
+| `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lóðrétt fossrit (skrunast til hliðar á síma): `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
+| `skipting` | `titill`, `atridi: [{ heiti, gildi }]`, `litir: "bjart"`, `merkiFra` (% sem þarf til að merki sjáist inni í stiku, sjálfgefið 12), `aukastafir`, `lina: false` | Heild skipt í hluta: lárétt stika með merkingum og lína með öllum tölum undir |
+| `arasulur` | `titill` (fyrir skjálesara; sýnilegur titill er `h3` á undan), `skyring: false`, `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
+| `tolukort` | `atridi: [{ heiti, tala, breyting?, texti? }]` | Lykiltölur í kortum; `breyting` („+11,1%“) græn, neikvæð („−…“) rauð |
+| `skyring` | `atridi: [{ heiti, gerd }]` (gerd: sula, strik, fyrri, aaetlun) | Sameiginleg skýring undir gröfum |
 | `skref` | `atridi: [{ dags, tala, texti, lokid? }]` | Greiðslur/áfangar í tímaröð |
-| `tvidalka` | `vinstri: [blokkir]`, `haegri: [blokkir]`, `jafnt?` | Tveir dálkar hlið við hlið frá 1200px (texti \| kort), hvor undir öðrum á síma |
+| `hluti` | `snid` (hetja, dokkt, kort, fotur), `yfirmerking`, `afast`, `blokkir`, `vinstri`, `haegri`, `eftir`, `jafnt`, `midja`, `kort` | Band í fullri breidd: blokkir, svo tveir dálkar (hlið við hlið frá 900px, hvor undir öðrum á síma), svo `eftir`. `kort: true` setur hægri dálk í spjald |
 
-Blokkir inni í `tvidalka` fara í gegnum sömu efnisathugun og aðrar blokkir.
+Blokkir inni í `hluti` fara í gegnum sömu efnisathugun og aðrar blokkir.
 
 ## Töflur á farsíma
 

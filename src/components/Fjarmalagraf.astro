@@ -1,5 +1,5 @@
 ---
-// Fjármálagröf (blokkir `flogg`, `skorkort`, `foss`, `skipting`, `arasulur`, `skref`) – smíðuð eftir
+// Fjármálagröf (blokkir `flogg`, `skorkort`, `foss`, `skipting`, `arasulur`, `skref`, `tolukort`, `skyring`) – smíðuð eftir
 // uppbyggingu skjalsins „Fjármál Keilis 2026“, í útliti vefsins. Allt er reiknað við build; engin JavaScript
 // nema sameiginlega hreyfingin (tölur telja upp með data-telja, súlur vaxa með data-vaxa).
 // Sjá README „Fjármálagröf“.
@@ -45,8 +45,12 @@ if (b.t === 'foss') {
     if (a.heild) { fra = 0; til = v; stada = v; } else { fra = stada; til = stada + v; stada = til; }
     return { heiti: a.heiti, v, heild: !!a.heild, lag: Math.min(fra, til), har: Math.max(fra, til) };
   });
-  const mx = Math.max(...radir.map((r: any) => r.har)) * 1.04;
-  foss = radir.map((r: any) => ({ ...r, vinstri: (r.lag / mx) * 100, breidd: Math.max(0.6, ((r.har - r.lag) / mx) * 100) }));
+  const mx = Math.max(...radir.map((r: any) => r.har)) * 1.1;
+  foss = radir.map((r: any, i: number) => {
+    // Tengilína að næstu súlu: í hæð stöðunnar eftir þessa hreyfingu.
+    const stadaEftir = r.heild ? r.har : r.v >= 0 ? r.har : r.lag;
+    return { ...r, nidri: (r.lag / mx) * 100, haed: Math.max(0.8, ((r.har - r.lag) / mx) * 100), tengi: i < radir.length - 1 ? (stadaEftir / mx) * 100 : null };
+  });
 }
 
 // ── skipting: heild skipt í hluta (lárétt stika) ──
@@ -163,42 +167,42 @@ if (b.t === 'flogg') {
 
 {
   b.t === 'foss' && foss && (
-    <figure class="f-foss" data-vaxa>
-      <figcaption class="f-kort__titill">{b.titill}</figcaption>
-      <ol class="f-foss__listi">
-        {foss.map((r: any) => (
-          <li class:list={['f-foss__rod', r.heild ? 'f-foss__rod--heild' : r.v >= 0 ? 'f-foss__rod--inn' : 'f-foss__rod--ut']}>
-            <span class="f-foss__heiti">{r.heiti}</span>
-            <span class="f-foss__braut" aria-hidden="true">
-              <span class="f-foss__sula" style={`left:${r.vinstri.toFixed(2)}%;width:${r.breidd.toFixed(2)}%`} />
-            </span>
-            <span class="f-foss__gildi" data-telja>{snida(r.v, 1, !r.heild)}</span>
-            <span class="sr-only"> {eining}</span>
-          </li>
-        ))}
-      </ol>
+    <figure class="f-foss">
+      {b.titill && <figcaption class="sr-only">{b.titill}</figcaption>}
+      <div class="f-foss__skrun" role="region" aria-label={b.titill ?? 'Fossrit'} tabindex="0">
+        <ol class="f-foss__listi" data-vaxa>
+          {foss.map((r: any) => (
+            <li class:list={['f-foss__rod', r.heild ? 'f-foss__rod--heild' : r.v >= 0 ? 'f-foss__rod--inn' : 'f-foss__rod--ut']}>
+              <span class="f-foss__svaedi" aria-hidden="true">
+                <span class="f-foss__sula" style={`bottom:${r.nidri.toFixed(2)}%;height:${r.haed.toFixed(2)}%`}>
+                  <span class="f-foss__gildi">{snida(r.v, 1, !r.heild)}</span>
+                </span>
+                {r.tengi !== null && <span class="f-foss__tengi" style={`bottom:${r.tengi.toFixed(2)}%`} />}
+              </span>
+              <span class="f-foss__heiti">{r.heiti}</span>
+              <span class="sr-only">: {snida(r.v, 1, !r.heild)} {eining}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
     </figure>
   )
 }
 
 {
   b.t === 'skipting' && skipting && (
-    <figure class="f-skipting">
-      <figcaption class="f-skipting__titill">{b.titill}</figcaption>
+    <figure class:list={['f-skipting', b.litir && `f-skipting--${b.litir}`]}>
       <div class="f-skipting__stika" aria-hidden="true" data-vaxa>
         {skipting.map((r: any) => (
-          <span class:list={['f-skipting__hluti', `f-skipting__hluti--${r.i}`]} style={`flex:${r.v}`} title={`${r.heiti}: ${snida(r.v)} ${eining}`} />
+          <span class:list={['f-skipting__hluti', `f-skipting__hluti--${r.i}`]} style={`flex:${r.v}`}>
+            {r.pct >= (b.merkiFra ?? 12) && <span class="f-skipting__merki">{r.heiti} {snida(r.v, b.aukastafir ?? 0)}</span>}
+          </span>
         ))}
       </div>
-      <ul class="f-skipting__listi">
-        {skipting.map((r: any) => (
-          <li>
-            <i class:list={['f-skipting__lykill', `f-skipting__hluti--${r.i}`]} aria-hidden="true" />
-            {r.heiti} <span class="f-skipting__gildi">{snida(r.v)}</span>
-            <span class="f-skipting__pct">({snida(r.pct, 0)}%)</span>
-          </li>
-        ))}
-      </ul>
+      {b.titill && <figcaption class="f-skipting__titill">{b.titill}</figcaption>}
+      {b.lina !== false && (
+        <p class="f-skipting__lina">{skipting.map((r: any) => `${r.heiti} ${snida(r.v)}`).join(' · ')}</p>
+      )}
     </figure>
   )
 }
@@ -206,7 +210,8 @@ if (b.t === 'flogg') {
 {
   b.t === 'arasulur' && ara && (
     <figure class="f-ara" data-vaxa>
-      <figcaption class="f-kort__titill">{b.titill}</figcaption>
+      {/* Sýnilegur titill kemur úr h3 á undan; þessi er fyrir skjálesara. */}
+      <figcaption class="sr-only">{b.titill}</figcaption>
       <ol class="f-ara__listi" style={`--null:${ara.nullPct.toFixed(2)}%`}>
         {ara.radir.map((r: any, i: number) => (
           <li class:list={['f-ara__ar', { 'f-ara__ar--aherslu': r.aherslu, 'f-ara__ar--aaetlun': r.aaetlun, 'f-ara__ar--neikv': r.v < 0, 'f-ara__ar--merkt': i === 0 || i >= ara.radir.length - 2 }]}>
@@ -223,7 +228,7 @@ if (b.t === 'flogg') {
           </li>
         ))}
       </ol>
-      {ara.radir.some((r: any) => r.aaetlun) && (
+      {b.skyring !== false && ara.radir.some((r: any) => r.aaetlun) && (
         <div class="f-skyring" aria-hidden="true">
           <span><i class="f-skyring__fyrri" />Fyrri ár</span>
           <span><i class="f-skyring__sula" />{ara.radir.find((r: any) => r.aherslu)?.ar}</span>
@@ -248,5 +253,33 @@ if (b.t === 'flogg') {
         </li>
       ))}
     </ol>
+  )
+}
+
+{
+  b.t === 'tolukort' && (
+    <dl class="f-tolukort">
+      {b.atridi.map((a: any) => (
+        <div class="f-tolukort__kort">
+          <dt class="f-tolukort__heiti">{a.heiti}</dt>
+          <dd class="f-tolukort__tala" data-telja>{a.tala}</dd>
+          <dd class="f-tolukort__texti">
+            {a.breyting && <span class={String(a.breyting).startsWith('−') ? 'f-nidur' : 'f-upp'}>{a.breyting}</span>}
+            {a.breyting && a.texti ? ' ' : ''}
+            {a.texti}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+{
+  b.t === 'skyring' && (
+    <div class="f-skyring" aria-hidden="true">
+      {b.atridi.map((a: any) => (
+        <span><i class={`f-skyring__${a.gerd ?? 'sula'}`} />{a.heiti}</span>
+      ))}
+    </div>
   )
 }

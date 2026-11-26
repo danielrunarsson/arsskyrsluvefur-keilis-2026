@@ -8,28 +8,33 @@ const HEIMILD = "Heimildir: Ársreikningur Golfklúbbsins Keilis fyrir rekstrar�
 const TENGLAR = { t: "tenglar", atridi: [{ heiti: "Rekstrarreikningur", slug: "rekstur" }, { heiti: "Efnahagsreikningur", slug: "efnahagur" }, { heiti: "Sjóðstreymi", slug: "sjodstreymi" }, { heiti: "Rekstraráætlun 2027", slug: "aaetlun" }] };
 
 const sidur = [
-  // ───────── Yfirlit – sama uppbygging og skjalið „Fjármál Keilis 2026“ ─────────
+  // ───────── Yfirlit – heilsíða í böndum, sama uppbygging og skjalið „Fjármál Keilis 2026“ ─────────
   {
-    slug: "yfirlit", kafli: "fjarmal", heiti: "Yfirlit",
+    slug: "yfirlit", kafli: "fjarmal", heiti: "Yfirlit", snid: "heilsida",
     fyrirsogn: "Hagnaðurinn rúmlega ", fyrirsognSkaletrun: "tvöfaldaðist", kicker: "Ársskýrsla Keilis 2026 · Fjármál",
     blokkir: [
-      { t: "tvidalka", jafnt: true,
+      // Haus: texti | flögg
+      { t: "hluti", snid: "hetja",
         vinstri: [
-          { t: "inngangur", texti: "Rekstrarárið 1. nóvember 2025 til 31. október 2026 skilaði Golfklúbburinn Keilir 63,1 milljónar króna hagnaði, samanborið við 25,9 milljónir árið áður. Tekjur jukust um 11% en gjöldin aðeins um 4%, og þar liggur munurinn." },
+          { t: "p", texti: "Rekstrarárið 1. nóvember 2025 til 31. október 2026 skilaði Golfklúbburinn Keilir **63,1 milljónar króna hagnaði**, samanborið við 25,9 milljónir árið áður. Tekjur jukust um 11% en gjöldin aðeins um 4%, og þar liggur munurinn." },
           { t: "p", texti: "Á sama tíma fjárfesti klúbburinn fyrir 86 milljónir í vélum, velli og húsnæði, greiddi upp yfirdráttinn og lauk árinu með 31 milljón í handbæru fé." }],
         haegri: [
           { t: "flogg", titill: "Hagnaður ársins, m.kr.", atridi: [{ ar: "2025", gildi: "25,9" }, { ar: "2026", gildi: "63,1" }] }] },
-      { t: "mynd", src: M + "hvaleyri-sjovarnargardur.jpg", alt: "Hvaleyrarvöllur úr lofti: brautir og flatir á sjávarbakkanum, grjótgarður meðfram sjónum og áhorfendur á vellinum.", texti: "Hvaleyrarvöllur" },
-      { t: "tolur", atridi: [
-        { tala: "632,4", texti: "m.kr. tekjur · +11,1% frá 2025" },
-        { tala: "547,7", texti: "m.kr. rekstrargjöld · +4,3% frá 2025" },
-        { tala: "84,7", texti: "m.kr. EBITDA · +91,5% frá 2025" },
-        { tala: "63,1", texti: "m.kr. hagnaður ársins · +143,4% frá 2025" },
-        { tala: "31,3", texti: "m.kr. handbært fé í árslok · var 1,6 í fyrra" },
-        { tala: "88,0%", texti: "eiginfjárhlutfall · var 86,9%" }] },
-      { t: "p", texti: "Allar fjárhæðir í milljónum króna (m.kr.). Breyting miðast við rekstrarárið 2025. EBITDA = hagnaður fyrir fjármagnsliði og afskriftir." },
+      { t: "mynd", breidd: "full", stada: "center 60%", src: M + "hvaleyri-sjovarnargardur.jpg", alt: "Hvaleyrarvöllur úr lofti: brautir og flatir á sjávarbakkanum, grjótgarður meðfram sjónum og áhorfendur á vellinum.", texti: "Hvaleyrarvöllur" },
 
-      { t: "tvidalka",
+      // Lykiltölur
+      { t: "hluti", blokkir: [
+        { t: "tolukort", atridi: [
+          { heiti: "Tekjur", tala: "632,4", breyting: "+11,1%", texti: "frá 2025" },
+          { heiti: "Rekstrargjöld", tala: "547,7", breyting: "+4,3%", texti: "frá 2025" },
+          { heiti: "EBITDA", tala: "84,7", breyting: "+91,5%", texti: "frá 2025" },
+          { heiti: "Hagnaður ársins", tala: "63,1", breyting: "+143,4%", texti: "frá 2025" },
+          { heiti: "Handbært fé í árslok", tala: "31,3", texti: "var 1,6 í fyrra" },
+          { heiti: "Eiginfjárhlutfall", tala: "88,0%", texti: "var 86,9%" }] },
+        { t: "p", texti: "Allar fjárhæðir í milljónum króna (m.kr.). Breyting miðast við rekstrarárið 2025. EBITDA = hagnaður fyrir fjármagnsliði og afskriftir." }] },
+
+      // Tekjur: texti | skorkort
+      { t: "hluti", afast: true,
         vinstri: [
           { t: "h2", texti: "Tekjurnar: Hraunkot og Hvaleyrarvöllur slógu í gegn" },
           { t: "p", texti: "Heildartekjur námu 632,4 m.kr. og hækkuðu um 63 milljónir. Félagsgjöld eru sem fyrr burðarásinn, um 41% teknanna, og hækkuðu um 12,5%. Í lok október voru félagar 2.367." },
@@ -49,12 +54,13 @@ const sidur = [
             { heiti: "Verslun", gildi: "15.115.537", fyrra: "15.137.483" }],
             samtals: { gildi: "632.446.308", fyrra: "569.304.451" } }] },
 
-      { t: "tvidalka",
+      // Gjöld: texti | skorkort
+      { t: "hluti", afast: true,
         vinstri: [
           { t: "h2", texti: "Gjöldin: haldið fast um taumana" },
           { t: "p", texti: "Rekstrargjöld námu 547,7 m.kr. og hækkuðu um 4,3%, minna en verðlag. Stærsti liðurinn er viðhald og rekstur vallanna, 113,9 m.kr., og hækkaði hann aðeins um 3%." },
           { t: "p", texti: "Ársverk voru um 28 og heildarlaunagreiðslur um 240 milljónir, sem er um 38% af tekjum. Veitingasalan veltir 105,8 m.kr. og stóð nánast nákvæmlega á núlli." },
-          { t: "tolur", atridi: [
+          { t: "tolur", snid: "stadreyndir", atridi: [
             { tala: "+8,2", texti: "m.kr. meiri framlegð af Hraunkoti en 2025 (29,1 á móti 20,9)" },
             { tala: "−2,3", texti: "m.kr. lægri mótakostnaður, á sama tíma og mótatekjur héldust" }] }],
         haegri: [
@@ -73,22 +79,26 @@ const sidur = [
             { heiti: "Mótagjöld", gildi: "9.483.031", fyrra: "11.786.487" }],
             samtals: { gildi: "547.696.785", fyrra: "525.042.850" } }] },
 
-      { t: "mynd", src: M + "hraunbrautir-ur-lofti.jpg", alt: "Loftmynd af brautum og flötum sem liðast um mosavaxið hraun meðfram ströndinni; Hafnarfjörður í baksýn.", texti: "Hvaleyrarvöllur" },
-      { t: "h2", texti: "Hvert fóru peningarnir?" },
-      { t: "p", texti: "Reksturinn skilaði 74,9 m.kr. í handbæru fé. Klúbburinn fjárfesti nettó fyrir 86,1 m.kr.: 51,8 í vélum og tækjum (7,3 fengust fyrir seldar vélar) og 41,6 í endurbótum á velli og húsnæði. Mismuninn brúuðu nýtt 33 m.kr. lán og 33 m.kr. framlag Hafnarfjarðarbæjar, og yfirdrátturinn, 18,2 m.kr., var greiddur upp." },
-      { t: "foss", titill: "Sjóðstreymi 2026: handbært fé fór úr 1,6 í 31,3 m.kr.", atridi: [
-        { heiti: "Handbært fé 1. nóv. 2025", gildi: "1,59", heild: true },
-        { heiti: "Frá rekstri", gildi: "74,94" },
-        { heiti: "Nýtt langtímalán", gildi: "33,0" },
-        { heiti: "Framlag Hafnarfjarðar", gildi: "33,0" },
-        { heiti: "Vélar seldar", gildi: "7,29" },
-        { heiti: "Vélar og tæki keypt", gildi: "−51,79" },
-        { heiti: "Völlur og húsnæði", gildi: "−41,60" },
-        { heiti: "Afborganir lána", gildi: "−6,98" },
-        { heiti: "Yfirdráttur greiddur", gildi: "−18,18" },
-        { heiti: "Handbært fé 31. okt. 2026", gildi: "31,26", heild: true }] },
+      { t: "mynd", breidd: "full", src: M + "hraunbrautir-ur-lofti.jpg", alt: "Loftmynd af brautum og flötum sem liðast um mosavaxið hraun meðfram ströndinni; Hafnarfjörður í baksýn." },
 
-      { t: "tvidalka",
+      // Sjóðstreymi: fossrit
+      { t: "hluti", snid: "kort", blokkir: [
+        { t: "h2", texti: "Hvert fóru peningarnir?" },
+        { t: "p", texti: "Reksturinn skilaði 74,9 m.kr. í handbæru fé. Klúbburinn fjárfesti nettó fyrir 86,1 m.kr.: 51,8 í vélum og tækjum (7,3 fengust fyrir seldar vélar) og 41,6 í endurbótum á velli og húsnæði. Mismuninn brúuðu nýtt 33 m.kr. lán og 33 m.kr. framlag Hafnarfjarðarbæjar, og yfirdrátturinn, 18,2 m.kr., var greiddur upp." },
+        { t: "foss", titill: "Sjóðstreymi 2026: handbært fé fór úr 1,6 í 31,3 m.kr.", atridi: [
+          { heiti: "Handbært fé 1. nóv. 2025", gildi: "1,59", heild: true },
+          { heiti: "Frá rekstri", gildi: "74,94" },
+          { heiti: "Nýtt langtímalán", gildi: "33,0" },
+          { heiti: "Framlag Hafnarfjarðar", gildi: "33,0" },
+          { heiti: "Vélar seldar", gildi: "7,29" },
+          { heiti: "Vélar og tæki keypt", gildi: "−51,79" },
+          { heiti: "Völlur og húsnæði", gildi: "−41,60" },
+          { heiti: "Afborganir lána", gildi: "−6,98" },
+          { heiti: "Yfirdráttur greiddur", gildi: "−18,18" },
+          { heiti: "Handbært fé 31. okt. 2026", gildi: "31,26", heild: true }] }] },
+
+      // Efnahagur: texti | spjald
+      { t: "hluti", kort: true,
         vinstri: [
           { t: "h2", texti: "Efnahagurinn: nærri 90% eigið fé" },
           { t: "p", texti: "Eignir námu 992,5 m.kr. í árslok og eigið fé 872,9 m.kr. Eiginfjárhlutfallið hækkaði úr 86,9% í 88,0%. Golfvöllurinn sjálfur er bókfærður á 438,6 m.kr. og fasteignir á 407,6 m.kr." },
@@ -107,7 +117,8 @@ const sidur = [
             ["Ergo, óverðtryggt", "10,7%", "2027", "2,0"],
             { c: ["Samtals", "", "", "88,8"], samtala: true }] }] },
 
-      { t: "tvidalka",
+      // Betur en áætlað: texti | spjald
+      { t: "hluti", afast: true, kort: true,
         vinstri: [
           { t: "h2", texti: "Betur en áætlað" },
           { t: "p", texti: "Fjárhagsáætlun ársins gerði ráð fyrir 37,8 m.kr. hagnaði. Niðurstaðan varð 25,3 milljónum betri. Tekjurnar urðu 23,6 m.kr. hærri en áætlað var, einkum félagsgjöld, flatargjöld og Hraunkot, en gjöldin 4,4 m.kr. lægri." },
@@ -120,26 +131,33 @@ const sidur = [
             ["Afskriftir og fjármagnsliðir", "19,0", "21,6", "+2,6"],
             { c: ["Hagnaður ársins", "37,8", "63,1", "+25,3"], samtala: true }] }] },
 
-      { t: "myndir", atridi: [
+      { t: "myndir", snid: "threnna", atridi: [
         { src: M + "glompuhogg.jpg", alt: "Kylfingur slær úr glompu svo sandurinn þyrlast upp." },
         { src: M + "ahorfendur-vid-sjoinn.jpg", alt: "Áhorfendur fylgja kylfingum eftir braut á sjávarbakkanum, séð úr lofti." },
         { src: M + "hvaleyrin-ur-lofti.jpg", alt: "Hvaleyrin úr lofti: völlurinn á nesinu umkringdur sjó og byggð Hafnarfjarðar fyrir ofan." }] },
 
-      { t: "h2", texti: "Tíu ár í tölum" },
-      { t: "p", texti: "Frá 2016 hafa tekjur Keilis þrefaldast, úr 208 í 632 m.kr., samhliða fjölgun félaga, veitingasölunnar sem kom inn í rekstur klúbbsins 2023 og vexti Hraunkots. EBITDA ársins, 84,7 m.kr., er sú hæsta í krónum talið í yfirliti klúbbsins sem nær aftur til 2004." },
-      { t: "tvidalka", jafnt: true,
+      // Tíu ár í tölum
+      { t: "hluti", snid: "kort", jafnt: true,
+        blokkir: [
+          { t: "h2", texti: "Tíu ár í tölum" },
+          { t: "p", texti: "Frá 2016 hafa tekjur Keilis þrefaldast, úr 208 í 632 m.kr., samhliða fjölgun félaga, veitingasölunnar sem kom inn í rekstur klúbbsins 2023 og vexti Hraunkots. EBITDA ársins, 84,7 m.kr., er sú hæsta í krónum talið í yfirliti klúbbsins sem nær aftur til 2004." }],
         vinstri: [
-          { t: "arasulur", titill: "Tekjur, m.kr.", atridi: [
+          { t: "h3", texti: "Tekjur, m.kr." },
+          { t: "arasulur", titill: "Tekjur 2016–2026 og áætlun 2027, m.kr.", skyring: false, atridi: [
             { ar: "2016", gildi: "208,1" }, { ar: "2017", gildi: "217,8" }, { ar: "2018", gildi: "217,1" }, { ar: "2019", gildi: "247,0" },
             { ar: "2020", gildi: "264,7" }, { ar: "2021", gildi: "293,2" }, { ar: "2022", gildi: "324,6" }, { ar: "2023", gildi: "408,9" },
             { ar: "2024", gildi: "474,8" }, { ar: "2025", gildi: "569,3" }, { ar: "2026", gildi: "632,4", aherslu: true }, { ar: "2027", gildi: "669,2", aaetlun: true }] }],
         haegri: [
-          { t: "arasulur", titill: "Hagnaður ársins, m.kr.", atridi: [
+          { t: "h3", texti: "Hagnaður ársins, m.kr." },
+          { t: "arasulur", titill: "Hagnaður 2016–2026 og áætlun 2027, m.kr.", skyring: false, atridi: [
             { ar: "2016", gildi: "4,3" }, { ar: "2017", gildi: "0,4" }, { ar: "2018", gildi: "−5,8" }, { ar: "2019", gildi: "2,3" },
             { ar: "2020", gildi: "12,1" }, { ar: "2021", gildi: "8,1" }, { ar: "2022", gildi: "17,5" }, { ar: "2023", gildi: "8,9" },
-            { ar: "2024", gildi: "10,4" }, { ar: "2025", gildi: "25,9" }, { ar: "2026", gildi: "63,1", aherslu: true }, { ar: "2027", gildi: "55,6", aaetlun: true }] }] },
+            { ar: "2024", gildi: "10,4" }, { ar: "2025", gildi: "25,9" }, { ar: "2026", gildi: "63,1", aherslu: true }, { ar: "2027", gildi: "55,6", aaetlun: true }] }],
+        eftir: [
+          { t: "skyring", atridi: [{ heiti: "Fyrri ár", gerd: "fyrri" }, { heiti: "2026", gerd: "sula" }, { heiti: "Áætlun 2027", gerd: "aaetlun" }] }] },
 
-      { t: "tvidalka",
+      // Áætlun 2027: texti | spjald
+      { t: "hluti", kort: true,
         vinstri: [
           { t: "h2", texti: "Áætlun 2027: varfærnari vöxtur" },
           { t: "p", texti: "Fjárhagsáætlun næsta árs gerir ráð fyrir 669,2 m.kr. tekjum, 5,8% aukningu, og að gjöldin hækki um 7,2% í 586,9 m.kr. Áætlaður hagnaður er 55,6 m.kr." },
@@ -159,23 +177,25 @@ const sidur = [
             ["Vaxtagjöld", "9,5", "14,7", "+54,7%"],
             { c: ["Hagnaður ársins", "63,1", "55,6", "−11,9%"], samtala: true }] }] },
 
-      { t: "tvidalka", jafnt: true,
+      // Framundan: dökkt band
+      { t: "hluti", snid: "dokkt", jafnt: true, midja: true, yfirmerking: "Framundan",
         vinstri: [
-          { t: "h2", texti: "Framundan: golfskálinn stækkar" },
+          { t: "h2", texti: "Golfskálinn stækkar" },
           { t: "p", texti: "Á árinu var undirritaður samningur við Hafnarfjarðarbæ um stækkun golfskálans. Kostnaðaráætlun er 583,4 m.kr. Bærinn greiðir 80%, eða 466,8 m.kr., og hlutur Keilis er 116,6 m.kr. Til að fjármagna framkvæmdina hefur klúbburinn aðgang að allt að 400 m.kr. lánalínu hjá Landsbankanum, og fyrstu 20 m.kr. af hlut Keilis eru áætlaðar í nóvember 2026." },
-          { t: "skipting", titill: "Kostnaðarskipting stækkunar, m.kr.", atridi: [{ heiti: "Hafnarfjarðarbær", gildi: "466,8" }, { heiti: "Keilir", gildi: "116,6" }] }],
+          { t: "skipting", litir: "bjart", merkiFra: 50, aukastafir: 1, atridi: [{ heiti: "Hafnarfjarðarbær", gildi: "466,8" }, { heiti: "Keilir", gildi: "116,6" }] }],
         haegri: [
-          { t: "mynd", src: M + "golfskalinn.jpg", alt: "Golfskáli Keilis á Hvaleyri; áhorfendur og sjónvarpsmyndavél á palli við flötina fyrir framan skálann.", texti: "Golfskálinn á Hvaleyri" }] },
-      { t: "h3", texti: "Greiðslur Hafnarfjarðarbæjar, m.kr." },
-      { t: "skref", atridi: [
-        { dags: "Ágúst 2026", tala: "25,0", texti: "Fyrsta greiðsla, komin inn", lokid: true },
-        { dags: "Febrúar 2027", tala: "150,0", texti: "Önnur greiðsla" },
-        { dags: "Febrúar 2028", tala: "150,0", texti: "Þriðja greiðsla" },
-        { dags: "2029", tala: "141,8", texti: "Lokagreiðsla" }] },
+          { t: "mynd", src: M + "golfskalinn.jpg", alt: "Golfskáli Keilis á Hvaleyri; áhorfendur og sjónvarpsmyndavél á palli við flötina fyrir framan skálann.", texti: "Golfskálinn á Hvaleyri" }],
+        eftir: [
+          { t: "skref", atridi: [
+            { dags: "Ágúst 2026", tala: "25,0", texti: "Fyrsta greiðsla, komin inn", lokid: true },
+            { dags: "Febrúar 2027", tala: "150,0", texti: "Önnur greiðsla" },
+            { dags: "Febrúar 2028", tala: "150,0", texti: "Þriðja greiðsla" },
+            { dags: "2029", tala: "141,8", texti: "Lokagreiðsla" }] }] },
 
-      { t: "mynd", src: M + "thoka-vid-strondina.jpg", alt: "Þokuslæða yfir grýttri strönd og grænum brautum Hvaleyrarvallar.", texti: "Hvaleyrarvöllur" },
-      TENGLAR,
-      { t: "p", texti: HEIMILD }
+      { t: "mynd", breidd: "full", stada: "center 40%", src: M + "thoka-vid-strondina.jpg", alt: "Þokuslæða yfir grýttri strönd og grænum brautum Hvaleyrarvallar." },
+
+      // Heimildir
+      { t: "hluti", snid: "fotur", blokkir: [TENGLAR, { t: "p", texti: HEIMILD }] }
     ]
   },
 
