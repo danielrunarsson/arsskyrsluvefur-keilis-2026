@@ -1,14 +1,14 @@
 // Íþróttastarf Keilis 2026 – efni frá Birgi Birni Magnússyni íþróttastjóra (skjalið „Íþróttastarf Keilis 2026 –
 // efni í ársskýrslu“, 25. nóvember 2026). Sér skrá svo kaflinn rekist ekki á aðrar breytingar í efnisskránni;
 // hún er flutt inn í síðulistann í efni-2025.js og fer óbreytt í efni-2026.js þegar skipt verður um ár.
-// Sömu blokkagerðir og í efnisskránni. Tafla með `snid: "texti"` = textatafla (nöfn og lýsingar).
+// `efnisar` merkir frá hvaða ári efni síðunnar er (sjá innra veftréð). Sömu blokkagerðir og í efnisskránni. Tafla með `snid: "texti"` = textatafla (nöfn og lýsingar).
 
 const M = "myndir/ithrottir-2026/";
 const B = "myndir/portrett/birgir-bjorn-magnusson.jpg";
 const BALT = "Birgir Björn Magnússon íþróttastjóri, brosandi í hvítri pólóskyrtu Keilis.";
 const BNAFN = "Birgir Björn Magnússon, íþróttastjóri Keilis";
 
-export default [
+const sidur = [
   // ───────── Forsíða kaflans ─────────
   {
     slug: "ithrottastarf", kafli: "ithrottir", heiti: "Íþróttastarf Keilis",
@@ -558,3 +558,6 @@ export default [
     ]
   }
 ];
+
+// Allar síður kaflans eru með efni ársins 2026 (sýnt í innra veftrénu).
+export default sidur.map((s) => ({ ...s, efnisar: "2026" }));

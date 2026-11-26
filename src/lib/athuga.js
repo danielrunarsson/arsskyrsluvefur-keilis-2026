@@ -33,7 +33,7 @@ const BLOKKIR = {
 const SULA = ['heiti', 'gildi', 'pct','aherslu', 'daufur', 'fyrra', 'fyrraPct'];
 const ER_TALA = (g) => (typeof g === 'number' ? Number.isFinite(g) : /^[−-]?\d{1,3}(\.\d{3})*(,\d+)?$|^[−-]?\d+(,\d+)?$/.test(String(g).trim()));
 const SIDA = ['*slug', '*kafli', '*heiti', 'fyrirsogn', 'fyrirsognSkaletrun', 'kicker', 'portrett', 'portrettAlt',
-  'hofundur', 'lestur', 'heimild', 'stada', 'snid', '*blokkir'];
+  'hofundur', 'lestur', 'heimild', 'stada', 'snid', 'efnisar', '*blokkir'];
 
 /** Levenshtein-fjarlægð – til að stinga upp á réttu nafni við innsláttarvillu. */
 function fjarlaegd(a, b) {

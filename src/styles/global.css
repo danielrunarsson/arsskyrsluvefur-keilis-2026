@@ -2112,6 +2112,39 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
   background: none;
   border: 1.5px solid var(--gull);
 }
+.veftre__punktur--gamalt {
+  background: var(--myndgrunnur);
+}
+.veftre__framvinda {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--lina-fin);
+}
+.veftre__framvinda span {
+  height: 100%;
+}
+.veftre__framvinda-nytt {
+  background: var(--gull);
+}
+.veftre__framvinda-gamalt {
+  background: var(--myndgrunnur);
+}
+.veftre__skyring {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--lina);
+  font: 500 13px var(--sans);
+  color: var(--meginmal);
+}
+.veftre__skyring span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 .veftre__merki {
   font: 500 12px var(--mono);
   color: var(--daufur);

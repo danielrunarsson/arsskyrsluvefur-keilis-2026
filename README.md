@@ -223,6 +223,13 @@ t.d. gamla tengla á síður sem er sleppt í production. Í hönnun skýrslunna
 efnisyfirlit úr `kaflar`. Fær `noindex`, enga canonical-slóð og er ekki í sitemap. Allar slóðir í henni eru frá rót (`/…`)
 svo hún virkar á hvaða dýpt sem er. Staðbundið: `npm run build && npm run preview` og opna t.d. `/ekki-til/` (með skástriki).
 
+## Staða 2026 í veftrénu (`efnisar`)
+
+`/innra/veftre/` sýnir þrjár stöður: **efni 2026 komið** (gyllt), **efni enn frá 2025** (grátt – þarf að uppfæra)
+og **vantar efni** (hringur), ásamt framvindustiku og fjölda. Síða telst uppfærð þegar hún hefur `efnisar: "2026"`
+(forsíðan: `forsida.efnisar`); annars gildir `ar` efnisskrárinnar. Árið sem stefnt er að er `MARKAR` í
+`src/pages/innra/[sida].astro`. Þegar efni síðu er uppfært fyrir 2026: bæta `efnisar: "2026"` við síðuna.
+
 ## Síður án efnis (`stada: "vantar"`)
 
 Síða með `stada: "vantar"` eða engar blokkir:
