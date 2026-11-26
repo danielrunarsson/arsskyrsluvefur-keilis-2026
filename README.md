@@ -212,6 +212,12 @@ dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafj�
 `efni-2025.js` (`...ithrottastarf2026`), svo hann rekist ekki á aðrar breytingar í efnisskránni. Myndirnar eru í
 `src/assets/myndir/ithrottir-2026/`. Þegar skipt er yfir í `efni-2026.js` fylgir innflutningurinn með.
 
+## Ársreikningur 2026 (`src/efni/fjarmal-2026.js`)
+
+Fjármálakaflinn 2026 (yfirlit, rekstrarreikningur, efnahagsreikningur, sjóðstreymi, rekstraráætlun 2027) býr í
+sérskrá á sama hátt og íþróttakaflinn (`...fjarmal2026` í `efni-2025.js`). Slóðirnar eru óbreyttar frá fyrra ári,
+svo Lighthouse-athuganir í `netlify.toml` halda sér. Myndirnar eru í `src/assets/myndir/fjarmal-2026/`.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

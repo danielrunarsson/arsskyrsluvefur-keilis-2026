@@ -3,6 +3,7 @@
 // Blokkagerðir (t): inngangur, p, h2, h3, listi, tolur, tilvitnun, mynd, myndir, myndband, tafla, sulur,
 // pdf, folk, nofn, nefndir, grof, undirsidur, tenglar, undirskrift. **feitletrun** virkar í p og listi.
 import ithrottastarf2026 from "./ithrottastarf-2026.js";
+import fjarmal2026 from "./fjarmal-2026.js";
 
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
@@ -293,58 +294,8 @@ export default {
     { slug: "kvennastarf", kafli: "felagsstarf", heiti: "Kvennastarfið", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-kvennanefnd/", blokkir: [] },
     { slug: "samstarf", kafli: "felagsstarf", heiti: "Samstarf við aðra klúbba", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-samstarf-vid-adra-klubba/", blokkir: [] },
 
-    // ───────── ÁRSREIKNINGUR ─────────
-    {
-      slug: "yfirlit", kafli: "fjarmal", heiti: "Yfirlit",
-      fyrirsogn: "Ársreikningur", kicker: "Ársreikningur · Yfirlit",
-      heimild: "https://2025.keilir.is/arsreikningur-yfirlit/",
-      blokkir: [
-        { t: "inngangur", texti: "Rekstur Golfklúbbsins Keilis gekk vel á síðasta rekstrarári, afkoman var betri en áætlanir gerðu ráð fyrir. Mikil aukning í tekjum milli ára vegna lengra rekstrartímabils veitingasölunnar og bættrar afkomu æfingasvæðisins eins og á síðasta ári." },
-        { t: "tolur", atridi: [{ tala: "569,3", texti: "mkr. tekjur (474,8 árið 2024)" }, { tala: "525,0", texti: "mkr. gjöld (445,9 árið 2024)" }, { tala: "44,3", texti: "mkr. EBITDA (28,9 árið 2024)" }] },
-        { t: "p", texti: "Tekjur á árinu 2025 voru 569,3 mkr. samanborið við 474,8 mkr. árinu áður. Gjöld voru 525,0 mkr. samanborið við 445,9 mkr. á árinu 2024. Tekjur jukust þannig um 21% á móti kostnaði sem jókst um 18%. Hagnaður fyrir afskriftir og fjármagnsliði (EBITDA) var 44,3 mkr. á árinu 2025 samanborið við 28,9 mkr. árinu áður." },
-        { t: "sulur", titill: "Tekjur, mkr.", eining: "mkr.", hlutfallAf: "tekjum", atridi: [{ heiti: "Félagsgjöld", gildi: "228,0", pct: 100 }, { heiti: "Veitingasala", gildi: "102,8", pct: 45 }, { heiti: "Æfingasvæði", gildi: "55,2", pct: 24, aherslu: true }, { heiti: "Seld þjónusta", gildi: "42,9", pct: 19 }, { heiti: "Styrkir og framlög", gildi: "40,6", pct: 18 }, { heiti: "Flatargjöld", gildi: "31,9", pct: 14 }, { heiti: "Aðrar tekjur", gildi: "29,7", pct: 13 }, { heiti: "Mótatekjur", gildi: "23,0", pct: 10 }, { heiti: "Verslun / þjónustuver", gildi: "15,1", pct: 7 }] },
-        { t: "sulur", titill: "Gjöld, mkr.", eining: "mkr.", hlutfallAf: "gjöldum", atridi: [{ heiti: "Viðhald og rekstur valla", gildi: "110,7", pct: 100 }, { heiti: "Rekstur veitingasölu", gildi: "101,1", pct: 91 }, { heiti: "Stjórnunarkostnaður", gildi: "60,3", pct: 54 }, { heiti: "Styrkir og þjálfun", gildi: "55,6", pct: 50 }, { heiti: "Útseld þjónusta", gildi: "40,9", pct: 37 }, { heiti: "Vélar", gildi: "36,2", pct: 33 }, { heiti: "Æfingasvæði", gildi: "34,3", pct: 31 }, { heiti: "Fasteignir", gildi: "24,3", pct: 22 }, { heiti: "Verslun / þjónustuver", gildi: "23,8", pct: 22 }, { heiti: "Annar kostnaður", gildi: "13,5", pct: 12 }, { heiti: "Félagaskattur GSÍ", gildi: "12,5", pct: 11 }, { heiti: "Mótagjöld", gildi: "11,8", pct: 11 }] },
-        { t: "tenglar", atridi: [{ heiti: "Rekstrarreikningur", slug: "rekstur" }, { heiti: "Efnahagsreikningur", slug: "efnahagur" }, { heiti: "Sjóðstreymi", slug: "sjodstreymi" }, { heiti: "Rekstraráætlun", slug: "aaetlun" }] },
-        { t: "pdf", titill: "Ársreikningur 2025 (undirritaður)", src: S + "reikningar_undirritadir.pdf" }
-      ]
-    },
-    {
-      slug: "rekstur", kafli: "fjarmal", heiti: "Rekstrarreikningur",
-      fyrirsogn: "Rekstrarreikningur", kicker: "Ársreikningur",
-      heimild: "https://2025.keilir.is/arsreikningur-rekstrarreikningur/",
-      blokkir: [
-        { t: "h2", texti: "Samantekinn rekstur" },
-        { t: "tafla", dalkar: ["", "2025", "2024", "%"], radir: [
-          ["Rekstrartekjur samtals", "569.304.451", "474.763.358", "21%"], ["Rekstrargjöld samtals", "525.042.850", "445.857.215", "18%"], { c: ["Hagnaður fyrir afskriftir og fjármagnsliði", "44.261.601", "28.906.143", "53%"], feitt: true }, ["Afskriftir", "11.702.371", "12.178.312", "−4%"], ["Hagnaður fyrir fjármagnsliði", "32.559.230", "16.727.831", "95%"], { c: ["Fjármagnsliðir samtals", "−6.637.695", "−6.333.896", "5%"], feitt: true }, { c: ["Hagnaður ársins", "25.921.535", "10.393.935", "149%"], samtala: true }] },
-        { t: "h2", texti: "Rekstrartekjur" },
-        { t: "tafla", dalkar: ["", "2025", "2024", "%"], radir: [
-          ["Félagsgjöld", "227.977.987", "204.034.975", "12%"], ["Flatargjöld", "31.895.382", "24.878.979", "28%"], ["Mótatekjur", "23.030.300", "17.176.799", "34%"], ["Styrkir og framlög", "40.630.835", "34.610.277", "17%"], ["Tekjur æfingasvæðis", "55.207.391", "32.717.873", "69%"], ["Tekjur verslunar / þjónustuver", "15.137.483", "14.583.651", "4%"], ["Tekjur veitingasölu", "102.829.939", "86.666.857", "19%"], ["Seld þjónusta", "42.885.501", "36.449.495", "11%"], ["Unglingavinna", "0", "", "0%"], ["Aðrar tekjur", "29.709.633", "21.244.451", "40%"]] },
-        { t: "h2", texti: "Rekstrargjöld" },
-        { t: "tafla", dalkar: ["", "2025", "2024", "%"], radir: [
-          ["Félagaskattur GSÍ", "12.474.000", "10.449.250", "19%"], ["Mótagjöld", "11.786.487", "7.296.083", "62%"], ["Styrkir og þjálfunarkostnaður", "55.630.018", "54.010.251", "3%"], ["Rekstur æfingasvæðis", "34.261.442", "21.829.181", "57%"], ["Viðhald og rekstur valla", "110.656.893", "99.798.753", "11%"], ["Viðhald og rekstur véla", "36.206.434", "28.942.058", "25%"], ["Rekstur fasteigna", "24.341.945", "19.446.980", "25%"], ["Stjórnunarkostnaður", "60.306.883", "51.383.751", "17%"], ["Rekstur verslunar / þjónustuvers", "23.832.179", "20.144.129", "18%"], ["Rekstur veitingasölu", "101.107.995", "84.390.740", "20%"], ["Rekstur útseldrar þjónustu", "40.904.630", "33.493.923", "22%"], ["Unglingavinna", "0", "0", "0%"], ["Annar kostnaður", "13.533.945", "12.272.116", "10%"]] }
-      ]
-    },
-    {
-      slug: "efnahagur", kafli: "fjarmal", heiti: "Efnahagsreikningur",
-      fyrirsogn: "Efnahagsreikningur", kicker: "Ársreikningur",
-      heimild: "https://2025.keilir.is/arsreikningur-efnahagsreikningur/",
-      blokkir: [
-        { t: "tolur", atridi: [{ tala: "894,0", texti: "mkr. eignir alls" }, { tala: "776,8", texti: "mkr. eigið fé" }, { tala: "87%", texti: "eiginfjárhlutfall" }] },
-        { t: "h2", texti: "Eignir" },
-        { t: "tafla", dalkar: ["", "2025", "2024"], radir: [
-          { c: ["Fastafjármunir", "", ""], milli: true }, ["Fasteignir", "373.361.767", "327.065.785"], ["Vélar og bifreiðar", "66.313.433", "69.010.436"], ["Golfvöllur", "431.183.469", "420.847.347"], { c: ["Fastafjármunir samtals", "870.858.669", "816.923.568"], feitt: true },
-          { c: ["Veltufjármunir", "", ""], milli: true }, ["Birgðir", "13.285.718", "11.682.036"], ["Viðskiptakröfur", "8.292.571", "9.410.988"], ["Handbært fé", "1.585.910", "1.410.929"], { c: ["Veltufjármunir samtals", "23.164.199", "22.503.953"], feitt: true },
-          { c: ["Eignir alls", "894.022.868", "839.427.521"], samtala: true }] },
-        { t: "h2", texti: "Skuldir og eigið fé" },
-        { t: "tafla", dalkar: ["", "2025", "2024"], radir: [
-          { c: ["Eigið fé", "", ""], milli: true }, ["Framlag Hafnarfjarðarbæjar", "424.695.254", "387.695.254"], ["Óráðstafað eigið fé í ársbyrjun", "326.198.246", "315.804.311"], ["Hagnaður skv. rekstrarreikningi", "25.921.535", "10.393.935"], { c: ["Eigið fé samtals", "776.815.035", "713.893.500"], feitt: true },
-          { c: ["Langtímaskuldir", "", ""], milli: true }, ["Veðskuldir", "62.735.873", "67.992.173"], ["Næsta árs afborgun", "−7.100.250", "−6.950.250"], { c: ["Langtímaskuldir samtals", "55.635.623", "61.041.923"], feitt: true },
-          { c: ["Skammtímaskuldir", "", ""], milli: true }, ["Viðskiptaskuldir", "16.025.110", "11.731.108"], ["Hlaupareikningslán", "18.178.515", "21.123.108"], ["Ógreitt vegna starfsfólks", "14.097.065", "18.383.090"], ["Ógreiddur virðisaukaskattur", "6.171.270", "6.304.174"], ["Næsta árs afborgun langtímalána", "7.100.250", "6.950.250"], { c: ["Skammtímaskuldir samtals", "61.572.210", "64.492.098"], feitt: true },
-          { c: ["Skuldir og eigið fé alls", "894.022.868", "839.427.521"], samtala: true }] }
-      ]
-    },
-    { slug: "sjodstreymi", kafli: "fjarmal", heiti: "Sjóðstreymi", stada: "vantar", heimild: "https://2025.keilir.is/arsreikningur-sjodstreymi/", blokkir: [] },
-    { slug: "aaetlun", kafli: "fjarmal", heiti: "Rekstraráætlun 2026", stada: "vantar", heimild: "https://2025.keilir.is/arsreikningur-rekstraraaetlun/", blokkir: [] },
+    // ───────── ÁRSREIKNINGUR (2026, sjá fjarmal-2026.js) ─────────
+    ...fjarmal2026,
 
     // ───────── SÉREFNI ─────────
     { slug: "islandsmot", kafli: "serefni", heiti: "Íslandsmótið í golfi", stada: "vantar", heimild: "https://2025.keilir.is/islmot25/", blokkir: [] }
