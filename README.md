@@ -260,6 +260,18 @@ scripts/letur.mjs  býr letrið til úr Google Fonts-skránum (npm i -D subset-f
 2. Í Netlify: *Domain management → Add a domain* → `2026.keilir.is`.
 3. Í DNS fyrir keilir.is: CNAME-færsla `2026` → `<síðuheiti>.netlify.app`. Netlify sér um HTTPS-skírteini.
 
+### Lykilorðsvörn (`netlify/edge-functions/dyravordur.js`)
+
+Edge-fall sem læsir öllum vefnum á bak við einfalda innskráningarsíðu. **Lykilorðið er aldrei í kóðanum**
+(geymslan er opinber); það er umhverfisbreytan `VEF_LYKILORD` í Netlify
+(*Site configuration → Environment variables*). Eftir að breytunni er bætt við, henni breytt eða eytt þarf að
+byggja vefinn aftur (*Deploys → Trigger deploy*).
+
+- Breytan ekki til eða tóm → vörnin er slökkt og vefurinn opinn öllum.
+- Rétt lykilorð gefur vafraköku sem gildir í 30 daga. Kakan er undirrituð með lykilorðinu, svo nýtt lykilorð skráir alla út.
+- Á meðan vörnin er á sjá leitarvélar og deilingarforskoðanir (Facebook o.fl.) aðeins innskráningarsíðuna.
+- Lighthouse í deployi prófar byggðu skrárnar beint og fer ekki í gegnum vörnina.
+
 ## Opið
 
 - Myndbönd (.mov) vísa enn á `2025.keilir.is/wp-content/uploads/…`; þarf að sækja, umbreyta .mov → .mp4 og hýsa sjálf.
