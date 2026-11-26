@@ -2,6 +2,7 @@
 // Ein efnisblokk úr efnisskránni (b.t ræður gerð). Sjá README fyrir lýsingu á hverri gerð.
 import Mynd from './Mynd.astro';
 import Sulurit from './Sulurit.astro';
+import Fjarmalagraf from './Fjarmalagraf.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
 import { skjalStaerd } from '../lib/skjol.js';
@@ -175,6 +176,24 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 {
   b.t === 'sulur' && <Sulurit b={b} />
 
+}
+
+{['flogg', 'skorkort', 'foss', 'skipting', 'arasulur', 'skref'].includes(b.t) && <Fjarmalagraf b={b} />}
+
+{
+  /* Tveir dálkar hlið við hlið á breiðum skjá (texti | kort), hvor undir öðrum á síma.
+     Fyrirsagnir inni í dálkum: h2 helst h2, smáfyrirsagnir verða h3. */
+  b.t === 'tvidalka' && (
+    <div class:list={['b-tvidalka', { 'b-tvidalka--jafnt': b.jafnt }]}>
+      {[b.vinstri, b.haegri].map((dalkur: any[] = []) => (
+        <div class="b-tvidalka__dalkur">
+          {dalkur.map((x: any) => (
+            <Astro.self b={x} stig={3} samhengi={[...(b.vinstri ?? []), ...(b.haegri ?? [])].find((y: any) => y.t === 'h2')?.texti ?? samhengi} />
+          ))}
+        </div>
+      ))}
+    </div>
+  )
 }
 
 {

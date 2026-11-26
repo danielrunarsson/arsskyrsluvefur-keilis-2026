@@ -2228,3 +2228,492 @@ html.hreyfing [data-vaxa].synilegt .b-sulur__sula {
     display: none;
   }
 }
+
+/* Textatafla í dálki (tvidalka): fyllir dálkinn í stað 640px lágmarks. */
+@media (min-width: 1200px) {
+  .b-tvidalka .tafla.tafla--texti {
+    min-width: 0;
+  }
+}
+
+/* ───────── Tveir dálkar (`tvidalka`) og fjármálagröf (src/components/Fjarmalagraf.astro) ─────────
+   Grunnur: hvor dálkur undir öðrum (sími). Á breiðum skjá: texti | kort hlið við hlið. */
+.b-tvidalka {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin: 8px 0;
+}
+.b-tvidalka__dalkur {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+.b-tvidalka__dalkur > .b-h2:first-child {
+  margin-top: 0;
+}
+@media (min-width: 1200px) {
+  .b-tvidalka {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .b-tvidalka--jafnt {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.f-upp {
+  color: #2f6b3a;
+  font-weight: 600;
+}
+.f-nidur {
+  color: #a1261b;
+  font-weight: 600;
+}
+.f-tala {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.f-kort__titill {
+  font: 600 12px var(--sans);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--daufur);
+}
+.f-skyring {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font: 500 13px var(--sans);
+  color: var(--aukatexti);
+}
+.f-skyring i {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+.f-skyring__sula {
+  background: var(--gull);
+}
+.f-skyring__strik {
+  width: 2px !important;
+  height: 14px !important;
+  background: var(--blek);
+}
+.f-skyring__fyrri {
+  background: var(--myndgrunnur);
+}
+.f-skyring__aaetlun {
+  background: repeating-linear-gradient(45deg, var(--gull) 0 2px, transparent 2px 5px);
+  outline: 1px solid var(--gull);
+}
+
+/* Flögg: hagnaður tveggja ára sem hæð flaggstanga */
+.f-flogg {
+  margin: 0;
+  background: var(--blek);
+  padding: 20px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.f-flogg svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.f-flogg__titill {
+  font: 500 13px var(--sans);
+  color: var(--fotur-texti);
+  text-align: right;
+}
+.f-flogg__flot {
+  fill: #2d4a33;
+}
+.f-flogg__gljai {
+  fill: #4b6e4f;
+  opacity: 0.5;
+}
+.f-flogg__hola {
+  fill: #0d1a10;
+}
+.f-flogg line {
+  stroke: #f2efe8;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.f-flogg__flagg {
+  fill: var(--myndgrunnur);
+}
+.f-flogg__stong--nytt .f-flogg__flagg {
+  fill: var(--gull);
+}
+.f-flogg__tala {
+  fill: #fff;
+  font: 400 30px var(--serif);
+}
+.f-flogg__stong--nytt .f-flogg__tala {
+  font-size: 44px;
+}
+.f-flogg__ar {
+  fill: var(--fotur-texti);
+  font: 600 17px var(--sans);
+}
+html.hreyfing [data-vaxa] .f-flogg__risa {
+  transform: translateY(var(--h));
+  opacity: 0;
+  transition: transform 1.4s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.4s;
+}
+html.hreyfing [data-vaxa].synilegt .f-flogg__risa {
+  transform: none;
+  opacity: 1;
+}
+
+/* Skorkort: hver tekju-/gjaldaliður er „hola“ */
+.f-kort,
+.f-foss,
+.f-ara {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px;
+  border: 1px solid var(--lina);
+  background: #fff;
+}
+.f-skor__tafla {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 13px/1.35 var(--sans);
+}
+.f-skor__tafla th,
+.f-skor__tafla td {
+  padding: 8px 6px;
+  border-bottom: 1px solid var(--lina-fin);
+  text-align: left;
+  vertical-align: middle;
+}
+.f-skor__tafla thead th {
+  font-weight: 500;
+  font-size: 12px;
+  color: var(--daufur);
+  border-bottom: 2px solid var(--blek);
+}
+.f-skor__tafla tbody th {
+  font-weight: 500;
+}
+.f-skor__tafla .f-tala {
+  text-align: right;
+}
+.f-skor__hola {
+  width: 2em;
+  font-family: var(--serif);
+  color: var(--daufur);
+  padding-left: 0 !important;
+}
+.f-skor__fyrra {
+  color: var(--daufur);
+}
+.f-skor__brautdalkur {
+  display: none;
+}
+.f-skor__braut {
+  position: relative;
+  display: block;
+  height: 12px;
+}
+.f-skor__sula {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 12px;
+  background: var(--gull);
+}
+.f-skor__strik {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 18px;
+  background: var(--blek);
+}
+.f-skor__samtals th,
+.f-skor__samtals td {
+  font-weight: 700 !important;
+  border-bottom: 2px solid var(--blek);
+}
+html.hreyfing [data-vaxa] .f-skor__sula,
+html.hreyfing [data-vaxa] .f-foss__sula {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+html.hreyfing [data-vaxa].synilegt .f-skor__sula,
+html.hreyfing [data-vaxa].synilegt .f-foss__sula {
+  transform: scaleX(1);
+}
+
+/* Foss: hvert fóru peningarnir – lárétt fossrit (les eins vel í síma) */
+.f-foss__listi {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.f-foss__rod {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: 'heiti gildi' 'braut braut';
+  gap: 4px 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--lina-fin);
+  font: 400 14px/1.35 var(--sans);
+}
+.f-foss__heiti {
+  grid-area: heiti;
+}
+.f-foss__gildi {
+  grid-area: gildi;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.f-foss__braut {
+  grid-area: braut;
+  position: relative;
+  height: 14px;
+  background: linear-gradient(var(--lina-fin), var(--lina-fin)) left center / 100% 1px no-repeat;
+}
+.f-foss__sula {
+  position: absolute;
+  top: 0;
+  height: 14px;
+  background: var(--gull);
+}
+.f-foss__rod--ut .f-foss__sula {
+  background: var(--aukatexti);
+}
+.f-foss__rod--ut .f-foss__gildi {
+  color: #a1261b;
+}
+.f-foss__rod--heild {
+  font-weight: 600;
+}
+.f-foss__rod--heild .f-foss__sula {
+  background: var(--blek);
+}
+@media (min-width: 900px) {
+  .f-foss__rod {
+    grid-template-columns: 220px minmax(0, 1fr) 72px;
+    grid-template-areas: 'heiti braut gildi';
+    align-items: center;
+  }
+}
+
+/* Skipting: heild skipt í hluta */
+.f-skipting {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.f-skipting__titill {
+  font: 600 14px var(--sans);
+}
+.f-skipting__stika {
+  display: flex;
+  gap: 2px;
+  height: 36px;
+}
+html.hreyfing [data-vaxa].f-skipting__stika {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+html.hreyfing [data-vaxa].f-skipting__stika.synilegt {
+  clip-path: inset(0 0 0 0);
+}
+.f-skipting__hluti--0 {
+  background: var(--blek);
+}
+.f-skipting__hluti--1 {
+  background: var(--gull);
+}
+.f-skipting__hluti--2 {
+  background: var(--gull-dauft);
+}
+.f-skipting__hluti--3 {
+  background: var(--myndgrunnur);
+}
+.f-skipting__listi {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font: 400 13px/1.4 var(--sans);
+  color: var(--aukatexti);
+}
+.f-skipting__lykill {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+}
+.f-skipting__gildi {
+  font-weight: 600;
+  color: var(--blek);
+}
+
+/* Ársúlur: tekjur og hagnaður yfir mörg ár */
+.f-ara__listi {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+  height: 240px;
+}
+.f-ara__ar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.f-ara__svaedi {
+  position: relative;
+  flex: 1;
+  background: linear-gradient(var(--daufur), var(--daufur)) left var(--null) / 100% 1px no-repeat;
+}
+.f-ara__sula {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: calc(100% - var(--null));
+  background: var(--myndgrunnur);
+  transform-origin: bottom center;
+}
+.f-ara__ar--neikv .f-ara__sula {
+  bottom: auto;
+  top: var(--null);
+  transform-origin: top center;
+}
+.f-ara__ar--aherslu .f-ara__sula {
+  background: var(--gull);
+}
+.f-ara__ar--aaetlun .f-ara__sula {
+  background: repeating-linear-gradient(45deg, var(--gull) 0 2px, #fff 2px 5px);
+  outline: 1px solid var(--gull);
+}
+.f-ara__tala {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: 4px;
+  font: 600 11px var(--sans);
+  white-space: nowrap;
+  display: none;
+}
+.f-ara__ar--neikv .f-ara__tala {
+  bottom: auto;
+  top: 100%;
+  padding: 4px 0 0;
+}
+.f-ara__ar--merkt .f-ara__tala {
+  display: block;
+}
+.f-ara__merki {
+  font: 400 11px var(--sans);
+  color: var(--daufur);
+  text-align: center;
+  padding-top: 6px;
+}
+.f-ara__langt {
+  display: none;
+}
+html.hreyfing [data-vaxa] .f-ara__sula {
+  transform: scaleY(0);
+  transition: transform 1.4s cubic-bezier(0.33, 1, 0.68, 1);
+}
+html.hreyfing [data-vaxa].synilegt .f-ara__sula {
+  transform: scaleY(1);
+}
+
+/* Skref: greiðslur í tímaröð */
+.f-skref {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.f-skref__skref {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  border: 1px solid var(--lina);
+}
+.f-skref__skref--lokid {
+  border-color: var(--gull);
+  background: var(--gull-folt);
+}
+.f-skref__dags {
+  font: 500 13px var(--sans);
+  color: var(--aukatexti);
+}
+.f-skref__tala {
+  font: 400 30px/1.1 var(--serif);
+  color: var(--gull-dokkt);
+}
+.f-skref__texti {
+  font: 400 13px/1.4 var(--sans);
+  color: var(--aukatexti);
+}
+.f-skref__merki {
+  color: var(--gull-dokkt);
+  font-weight: 700;
+}
+
+@media (min-width: 900px) {
+  .f-kort,
+  .f-foss,
+  .f-ara {
+    padding: 24px 28px;
+  }
+  .f-skor__tafla {
+    font-size: 14px;
+  }
+  .f-skor__brautdalkur {
+    display: table-cell;
+    width: 30%;
+  }
+  .f-ara__listi {
+    height: 280px;
+  }
+  .f-ara__tala {
+    font-size: 12px;
+  }
+  .f-ara__merki {
+    font-size: 12px;
+  }
+  .f-skref {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .f-flogg {
+    padding: 28px 24px 16px;
+  }
+}
+@media (min-width: 1200px) {
+  .f-ara__langt {
+    display: inline;
+  }
+  .f-ara__stutt {
+    display: none;
+  }
+}

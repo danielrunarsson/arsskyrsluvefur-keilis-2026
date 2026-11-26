@@ -1,0 +1,252 @@
+---
+// Fjármálagröf (blokkir `flogg`, `skorkort`, `foss`, `skipting`, `arasulur`, `skref`) – smíðuð eftir
+// uppbyggingu skjalsins „Fjármál Keilis 2026“, í útliti vefsins. Allt er reiknað við build; engin JavaScript
+// nema sameiginlega hreyfingin (tölur telja upp með data-telja, súlur vaxa með data-vaxa).
+// Sjá README „Fjármálagröf“.
+const { b } = Astro.props as { b: any };
+
+/** Les íslenska tölu („256.464.241“, „63,1“, „−5,8“) eða tölu. */
+const lesa = (g: unknown): number => {
+  if (typeof g === 'number') return g;
+  const s = String(g ?? '').trim().replace(/\s/g, '').replace(/\./g, '').replace(',', '.').replace('−', '-').replace('+', '');
+  const n = Number(s);
+  return Number.isFinite(n) ? n : 0;
+};
+/** Íslenskt talnasnið: þúsundapunktar, kommu-aukastafir, „−“ (og „+“ ef formerki). */
+const snida = (n: number, aukastafir = 1, formerki = false) => {
+  const [heil, auka] = Math.abs(n).toFixed(aukastafir).split('.');
+  const f = n < 0 ? '−' : formerki && n > 0 ? '+' : '';
+  return f + heil.replace(/\B(?=(\d{3})+(?!\d))/g, '.') + (auka ? ',' + auka : '');
+};
+const deila = Number(b.deila ?? 1); // t.d. 1000000: krónur í efnisskrá → m.kr. á skjá
+const gildi = (g: unknown) => lesa(g) / deila;
+const eining = b.eining ?? 'm.kr.';
+
+// ── skorkort: tafla þar sem hver liður er „hola“; súla = ár, strik = fyrra ár ──
+let skor: any = null;
+if (b.t === 'skorkort') {
+  const radir = b.atridi.map((a: any) => ({ heiti: a.heiti, v: gildi(a.gildi), f: gildi(a.fyrra) }));
+  const mx = Math.max(...radir.flatMap((r: any) => [r.v, r.f]));
+  const br = (v: number, f: number) => (f ? ((v / f - 1) * 100) : 0);
+  skor = {
+    radir: radir.map((r: any) => ({ ...r, b: br(r.v, r.f), pct: (r.v / mx) * 100, fpct: (r.f / mx) * 100 })),
+    samtals: b.samtals ? { v: gildi(b.samtals.gildi), f: gildi(b.samtals.fyrra) } : null,
+    br,
+  };
+}
+
+// ── foss: handbært fé í upphafi, hreyfingar (+/−) og staða í lok (heild: true) ──
+let foss: any = null;
+if (b.t === 'foss') {
+  let stada = 0;
+  const radir = b.atridi.map((a: any) => {
+    const v = gildi(a.gildi);
+    let fra: number, til: number;
+    if (a.heild) { fra = 0; til = v; stada = v; } else { fra = stada; til = stada + v; stada = til; }
+    return { heiti: a.heiti, v, heild: !!a.heild, lag: Math.min(fra, til), har: Math.max(fra, til) };
+  });
+  const mx = Math.max(...radir.map((r: any) => r.har)) * 1.04;
+  foss = radir.map((r: any) => ({ ...r, vinstri: (r.lag / mx) * 100, breidd: Math.max(0.6, ((r.har - r.lag) / mx) * 100) }));
+}
+
+// ── skipting: heild skipt í hluta (lárétt stika) ──
+let skipting: any = null;
+if (b.t === 'skipting') {
+  const radir = b.atridi.map((a: any) => ({ heiti: a.heiti, v: gildi(a.gildi) }));
+  const heild = radir.reduce((s: number, r: any) => s + r.v, 0);
+  skipting = radir.map((r: any, i: number) => ({ ...r, i, pct: (r.v / heild) * 100 }));
+}
+
+// ── arasulur: lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núllínu ──
+let ara: any = null;
+if (b.t === 'arasulur') {
+  const radir = b.atridi.map((a: any) => ({ ar: String(a.ar), v: gildi(a.gildi), aaetlun: !!a.aaetlun, aherslu: !!a.aherslu }));
+  const mx = Math.max(0, ...radir.map((r: any) => r.v));
+  const mn = Math.min(0, ...radir.map((r: any) => r.v));
+  const span = mx - mn || 1;
+  ara = { radir: radir.map((r: any) => ({ ...r, h: (Math.abs(r.v) / span) * 100 })), nullPct: (mx / span) * 100, mn };
+}
+
+// ── flogg: tvær flaggstangir á flöt, hæð = gildi ──
+let flogg: any = null;
+if (b.t === 'flogg') {
+  const W = 400, H = 300, grunnur = 236, toppur = 40;
+  const vals = b.atridi.map((a: any) => gildi(a.gildi));
+  const mx = Math.max(...vals) * 1.08;
+  flogg = {
+    W, H, grunnur,
+    stangir: b.atridi.map((a: any, i: number) => {
+      const x = W * (i === 0 ? 0.3 : 0.7);
+      const y0 = grunnur - ((grunnur - toppur) * vals[i]) / mx;
+      return { x, y0, ar: a.ar, texti: snida(vals[i]), nytt: i === b.atridi.length - 1 };
+    }),
+    lysing: `${b.titill}: ` + b.atridi.map((a: any, i: number) => `${snida(vals[i])} ${eining} árið ${a.ar}`).join(', ') + '.',
+  };
+}
+---
+
+{
+  b.t === 'flogg' && flogg && (
+    <figure class="f-flogg">
+      <svg viewBox={`0 0 ${flogg.W} ${flogg.H}`} role="img" aria-label={flogg.lysing} data-vaxa>
+        <ellipse cx={flogg.W / 2} cy={flogg.grunnur + 30} rx={flogg.W * 0.47} ry="40" class="f-flogg__flot" />
+        <ellipse cx={flogg.W / 2} cy={flogg.grunnur + 16} rx={flogg.W * 0.4} ry="13" class="f-flogg__gljai" />
+        {flogg.stangir.map((s: any) => (
+          <g class:list={['f-flogg__stong', { 'f-flogg__stong--nytt': s.nytt }]}>
+            <ellipse cx={s.x} cy={flogg.grunnur + 2} rx="13" ry="4.5" class="f-flogg__hola" />
+            <g class="f-flogg__risa" style={`--h:${flogg.grunnur - s.y0}px`}>
+              <line x1={s.x} y1={flogg.grunnur} x2={s.x} y2={s.y0} />
+              <path d={`M${s.x + 2} ${s.y0} L${s.x + 56} ${s.y0 + 14} L${s.x + 2} ${s.y0 + 28}Z`} class="f-flogg__flagg" />
+              <text x={s.x - 12} y={s.y0 + 12} text-anchor="end" class="f-flogg__tala">{s.texti}</text>
+            </g>
+            <text x={s.x} y={flogg.grunnur + 52} text-anchor="middle" class="f-flogg__ar">{s.ar}</text>
+          </g>
+        ))}
+      </svg>
+      <figcaption class="f-flogg__titill">{b.titill}</figcaption>
+    </figure>
+  )
+}
+
+{
+  b.t === 'skorkort' && skor && (
+    <figure class="f-kort f-skor" data-vaxa>
+      <figcaption class="f-kort__titill">{b.titill}</figcaption>
+      <div class="f-skyring" aria-hidden="true">
+        <span><i class="f-skyring__sula" />{b.ar ?? '2026'}</span>
+        <span><i class="f-skyring__strik" />{b.fyrraAr ?? '2025'}</span>
+      </div>
+      <table class="f-skor__tafla">
+        <thead>
+          <tr>
+            <th scope="col" class="f-skor__hola">Hola</th>
+            <th scope="col">{b.lidur ?? 'Liður'}</th>
+            <th scope="col" class="f-skor__brautdalkur"><span class="sr-only">Súlurit</span></th>
+            <th scope="col" class="f-tala">{b.ar ?? '2026'}</th>
+            <th scope="col" class="f-tala">{b.fyrraAr ?? '2025'}</th>
+            <th scope="col" class="f-tala">Br.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {skor.radir.map((r: any, i: number) => (
+            <tr>
+              <td class="f-skor__hola">{i + 1}</td>
+              <th scope="row">{r.heiti}</th>
+              <td class="f-skor__brautdalkur" aria-hidden="true">
+                <span class="f-skor__braut">
+                  <span class="f-skor__sula" style={`width:${r.pct.toFixed(1)}%`} />
+                  <span class="f-skor__strik" style={`left:${r.fpct.toFixed(1)}%`} />
+                </span>
+              </td>
+              <td class="f-tala" data-telja>{snida(r.v)}</td>
+              <td class="f-tala f-skor__fyrra">{snida(r.f)}</td>
+              <td class:list={['f-tala', r.b >= 0 ? 'f-upp' : 'f-nidur']}>{snida(r.b, 1, true)}%</td>
+            </tr>
+          ))}
+          {skor.samtals && (
+            <tr class="f-skor__samtals">
+              <td class="f-skor__hola" />
+              <th scope="row">Samtals</th>
+              <td class="f-skor__brautdalkur" aria-hidden="true" />
+              <td class="f-tala" data-telja>{snida(skor.samtals.v)}</td>
+              <td class="f-tala">{snida(skor.samtals.f)}</td>
+              <td class:list={['f-tala', skor.br(skor.samtals.v, skor.samtals.f) >= 0 ? 'f-upp' : 'f-nidur']}>
+                {snida(skor.br(skor.samtals.v, skor.samtals.f), 1, true)}%
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </figure>
+  )
+}
+
+{
+  b.t === 'foss' && foss && (
+    <figure class="f-foss" data-vaxa>
+      <figcaption class="f-kort__titill">{b.titill}</figcaption>
+      <ol class="f-foss__listi">
+        {foss.map((r: any) => (
+          <li class:list={['f-foss__rod', r.heild ? 'f-foss__rod--heild' : r.v >= 0 ? 'f-foss__rod--inn' : 'f-foss__rod--ut']}>
+            <span class="f-foss__heiti">{r.heiti}</span>
+            <span class="f-foss__braut" aria-hidden="true">
+              <span class="f-foss__sula" style={`left:${r.vinstri.toFixed(2)}%;width:${r.breidd.toFixed(2)}%`} />
+            </span>
+            <span class="f-foss__gildi" data-telja>{snida(r.v, 1, !r.heild)}</span>
+            <span class="sr-only"> {eining}</span>
+          </li>
+        ))}
+      </ol>
+    </figure>
+  )
+}
+
+{
+  b.t === 'skipting' && skipting && (
+    <figure class="f-skipting">
+      <figcaption class="f-skipting__titill">{b.titill}</figcaption>
+      <div class="f-skipting__stika" aria-hidden="true" data-vaxa>
+        {skipting.map((r: any) => (
+          <span class:list={['f-skipting__hluti', `f-skipting__hluti--${r.i}`]} style={`flex:${r.v}`} title={`${r.heiti}: ${snida(r.v)} ${eining}`} />
+        ))}
+      </div>
+      <ul class="f-skipting__listi">
+        {skipting.map((r: any) => (
+          <li>
+            <i class:list={['f-skipting__lykill', `f-skipting__hluti--${r.i}`]} aria-hidden="true" />
+            {r.heiti} <span class="f-skipting__gildi">{snida(r.v)}</span>
+            <span class="f-skipting__pct">({snida(r.pct, 0)}%)</span>
+          </li>
+        ))}
+      </ul>
+    </figure>
+  )
+}
+
+{
+  b.t === 'arasulur' && ara && (
+    <figure class="f-ara" data-vaxa>
+      <figcaption class="f-kort__titill">{b.titill}</figcaption>
+      <ol class="f-ara__listi" style={`--null:${ara.nullPct.toFixed(2)}%`}>
+        {ara.radir.map((r: any, i: number) => (
+          <li class:list={['f-ara__ar', { 'f-ara__ar--aherslu': r.aherslu, 'f-ara__ar--aaetlun': r.aaetlun, 'f-ara__ar--neikv': r.v < 0, 'f-ara__ar--merkt': i === 0 || i >= ara.radir.length - 2 }]}>
+            <span class="f-ara__svaedi" aria-hidden="true">
+              <span class="f-ara__sula" style={`height:${r.h.toFixed(2)}%`}>
+                <span class="f-ara__tala">{snida(r.v)}</span>
+              </span>
+            </span>
+            <span class="f-ara__merki" aria-hidden="true">
+              <span class="f-ara__langt">{r.ar}</span>
+              <span class="f-ara__stutt">’{r.ar.slice(2)}</span>
+            </span>
+            <span class="sr-only">{r.ar}{r.aaetlun ? ' (áætlun)' : ''}: {snida(r.v)} {eining}</span>
+          </li>
+        ))}
+      </ol>
+      {ara.radir.some((r: any) => r.aaetlun) && (
+        <div class="f-skyring" aria-hidden="true">
+          <span><i class="f-skyring__fyrri" />Fyrri ár</span>
+          <span><i class="f-skyring__sula" />{ara.radir.find((r: any) => r.aherslu)?.ar}</span>
+          <span><i class="f-skyring__aaetlun" />Áætlun {ara.radir.find((r: any) => r.aaetlun)?.ar}</span>
+        </div>
+      )}
+    </figure>
+  )
+}
+
+{
+  b.t === 'skref' && (
+    <ol class="f-skref">
+      {b.atridi.map((a: any) => (
+        <li class:list={['f-skref__skref', { 'f-skref__skref--lokid': a.lokid }]}>
+          <span class="f-skref__dags">{a.dags}</span>
+          <span class="f-skref__tala" data-telja>{a.tala}</span>
+          <span class="f-skref__texti">
+            {a.texti}
+            {a.lokid && <span class="f-skref__merki"> ✓<span class="sr-only"> lokið</span></span>}
+          </span>
+        </li>
+      ))}
+    </ol>
+  )
+}

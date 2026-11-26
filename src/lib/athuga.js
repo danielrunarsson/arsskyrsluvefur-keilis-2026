@@ -28,6 +28,15 @@ const BLOKKIR = {
   undirsidur: ['*atridi'],
   tenglar: ['*atridi'],
   undirskrift: ['*nafn', 'titill'],
+  // Fjármálagröf (src/components/Fjarmalagraf.astro). deila: t.d. 1000000 ef gildi eru í krónum en birt í m.kr.
+  flogg: ['*titill', '*atridi', 'eining', 'deila'],
+  skorkort: ['*titill', '*atridi', 'lidur', 'ar', 'fyrraAr', 'samtals', 'eining', 'deila'],
+  foss: ['*titill', '*atridi', 'eining', 'deila'],
+  skipting: ['*titill', '*atridi', 'eining', 'deila'],
+  arasulur: ['*titill', '*atridi', 'eining', 'deila'],
+  skref: ['*atridi'],
+  // Tveir dálkar (texti | kort): hvor dálkur er listi af blokkum.
+  tvidalka: ['vinstri', 'haegri', 'jafnt'],
 };
 // Leyfð svið hverrar súlu í `sulur`. fyrra/fyrraPct = valkvæður samanburður við fyrra ár.
 const SULA = ['heiti', 'gildi', 'pct','aherslu', 'daufur', 'fyrra', 'fyrraPct'];
@@ -149,7 +158,9 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
     if (s.snid && s.snid !== 'langlestur') v(st, `snid má aðeins vera „langlestur“ (er „${s.snid}“)`);
     if (!Array.isArray(s.blokkir)) continue;
 
-    s.blokkir.forEach((b, i) => {
+    // Blokkir inni í tvidalka eru athugaðar eins og aðrar blokkir.
+    const flata = (bl) => bl.flatMap((b) => (b?.t === 'tvidalka' ? [b, ...flata([...(b.vinstri ?? []), ...(b.haegri ?? [])])] : [b]));
+    flata(s.blokkir).forEach((b, i) => {
       const bs = `${st} › blokk ${i + 1}${b?.t ? ` (${b.t})` : ''}`;
       if (!b?.t) return v(bs, 'blokkargerð („t“) vantar');
       const leyfd = BLOKKIR[b.t];
@@ -206,6 +217,23 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
               if (typeof a.fyrraPct !== 'number' || a.fyrraPct < 0 || a.fyrraPct > 100) v(bs, `${s}: fyrraPct á að vera tala 0–100 (er ${a.fyrraPct})`);
             }
           });
+          break;
+        case 'flogg':
+        case 'skorkort':
+        case 'foss':
+        case 'skipting':
+        case 'arasulur':
+          atr.forEach((a, j) => {
+            if (!(a?.heiti ?? a?.ar)) v(bs, `atriði ${j + 1}: heiti (eða ar) vantar`);
+            if (!ER_TALA(String(a?.gildi ?? '').replace(/^\+/, ''))) v(bs, `atriði ${j + 1}: gildi á að vera tala, t.d. "63,1" (er ${a?.gildi})`);
+            if (b.t === 'skorkort' && !ER_TALA(a?.fyrra ?? '')) v(bs, `atriði ${j + 1}: fyrra á að vera tala (er ${a?.fyrra})`);
+          });
+          break;
+        case 'skref':
+          atr.forEach((a, j) => { if (!a?.dags || !a?.tala) v(bs, `skref ${j + 1}: dags og tala verða að vera til`); });
+          break;
+        case 'tvidalka':
+          if (!Array.isArray(b.vinstri) && !Array.isArray(b.haegri)) v(bs, 'tvidalka þarf vinstri og/eða haegri (listi af blokkum)');
           break;
         case 'folk':
           atr.forEach((a, j) => { if (!a?.nafn) v(bs, `manneskja ${j + 1}: nafn vantar`); });

@@ -217,6 +217,25 @@ dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafj�
 Fjármálakaflinn 2026 (yfirlit, rekstrarreikningur, efnahagsreikningur, sjóðstreymi, rekstraráætlun 2027) býr í
 sérskrá á sama hátt og íþróttakaflinn (`...fjarmal2026` í `efni-2025.js`). Slóðirnar eru óbreyttar frá fyrra ári,
 svo Lighthouse-athuganir í `netlify.toml` halda sér. Myndirnar eru í `src/assets/myndir/fjarmal-2026/`.
+Yfirlitið fylgir uppbyggingu skjalsins „Fjármál Keilis 2026“ (í útliti vefsins) og notar fjármálagröfin hér að neðan.
+
+## Fjármálagröf og tveir dálkar
+
+Blokkagerðir í `src/components/Fjarmalagraf.astro`, reiknaðar við build. Tölur telja upp og súlur vaxa eins og annars
+staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í krónum en birt í m.kr.; `eining` (sjálfgefið
+„m.kr.“) fer í texta fyrir skjálesara.
+
+| Gerð | Svið | Hvað |
+|---|---|---|
+| `flogg` | `titill`, `atridi: [{ ar, gildi }]` | Tvær flaggstangir á flöt, hæð = gildi (t.d. hagnaður tveggja ára) |
+| `skorkort` | `titill`, `lidur`, `ar`, `fyrraAr`, `atridi: [{ heiti, gildi, fyrra }]`, `samtals: { gildi, fyrra }` | Tafla þar sem hver liður er „hola“: súla fyrir árið, strik fyrir fyrra ár, breyting í % |
+| `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lárétt fossrit: `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
+| `skipting` | `titill`, `atridi: [{ heiti, gildi }]` | Heild skipt í hluta (lárétt stika + skýring með %) |
+| `arasulur` | `titill`, `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
+| `skref` | `atridi: [{ dags, tala, texti, lokid? }]` | Greiðslur/áfangar í tímaröð |
+| `tvidalka` | `vinstri: [blokkir]`, `haegri: [blokkir]`, `jafnt?` | Tveir dálkar hlið við hlið frá 1200px (texti \| kort), hvor undir öðrum á síma |
+
+Blokkir inni í `tvidalka` fara í gegnum sömu efnisathugun og aðrar blokkir.
 
 ## Töflur á farsíma
 
