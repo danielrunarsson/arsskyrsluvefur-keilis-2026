@@ -1,0 +1,71 @@
+---
+// Veitingagröf (blokkir `kvittun` og `topplisti`) – smíðuð eftir skjalinu „Veitingasalan 2026“, í útliti vefsins.
+// Allt reiknað við build; súlur vaxa með sameiginlegu data-vaxa hreyfingunni. Sjá README „Veitingagröf“.
+const { b } = Astro.props as { b: any };
+
+/** Les íslenska tölu („4.140“, „22,3“) eða tölu. */
+const lesa = (g: unknown): number => {
+  if (typeof g === 'number') return g;
+  const n = Number(String(g ?? '').trim().replace(/\./g, '').replace(',', '.'));
+  return Number.isFinite(n) ? n : 0;
+};
+/** Texti með „|“ verður að línum. */
+const linur = (t?: string) => (t ? String(t).split('|') : []);
+
+// ── topplisti: raðaðar láréttar súlur; lengsta súlan = stærsta gildið ──
+let topp: any = null;
+if (b.t === 'topplisti') {
+  const radir = b.atridi.map((a: any) => ({ heiti: a.heiti, v: lesa(a.gildi), birta: a.birta ?? String(a.gildi) }));
+  const mx = Math.max(...radir.map((r: any) => r.v)) || 1;
+  topp = radir.map((r: any) => ({ ...r, pct: (r.v / mx) * 100 }));
+}
+const hlutfall = b.snid === 'hlutfall';
+---
+
+{
+  b.t === 'kvittun' && (
+    <div class="v-kvittun" role="img" aria-label={b.lysing}>
+      <div class="v-kvittun__titill">{b.titill}</div>
+      {b.undirtitill && <div class="v-kvittun__smatt">{linur(b.undirtitill).map((l, i) => <>{i > 0 && <br />}{l}</>)}</div>}
+      <hr />
+      {b.atridi.map((a: any) => (
+        <div class="v-kvittun__rod"><span>{a.heiti}</span><b>{a.gildi}</b></div>
+      ))}
+      {b.vinsaelast && (
+        <>
+          <hr />
+          {b.vinsaelast.map((a: any) => (
+            <div class="v-kvittun__rod"><span>{a.heiti}</span><b>{a.gildi}</b></div>
+          ))}
+        </>
+      )}
+      {b.athugasemd && (
+        <>
+          <hr />
+          <div class="v-kvittun__smatt">{linur(b.athugasemd).map((l, i) => <>{i > 0 && <br />}{l}</>)}</div>
+        </>
+      )}
+      <div class="v-kvittun__strikamerki" />
+      {b.kvedja && <div class="v-kvittun__kvedja">{b.kvedja}</div>}
+    </div>
+  )
+}
+
+{
+  b.t === 'topplisti' && topp && (
+    <figure class:list={['v-topp', { 'f-kort': !hlutfall, 'v-topp--hlutfall': hlutfall }]}>
+      {b.titill && <figcaption class="v-topp__titill">{b.titill}</figcaption>}
+      <ol class="v-topp__listi" data-vaxa>
+        {topp.map((r: any, i: number) => (
+          <li class:list={['v-topp__rod', { 'v-topp__rod--fyrst': i === 0 && !hlutfall }]}>
+            {!hlutfall && <span class="v-topp__saeti" aria-hidden="true">{i + 1}</span>}
+            <span class="v-topp__heiti">{r.heiti}</span>
+            <span class="v-topp__gildi" data-telja={hlutfall ? undefined : ''}>{r.birta}</span>
+            <span class="v-topp__braut" aria-hidden="true"><span class="v-topp__sula" style={`width:${r.pct.toFixed(1)}%`} /></span>
+          </li>
+        ))}
+      </ol>
+      {b.athugasemd && <p class="v-topp__athugasemd">{b.athugasemd}</p>}
+    </figure>
+  )
+}

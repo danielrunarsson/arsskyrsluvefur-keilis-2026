@@ -246,6 +246,21 @@ staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í
 
 Blokkir inni í `hluti` fara í gegnum sömu efnisathugun og aðrar blokkir.
 
+`skref` má vera án `dags` (þá bara tala og texti, einn dálkur í síma og jafnmargir dálkar og skrefin á tölvuskjá).
+Í töflu (`tafla`) má merkja áherslugildi með `**…**` í reit, t.d. `"**4,7**"` – það birtist feitletrað og grænt (t.d. hæsta gildi raðar).
+Töflur mega hafa 3–6 dálka.
+
+## Veitingasalan 2026 (`src/efni/veitingasala-2026.js`)
+
+Síðan „Veitingasala“ í Skýrslu stjórnar er heilsíða sem fylgir skjalinu „Veitingasalan 2026“ band fyrir band, í sérskrá
+(`veitingasala2026` í `efni-2025.js`, í stað fyrri síðu; slóðin er óbreytt). Hún notar sömu myndir og fjármálakaflinn.
+Veitingagröfin eru í `src/components/Veitingagraf.astro`:
+
+| Gerð | Svið | Hvað |
+|---|---|---|
+| `kvittun` | `titill`, `lysing` (fyrir skjálesara), `undirtitill`, `atridi: [{ heiti, gildi }]`, `vinsaelast: [{ heiti, gildi }]`, `athugasemd`, `kvedja` | Kassakvittun með rifnum brúnum og strikamerki; `|` í texta = ný lína |
+| `topplisti` | `titill`, `atridi: [{ heiti, gildi, birta? }]`, `athugasemd`, `snid: "hlutfall"` | Raðaðar láréttar súlur í spjaldi (efsta súlan gyllt); `hlutfall` = án sætisnúmera og spjalds, `birta` = texti sem sýndur er í stað gildis (t.d. „22%“) |
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

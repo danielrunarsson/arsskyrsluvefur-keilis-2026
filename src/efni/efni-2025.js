@@ -4,6 +4,7 @@
 // pdf, folk, nofn, nefndir, grof, undirsidur, tenglar, undirskrift. **feitletrun** virkar í p og listi.
 import ithrottastarf2026 from "./ithrottastarf-2026.js";
 import fjarmal2026 from "./fjarmal-2026.js";
+import veitingasala2026 from "./veitingasala-2026.js";
 
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
@@ -193,18 +194,8 @@ export default {
         { t: "myndband", src: "/myndbond/samfelagsmidlar-lodrett.mp4", poster: "/myndbond/samfelagsmidlar-lodrett.webp", texti: "Lóðrétt myndband fyrir samfélagsmiðla", lodrett: true }
       ]
     },
-    {
-      slug: "veitingasala", kafli: "stjorn", heiti: "Veitingasala",
-      fyrirsogn: "Veitingasala Keilis", kicker: "Skýrsla stjórnar",
-      heimild: "https://2025.keilir.is/veitingasala/",
-      blokkir: [
-        { t: "inngangur", texti: "Veitingasala er mikilvægur hluti af upplifun félagsmanna og gesta í Golfklúbbnum Keili. Hún er ekki aðeins þjónusta – hún er hluti af félagsstarfinu og styrkir rekstur klúbbsins." },
-        { t: "p", texti: "Hrefna sem hefur borið hitann og þunga af þessum rekstri og hefur gert með eindæmum vel, á hún miklar þakkir skyldar fyrir hennar framlag. Einnig þá gegnir lykilhlutverki hún Barbara sem hefur borið hitann og þungann af matseldinni í nú alltof litlu eldhúsi sem á engan hátt annar þeirri umferð sem fer í gegnum þetta litla eldhús. Það má því segja að það séu unnin kraftaverk á hverjum degi við erfiðar aðstæður." },
-        { t: "myndband", src: "/myndbond/veitingasala-skali.mp4", poster: "/myndbond/veitingasala-skali.webp", texti: "Golfskáli Keilis úr lofti" },
-        { t: "p", texti: "Það er ánægjulegt að sjá það í viðhorfskönnuninni að veitingasalan fái mjög góða einkunn og er vel yfir okkar lágmarksviðmiðunum sem settar eru í henni, þannig að almenn ánægja félagsmanna mælist af þessari starfsemi hjá okkur." },
-        { t: "tilvitnun", texti: "Veitingasala okkar er meira en matur og drykkur – hún er hluti af heildarupplifuninni og styrkir bæði samfélagið okkar og rekstur klúbbsins." }
-      ]
-    },
+    // Veitingasala (2026, sjá veitingasala-2026.js)
+    veitingasala2026,
     {
       slug: "tagmarshal", kafli: "stjorn", heiti: "TagMarshal",
       fyrirsogn: "TagMarshal", kicker: "Skýrsla stjórnar · Leikhraði",
