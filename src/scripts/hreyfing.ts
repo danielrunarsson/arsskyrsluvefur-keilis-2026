@@ -92,14 +92,22 @@ function hefja() {
           if (!f.isIntersecting) continue;
           const el = f.target as HTMLElement;
           sja.unobserve(el);
-          if (el.hasAttribute('data-vaxa')) el.classList.add('synilegt');
+          const vaxandi: HTMLElement[] | undefined = (el as any).__vaxa;
+          if (vaxandi) vaxandi.forEach((v) => v.classList.add('synilegt'));
+          else if (el.hasAttribute('data-vaxa')) el.classList.add('synilegt');
           else if ((el as any).__butar) telja(el);
         }
       },
       { threshold: 0.4 },
     );
     tolur.filter((el) => (el as any).__butar).forEach((el) => sja.observe(el));
-    vaxa.forEach((el) => sja.observe(el));
+    // Súla sem er falin með clip-path (t.d. skipting) sést ekki hjá IntersectionObserver í Chrome:
+    // þá er fylgst með foreldrinu í staðinn.
+    vaxa.forEach((el) => {
+      const markmid = getComputedStyle(el).clipPath !== 'none' && el.parentElement ? el.parentElement : el;
+      if (markmid !== el) ((markmid as any).__vaxa ??= []).push(el);
+      sja.observe(markmid);
+    });
   }
   html.classList.add('hreyfing-tilbuin');
 
