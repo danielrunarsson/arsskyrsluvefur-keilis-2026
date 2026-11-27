@@ -105,7 +105,7 @@ const sida = {
     { t: "hluti", snid: "kort", kort: true,
       vinstri: [
         { t: "h2", texti: "Stærsta stökk ársins í viðhorfskönnuninni" },
-        { t: "p", texti: "Í viðhorfskönnun Keilis 2026 svöruðu 758 félagsmenn. Allar sex einkunnir veitingasölunnar hækkuðu og heildarupplifunin fór úr 4,0 í 4,4. Afgreiðsluhraði og verðlagning hækkuðu um 0,3–0,4 stig hvort." },
+        { t: "p", texti: "Í viðhorfskönnun Keilis 2026 svöruðu 770 félagsmenn. Allar sex einkunnir veitingasölunnar hækkuðu og heildarupplifunin fór úr 4,0 í 4,4. Afgreiðsluhraði og verðlagning hækkuðu um 0,3–0,4 stig hvort." },
         { t: "p", texti: "Hulduheimsóknir Better Business segja sömu sögu. Veitingarnar vega mest í heildareinkunn Keilis, um 32%, og fengu 89%. Heildareinkunnin, 88,7%, er sú hæsta frá því mælingar hófust 2018." },
         { t: "tilvitnun", texti: "Gestur á líklega eftir að segja öllum frá þessum veitingastað" },
         { t: "p", texti: "Úr umsögn huldugests 2026." }],

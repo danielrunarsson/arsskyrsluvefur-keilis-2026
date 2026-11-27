@@ -29,7 +29,7 @@ const BLOKKIR = {
   tenglar: ['*atridi'],
   undirskrift: ['*nafn', 'titill'],
   // Fjármálagröf (src/components/Fjarmalagraf.astro). deila: t.d. 1000000 ef gildi eru í krónum en birt í m.kr.
-  flogg: ['*titill', '*atridi', 'eining', 'deila'],
+  flogg: ['*titill', '*atridi', 'eining', 'deila', 'aukastafir'],
   skorkort: ['*titill', '*atridi', 'lidur', 'ar', 'fyrraAr', 'samtals', 'eining', 'deila'],
   foss: ['*titill', '*atridi', 'eining', 'deila'],
   skipting: ['titill', '*atridi', 'eining', 'deila', 'litir', 'merkiFra', 'aukastafir', 'lina'],

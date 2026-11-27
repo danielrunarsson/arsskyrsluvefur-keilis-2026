@@ -82,9 +82,9 @@ if (b.t === 'flogg') {
     stangir: b.atridi.map((a: any, i: number) => {
       const x = W * (i === 0 ? 0.3 : 0.7);
       const y0 = grunnur - ((grunnur - toppur) * vals[i]) / mx;
-      return { x, y0, ar: a.ar, texti: snida(vals[i]), nytt: i === b.atridi.length - 1 };
+      return { x, y0, ar: a.ar, texti: snida(vals[i], b.aukastafir ?? 1), nytt: i === b.atridi.length - 1 };
     }),
-    lysing: `${b.titill}: ` + b.atridi.map((a: any, i: number) => `${snida(vals[i])} ${eining} (${a.ar})`).join(', ') + '.',
+    lysing: `${b.titill}: ` + b.atridi.map((a: any, i: number) => `${snida(vals[i], b.aukastafir ?? 1)} ${eining} (${a.ar})`).join(', ') + '.',
   };
 }
 ---
