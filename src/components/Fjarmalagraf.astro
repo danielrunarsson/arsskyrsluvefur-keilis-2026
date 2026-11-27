@@ -201,7 +201,7 @@ if (b.t === 'flogg') {
       </div>
       {b.titill && <figcaption class="f-skipting__titill">{b.titill}</figcaption>}
       {b.lina !== false && (
-        <p class="f-skipting__lina">{skipting.map((r: any) => `${r.heiti} ${snida(r.v)}`).join(' · ')}</p>
+        <p class="f-skipting__lina">{skipting.map((r: any) => `${r.heiti} ${snida(r.v, b.aukastafir ?? 1)}`).join(' · ')}</p>
       )}
     </figure>
   )
