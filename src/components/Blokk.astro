@@ -3,6 +3,7 @@
 import Mynd from './Mynd.astro';
 import Sulurit from './Sulurit.astro';
 import Fjarmalagraf from './Fjarmalagraf.astro';
+import Veitingagraf from './Veitingagraf.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
 import { skjalStaerd } from '../lib/skjol.js';
@@ -161,7 +162,13 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
               </tr>
             ) : (
               <tr class:list={{ tafla__feitt: r.feitt, tafla__samtala: r.samtala }}>
-                {r.c.map((v: string, i: number) => (i === 0 ? <th scope="row">{v}</th> : tafla.texti ? <td>{v}</td> : <td data-telja>{v}</td>))}
+                {r.c.map((v: string, i: number) => {
+                  // **4,7** í reit = áherslugildi (feitletrað, grænt), t.d. hæsta gildi raðar.
+                  const ahersla = String(v).length > 4 && String(v).startsWith('**') && String(v).endsWith('**');
+                  const t = ahersla ? String(v).slice(2, -2) : v;
+                  if (i === 0) return <th scope="row">{t}</th>;
+                  return tafla.texti ? <td class:list={{ tafla__ahersla: ahersla }}>{t}</td> : <td class:list={{ tafla__ahersla: ahersla }} data-telja>{t}</td>;
+                })}
               </tr>
             ),
           )}
@@ -179,6 +186,8 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 }
 
 {['flogg', 'skorkort', 'foss', 'skipting', 'arasulur', 'skref', 'tolukort', 'skyring'].includes(b.t) && <Fjarmalagraf b={b} />}
+
+{['kvittun', 'topplisti'].includes(b.t) && <Veitingagraf b={b} />}
 
 {
   /* Band (`hluti`) á heilsíðu: full breidd, efni í miðjuðum ramma. Röð: yfirmerking, blokkir, dálkar

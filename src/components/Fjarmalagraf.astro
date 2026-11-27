@@ -244,7 +244,7 @@ if (b.t === 'flogg') {
     <ol class="f-skref">
       {b.atridi.map((a: any) => (
         <li class:list={['f-skref__skref', { 'f-skref__skref--lokid': a.lokid }]}>
-          <span class="f-skref__dags">{a.dags}</span>
+          {a.dags && <span class="f-skref__dags">{a.dags}</span>}
           <span class="f-skref__tala" data-telja>{a.tala}</span>
           <span class="f-skref__texti">
             {a.texti}

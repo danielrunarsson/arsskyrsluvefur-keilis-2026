@@ -37,6 +37,9 @@ const BLOKKIR = {
   tolukort: ['*atridi'],
   skyring: ['*atridi'],
   skref: ['*atridi'],
+  // Veitingagröf (src/components/Veitingagraf.astro).
+  kvittun: ['*titill', '*atridi', '*lysing', 'undirtitill', 'vinsaelast', 'athugasemd', 'kvedja'],
+  topplisti: ['*atridi', 'titill', 'snid', 'athugasemd'],
   // Band á heilsíðu (snid: "heilsida" á síðu): blokkir, tveir dálkar (vinstri | haegri) og eftir.
   hluti: ['snid', 'yfirmerking', 'afast', 'blokkir', 'vinstri', 'haegri', 'eftir', 'jafnt', 'midja', 'kort'],
 };
@@ -199,7 +202,7 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           const n = Array.isArray(b.dalkar) ? b.dalkar.length : 0;
           if (b.snid !== undefined && b.snid !== 'texti') w(bs, `óþekkt snið „${b.snid}“ – leyft er aðeins „texti“`);
           // Textatafla lagar sig að fjölda dálka; aðrar töflur eru hannaðar fyrir 3 eða 4.
-          if (n && b.snid !== 'texti' && ![3, 4].includes(n)) w(bs, `tafla með ${n} dálkum – sniðmátið er hannað fyrir 3 eða 4`);
+          if (n && b.snid !== 'texti' && ![3, 4, 5, 6].includes(n)) w(bs, `tafla með ${n} dálkum – sniðmátið er hannað fyrir 3–6`);
           (b.radir ?? []).forEach((r, j) => {
             const c = Array.isArray(r) ? r : r?.c;
             if (!Array.isArray(c)) return v(bs, `röð ${j + 1}: á að vera fylki eða { c: [...] }`);
@@ -232,11 +235,21 @@ export function athugaEfni(efni, { rot = process.cwd() } = {}) {
           });
           break;
         case 'skref':
-          atr.forEach((a, j) => { if (!a?.dags || !a?.tala) v(bs, `skref ${j + 1}: dags og tala verða að vera til`); });
+          atr.forEach((a, j) => { if (!a?.tala) v(bs, `skref ${j + 1}: tala verður að vera til`); });
           break;
         case 'hluti':
           if (![b.blokkir, b.vinstri, b.haegri, b.eftir].some(Array.isArray)) v(bs, 'hluti þarf blokkir, vinstri, haegri eða eftir (listi af blokkum)');
           if (b.snid !== undefined && !['hetja', 'dokkt', 'kort', 'fotur'].includes(b.snid)) w(bs, `óþekkt snið „${b.snid}“`);
+          break;
+        case 'kvittun':
+          [...atr, ...(b.vinsaelast ?? [])].forEach((a, j) => { if (!a?.heiti || !a?.gildi) v(bs, `lína ${j + 1}: heiti og gildi verða að vera til`); });
+          break;
+        case 'topplisti':
+          if (b.snid !== undefined && b.snid !== 'hlutfall') w(bs, `óþekkt snið „${b.snid}“ – leyft er aðeins „hlutfall“`);
+          atr.forEach((a, j) => {
+            if (!a?.heiti) v(bs, `atriði ${j + 1}: heiti vantar`);
+            if (!ER_TALA(a?.gildi ?? '')) v(bs, `atriði ${j + 1}: gildi á að vera tala, t.d. "1.195" (er ${a?.gildi})`);
+          });
           break;
         case 'tolukort':
           atr.forEach((a, j) => { if (!a?.heiti || !a?.tala) v(bs, `kort ${j + 1}: heiti og tala verða að vera til`); });
