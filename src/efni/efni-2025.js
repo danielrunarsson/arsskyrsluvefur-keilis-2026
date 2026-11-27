@@ -5,6 +5,7 @@
 import ithrottastarf2026 from "./ithrottastarf-2026.js";
 import fjarmal2026 from "./fjarmal-2026.js";
 import veitingasala2026 from "./veitingasala-2026.js";
+import vidhorfskonnun2026 from "./vidhorfskonnun-2026.js";
 
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
@@ -211,15 +212,8 @@ export default {
         { t: "listi", atridi: ["Þjálfun starfsfólks", "Stytting á hámarkstíma í 4:15", "Viðbragðsáætlun við hægum leik"] }
       ]
     },
-    {
-      slug: "vidhorfskannanir", kafli: "stjorn", heiti: "Viðhorfs- & þjónustukannanir",
-      fyrirsogn: "Viðhorfskönnun Keilis", kicker: "Skýrsla stjórnar",
-      heimild: "https://2025.keilir.is/skyrsla-stjornar-vidhorfskannanir/",
-      blokkir: [
-        { t: "inngangur", texti: "Á hverju ári er send út viðhorfskönnun á félaga í Golfklúbbnum Keili. Niðurstöður hennar eru nýttar til að bæta rekstur klúbbsins og starfið almennt. Helstu niðurstöður viðhorfskönnunar 2025 má nálgast hér fyrir neðan." },
-        { t: "pdf", titill: "Viðhorfskönnun 2025", src: S + "vidhorfskonnun_2025.pdf" }
-      ]
-    },
+    // Viðhorfskönnun (2026, sjá vidhorfskonnun-2026.js)
+    vidhorfskonnun2026,
     {
       slug: "vallarstjori", kafli: "stjorn", heiti: "Skýrsla vallarstjóra",
       fyrirsogn: "Golfsumarið 2025", kicker: "Skýrsla vallarstjóra",

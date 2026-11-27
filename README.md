@@ -234,7 +234,7 @@ staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í
 
 | Gerð | Svið | Hvað |
 |---|---|---|
-| `flogg` | `titill`, `atridi: [{ ar, gildi }]` | Tvær flaggstangir á flöt, hæð = gildi (t.d. hagnaður tveggja ára) |
+| `flogg` | `titill`, `atridi: [{ ar, gildi }]`, `eining`, `aukastafir` (sjálfgefið 1) | Tvær flaggstangir á flöt, hæð = gildi (t.d. hagnaður tveggja ára) |
 | `skorkort` | `titill`, `lidur`, `ar`, `fyrraAr`, `atridi: [{ heiti, gildi, fyrra }]`, `samtals: { gildi, fyrra }` | Tafla þar sem hver liður er „hola“: súla fyrir árið, strik fyrir fyrra ár, breyting í % |
 | `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lóðrétt fossrit (skrunast til hliðar á síma): `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
 | `skipting` | `titill`, `atridi: [{ heiti, gildi }]`, `litir: "bjart"`, `merkiFra` (% sem þarf til að merki sjáist inni í stiku, sjálfgefið 12), `aukastafir`, `lina: false` | Heild skipt í hluta: lárétt stika með merkingum og lína með öllum tölum undir |
@@ -260,6 +260,13 @@ Veitingagröfin eru í `src/components/Veitingagraf.astro`:
 |---|---|---|
 | `kvittun` | `titill`, `lysing` (fyrir skjálesara), `undirtitill`, `atridi: [{ heiti, gildi }]`, `vinsaelast: [{ heiti, gildi }]`, `athugasemd`, `kvedja` | Kassakvittun með rifnum brúnum og strikamerki; `|` í texta = ný lína |
 | `topplisti` | `titill`, `atridi: [{ heiti, gildi, birta? }]`, `athugasemd`, `snid: "hlutfall"` | Raðaðar láréttar súlur í spjaldi (efsta súlan gyllt); `hlutfall` = án sætisnúmera og spjalds, `birta` = texti sem sýndur er í stað gildis (t.d. „22%“) |
+
+## Viðhorfskönnun 2026 (`src/efni/vidhorfskonnun-2026.js`)
+
+Síðan „Viðhorfskönnun“ í Skýrslu stjórnar (slóðin `/vidhorfskannanir/` er óbreytt) er heilsíða í sérskrá
+(`vidhorfskonnun2026` í `efni-2025.js`, í stað fyrri síðu), byggð á skjalinu „Viðhorfskönnun Keilis 2026 – frétt fyrir
+ársskýrslu“. Hún notar fjármála- og veitingagröfin og sömu myndir og fjármálakaflinn. Neðst er `pdf`-blokk með
+allri könnuninni: `public/skjol/vidhorfskonnun_2026.pdf`.
 
 ## Töflur á farsíma
 
