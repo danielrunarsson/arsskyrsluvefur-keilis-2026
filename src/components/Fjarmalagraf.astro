@@ -84,7 +84,7 @@ if (b.t === 'flogg') {
       const y0 = grunnur - ((grunnur - toppur) * vals[i]) / mx;
       return { x, y0, ar: a.ar, texti: snida(vals[i]), nytt: i === b.atridi.length - 1 };
     }),
-    lysing: `${b.titill}: ` + b.atridi.map((a: any, i: number) => `${snida(vals[i])} ${eining} árið ${a.ar}`).join(', ') + '.',
+    lysing: `${b.titill}: ` + b.atridi.map((a: any, i: number) => `${snida(vals[i])} ${eining} (${a.ar})`).join(', ') + '.',
   };
 }
 ---
