@@ -22,8 +22,7 @@ export default {
     { id: "stjorn", heiti: "Skýrsla stjórnar" },
     { id: "ithrottir", heiti: "Íþróttastarf" },
     { id: "felagsstarf", heiti: "Félagsstarf" },
-    { id: "fjarmal", heiti: "Ársreikningur" },
-    { id: "serefni", heiti: "Sérefni" }
+    { id: "fjarmal", heiti: "Ársreikningur" }
   ],
 
   forsida: {
@@ -40,7 +39,7 @@ export default {
       { tala: "7", texti: "Íslandsmeistaratitlar", breyting: "flestir allra klúbba" }
     ],
     greinar: [
-      { kicker: "Íþróttastarf", titill: "Íslandsmótið í golfi", texti: "Einn af hápunktum á síðasta ári var að sjálfsögðu Íslandsmótið í golfi, sem haldið var á Hvaleyrarvelli dagana 7–11 ágúst. Það var mikil eftirvænting í íslensku golfsamfélagi eftir mótinu en síðast var Íslandsmótið í golfi haldið 2017 á Hvaleyrarvelli.", mynd: "myndir/w/2024/04/13-hola-kvoldsol-1.jpg", alt: "Hvaleyrarvöllur í kvöldsól, séð eftir braut með glompum; hraun til vinstri og hafið í baksýn.", slug: "islandsmot" },
+      { kicker: "Íþróttastarf", titill: "Íslandsmótið í golfi", texti: "Einn af hápunktum á síðasta ári var að sjálfsögðu Íslandsmótið í golfi, sem haldið var á Hvaleyrarvelli dagana 7–11 ágúst. Það var mikil eftirvænting í íslensku golfsamfélagi eftir mótinu en síðast var Íslandsmótið í golfi haldið 2017 á Hvaleyrarvelli.", mynd: "myndir/w/2024/04/13-hola-kvoldsol-1.jpg", alt: "Hvaleyrarvöllur í kvöldsól, séð eftir braut með glompum; hraun til vinstri og hafið í baksýn." },
       { kicker: "Íþróttastarf", titill: "Keilir með flesta Íslandsmeistaratitla", texti: "Kylfingar Golfklúbbsins Keilis unnu sjö Íslandsmeistaratitla árið 2025 en klúbburinn var með fleiri Íslandsmeistaratitla en nokkur annar klúbbur í flokkum 15 ára og eldri. Þrír af þessum titlum voru í barna og unglingastarfinu, tveir í flokkum 50+ og tveir í meistaraflokkum.", mynd: "myndir/w/2024/04/17_flotin.jpeg", alt: "Flöt á sjávarbakkanum á Hvaleyrarvelli með tveimur glompum; sjórinn glitrar í baksýn.", slug: "ithrottastarf" },
       { kicker: "Vellirnir", titill: "Annasamt ár hjá vallarstarfsmönnum", texti: "Það er óhætt að segja að golfárið 2025 verði lengi í minni haft. Árið einkenndist af samheldni starfsfólks og frábærum árangri á öllum sviðum.", mynd: "myndir/w/2024/04/2_holan_flot.jpg", alt: "Loftmynd af hringlaga flöt umkringdri mosavöxnu hrauni og göngustígum á Hvaleyrarvelli.", slug: "vallarstjori" }
     ],
@@ -50,7 +49,7 @@ export default {
       { dags: "10. maí", titill: "Hvaleyrarvöllur opnar", texti: "Maí bauð upp á hitatölur sem aldrei hafa sést áður á þessum árstíma og grasið spratt hratt.", slug: "vallarstjori" },
       { dags: "14. júní", titill: "Önnur flötin opnuð á ný", texti: "Eftir sjógusu í apríl var leikið á vetrarflöt fram í júní – aukamánuðurinn skilaði flötinni í toppstandi.", slug: "vallarstjori" },
       { dags: "Júlí", titill: "Meistaramótið", texti: "Stærsta mót sumarsins og stærsta vika vallarstarfsfólks, sem mætti kl. 4 alla morgna.", tala: "365", taliTexti: "keppendur", slug: "meistaramot" },
-      { dags: "7.–11. ágúst", titill: "Íslandsmótið í golfi", texti: "Hvaleyrarvöllur skartaði sínu fegursta í 14 klukkustunda beinni sjónvarpsútsendingu.", tala: "38.000+", taliTexti: "áhorfendur", mynd: "myndir/w/2024/04/13-hola-kvoldsol-1.jpg", alt: "Hvaleyrarvöllur í kvöldsól, séð eftir braut með glompum; hraun til vinstri og hafið í baksýn.", slug: "islandsmot" },
+      { dags: "7.–11. ágúst", titill: "Íslandsmótið í golfi", texti: "Hvaleyrarvöllur skartaði sínu fegursta í 14 klukkustunda beinni sjónvarpsútsendingu.", tala: "38.000+", taliTexti: "áhorfendur", mynd: "myndir/w/2024/04/13-hola-kvoldsol-1.jpg", alt: "Hvaleyrarvöllur í kvöldsól, séð eftir braut með glompum; hraun til vinstri og hafið í baksýn." },
       { dags: "15. ágúst", titill: "Sumarstarfsfólkið kveður", texti: "Flestir sumarstarfsmenn héldu aftur í skóla eftir eitt annasamasta sumar síðustu ára.", tala: "19", taliTexti: "starfsmenn á vellinum í sumar", mynd: "myndir/u/2025/12/vallarstaff-600x450.jpg", alt: "Vallarstarfsfólk Keilis 2025 saman á grasbrekku, hundur fremst og risaskjár Íslandsmótsins í baksýn.", slug: "vallarstjori" },
       { dags: "21. október", titill: "Hvaleyrarvöllur lokar", texti: "Völlurinn var opinn í 165 daga – veruleg aukning í leiknum hringjum frá fyrri árum.", tala: "35.575", taliTexti: "hringir á Hvaleyrarvelli", slug: "hringir" },
       { dags: "9. desember", titill: "Aðalfundur", texti: "Stjórnin kynnti starfsárið og ársreikninginn fyrir félagsmönnum.", slug: "avarp" }
@@ -273,7 +272,7 @@ export default {
         { t: "h3", texti: "Dæmi um viðburði á árinu" },
         { t: "listi", atridi: ["**Hreinsunardagurinn** – stórviðburður vorsins", "Bikarkeppni Keilis", "Mótaröð Keiliskvenna", "Mótaröð 65+", "Íslandsmótið í golfi", "Jónsmessumót Keilis", "Meistaramót Keilis", "**Bændaglíma Keilis** – stórviðburður haustsins", "**Skötuveisla Keilis** – vetrarviðburður", "**Jólahlaðborð Keilis** – vetrarviðburður"] },
         { t: "p", texti: "Þetta eru allt mikilvægir viðburðir í að halda á lofti félagsstarfi innan Keilis og tökum við ávallt vel í allar ábendingar um það sem betur má fara eða bæta í því starfi." },
-        { t: "undirsidur", atridi: [{ heiti: "Mótahald og skemmtanir", slug: "motahald" }, { heiti: "65+ starfið", slug: "eldri" }, { heiti: "Kvennastarfið", slug: "kvennastarf" }, { heiti: "Samstarf við aðra klúbba", slug: "samstarf" }] }
+        { t: "undirsidur", atridi: [{ heiti: "Mótahald og skemmtanir", slug: "motahald" }, { heiti: "65+ starfið", slug: "eldri" }, { heiti: "Kvennastarfið", slug: "kvennastarf" }] }
       ]
     },
     { slug: "motahald", kafli: "felagsstarf", heiti: "Mótahald og skemmtanir", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-motahald-skemmtanir/", blokkir: [] },
@@ -281,12 +280,8 @@ export default {
     eldri2026,
     // Kvennastarfið (2026, sjá kvennastarf-2026.js)
     kvennastarf2026,
-    { slug: "samstarf", kafli: "felagsstarf", heiti: "Samstarf við aðra klúbba", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-samstarf-vid-adra-klubba/", blokkir: [] },
 
     // ───────── ÁRSREIKNINGUR (2026, sjá fjarmal-2026.js) ─────────
-    ...fjarmal2026,
-
-    // ───────── SÉREFNI ─────────
-    { slug: "islandsmot", kafli: "serefni", heiti: "Íslandsmótið í golfi", stada: "vantar", heimild: "https://2025.keilir.is/islmot25/", blokkir: [] }
+    ...fjarmal2026
   ]
 };
