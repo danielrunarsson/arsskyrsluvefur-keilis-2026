@@ -33,7 +33,7 @@ const BLOKKIR = {
   skorkort: ['*titill', '*atridi', 'lidur', 'ar', 'fyrraAr', 'samtals', 'eining', 'deila'],
   foss: ['*titill', '*atridi', 'eining', 'deila'],
   skipting: ['titill', '*atridi', 'eining', 'deila', 'litir', 'merkiFra', 'aukastafir', 'lina'],
-  arasulur: ['*titill', '*atridi', 'eining', 'deila', 'skyring'],
+  arasulur: ['*titill', '*atridi', 'eining', 'deila', 'skyring', 'aukastafir'],
   tolukort: ['*atridi'],
   skyring: ['*atridi'],
   skref: ['*atridi'],

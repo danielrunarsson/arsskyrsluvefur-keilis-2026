@@ -238,7 +238,7 @@ staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í
 | `skorkort` | `titill`, `lidur`, `ar`, `fyrraAr`, `atridi: [{ heiti, gildi, fyrra }]`, `samtals: { gildi, fyrra }` | Tafla þar sem hver liður er „hola“: súla fyrir árið, strik fyrir fyrra ár, breyting í % |
 | `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lóðrétt fossrit (skrunast til hliðar á síma): `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
 | `skipting` | `titill`, `atridi: [{ heiti, gildi }]`, `litir: "bjart"`, `merkiFra` (% sem þarf til að merki sjáist inni í stiku, sjálfgefið 12), `aukastafir`, `lina: false` | Heild skipt í hluta: lárétt stika með merkingum og lína með öllum tölum undir |
-| `arasulur` | `titill` (fyrir skjálesara; sýnilegur titill er `h3` á undan), `skyring: false`, `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
+| `arasulur` | `titill` (fyrir skjálesara; sýnilegur titill er `h3` á undan), `skyring: false`, `aukastafir` (sjálfgefið 1), `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
 | `tolukort` | `atridi: [{ heiti, tala, breyting?, texti? }]` | Lykiltölur í kortum; `breyting` („+11,1%“) græn, neikvæð („−…“) rauð |
 | `skyring` | `atridi: [{ heiti, gerd }]` (gerd: sula, strik, fyrri, aaetlun) | Sameiginleg skýring undir gröfum |
 | `skref` | `atridi: [{ dags, tala, texti, lokid? }]` | Greiðslur/áfangar í tímaröð |
@@ -279,6 +279,12 @@ fjármála- og veitingagröfin og sömu myndir og fjármálakaflinn.
 Síðan „Kvennastarfið“ í Félagsstarfi (slóðin `/kvennastarf/` er óbreytt) er heilsíða í sérskrá (`kvennastarf2026` í
 `efni-2025.js`), byggð á fréttunum „Haustferð Keiliskvenna“ og „Stuð á uppskeruhófi Kvennamótaraðarinnar“ á keilir.is.
 Myndirnar eru úr sömu fréttum, í `src/assets/myndir/kvennastarf-2026/`.
+
+## Mótahald og skemmtanir 2026 (`src/efni/motahald-2026.js`)
+
+Síðan „Mótahald og skemmtanir“ í Félagsstarfi (slóðin `/motahald/` er óbreytt) er heilsíða í sérskrá (`motahald2026` í
+`efni-2025.js`), byggð á skjalinu „Mótamál 2026 og mótaskrá 2027“ og tölum úr mótakerfi Keilis. Hún notar myndir úr
+fjármála- og íþróttakaflanum.
 
 ## Töflur á farsíma
 
