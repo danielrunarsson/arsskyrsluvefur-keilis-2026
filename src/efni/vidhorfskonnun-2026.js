@@ -143,7 +143,7 @@ const sida = {
     // ───────── Öll könnunin ─────────
     { t: "hluti", blokkir: [
       { t: "h2", texti: "Skoðaðu alla könnunina" },
-      { t: "p", texti: "Hér má skoða allar niðurstöður viðhorfskönnunar Keilis 2026, spurningu fyrir spurningu." },
+      { t: "p", texti: "Hér má skoða kynninguna á viðhorfskönnun Keilis 2026 frá aðalfundi: allar helstu niðurstöður, samanburð við fyrri ár og hulduheimsóknir Better Business." },
       { t: "pdf", titill: "Viðhorfskönnun Keilis 2026", src: S + "vidhorfskonnun_2026.pdf" }] },
     { t: "mynd", breidd: "full", stada: "center 40%", src: M + "hvaleyri-sjovarnargardur.jpg", alt: "Hvaleyrarvöllur úr lofti: brautir og flatir á sjávarbakkanum, grjótgarður meðfram sjónum og áhorfendur á vellinum." },
 
