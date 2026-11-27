@@ -6,6 +6,7 @@ import ithrottastarf2026 from "./ithrottastarf-2026.js";
 import fjarmal2026 from "./fjarmal-2026.js";
 import veitingasala2026 from "./veitingasala-2026.js";
 import vidhorfskonnun2026 from "./vidhorfskonnun-2026.js";
+import eldri2026 from "./eldri-2026.js";
 
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
@@ -275,7 +276,8 @@ export default {
       ]
     },
     { slug: "motahald", kafli: "felagsstarf", heiti: "Mótahald og skemmtanir", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-motahald-skemmtanir/", blokkir: [] },
-    { slug: "eldri", kafli: "felagsstarf", heiti: "65+ starfið", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-eldri-kylfingar", blokkir: [] },
+    // 65+ starfið (2026, sjá eldri-2026.js)
+    eldri2026,
     { slug: "kvennastarf", kafli: "felagsstarf", heiti: "Kvennastarfið", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-kvennanefnd/", blokkir: [] },
     { slug: "samstarf", kafli: "felagsstarf", heiti: "Samstarf við aðra klúbba", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-samstarf-vid-adra-klubba/", blokkir: [] },
 

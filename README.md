@@ -268,6 +268,12 @@ Síðan „Viðhorfskönnun“ í Skýrslu stjórnar (slóðin `/vidhorfskannani
 ársskýrslu“. Hún notar fjármála- og veitingagröfin og sömu myndir og fjármálakaflinn. Neðst er `pdf`-blokk með
 allri könnuninni: `public/skjol/vidhorfskonnun_2026.pdf`.
 
+## 65+ starfið 2026 (`src/efni/eldri-2026.js`)
+
+Síðan „65+ starfið“ í Félagsstarfi (slóðin `/eldri/` er óbreytt) er heilsíða í sérskrá (`eldri2026` í
+`efni-2025.js`, í stað fyrri síðu), byggð á greinargerðinni „GK Kylfingar 65 plús – Mótaröð 2026“. Hún notar
+fjármála- og veitingagröfin og sömu myndir og fjármálakaflinn.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.
