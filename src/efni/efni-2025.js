@@ -8,6 +8,7 @@ import veitingasala2026 from "./veitingasala-2026.js";
 import vidhorfskonnun2026 from "./vidhorfskonnun-2026.js";
 import eldri2026 from "./eldri-2026.js";
 import kvennastarf2026 from "./kvennastarf-2026.js";
+import motahald2026 from "./motahald-2026.js";
 
 const U = "https://2025.keilir.is/wp-content/uploads/";
 const K = "https://www.keilir.is/wp-content/uploads/";
@@ -275,7 +276,8 @@ export default {
         { t: "undirsidur", atridi: [{ heiti: "Mótahald og skemmtanir", slug: "motahald" }, { heiti: "65+ starfið", slug: "eldri" }, { heiti: "Kvennastarfið", slug: "kvennastarf" }] }
       ]
     },
-    { slug: "motahald", kafli: "felagsstarf", heiti: "Mótahald og skemmtanir", stada: "vantar", heimild: "https://2025.keilir.is/felagsstarf-motahald-skemmtanir/", blokkir: [] },
+    // Mótahald og skemmtanir (2026, sjá motahald-2026.js)
+    motahald2026,
     // 65+ starfið (2026, sjá eldri-2026.js)
     eldri2026,
     // Kvennastarfið (2026, sjá kvennastarf-2026.js)

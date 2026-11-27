@@ -217,14 +217,14 @@ if (b.t === 'flogg') {
           <li class:list={['f-ara__ar', { 'f-ara__ar--aherslu': r.aherslu, 'f-ara__ar--aaetlun': r.aaetlun, 'f-ara__ar--neikv': r.v < 0, 'f-ara__ar--merkt': i === 0 || i >= ara.radir.length - 2 }]}>
             <span class="f-ara__svaedi" aria-hidden="true">
               <span class="f-ara__sula" style={`height:${r.h.toFixed(2)}%`}>
-                <span class="f-ara__tala">{snida(r.v)}</span>
+                <span class="f-ara__tala">{snida(r.v, b.aukastafir ?? 1)}</span>
               </span>
             </span>
             <span class="f-ara__merki" aria-hidden="true">
               <span class="f-ara__langt">{r.ar}</span>
               <span class="f-ara__stutt">’{r.ar.slice(2)}</span>
             </span>
-            <span class="sr-only">{r.ar}{r.aaetlun ? ' (áætlun)' : ''}: {snida(r.v)} {eining}</span>
+            <span class="sr-only">{r.ar}{r.aaetlun ? ' (áætlun)' : ''}: {snida(r.v, b.aukastafir ?? 1)} {eining}</span>
           </li>
         ))}
       </ol>
