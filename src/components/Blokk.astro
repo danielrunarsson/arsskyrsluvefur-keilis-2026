@@ -2,6 +2,7 @@
 // Ein efnisblokk úr efnisskránni (b.t ræður gerð). Sjá README fyrir lýsingu á hverri gerð.
 import Mynd from './Mynd.astro';
 import Sulurit from './Sulurit.astro';
+import Fjarmalagraf from './Fjarmalagraf.astro';
 import Texti from './Texti.astro';
 import { slod } from '../lib/skyrsla.js';
 import { skjalStaerd } from '../lib/skjol.js';
@@ -74,7 +75,7 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 
 {
   b.t === 'tolur' && (
-    <dl class="b-tolur">
+    <dl class:list={['b-tolur', b.snid && `b-tolur--${b.snid}`]}>
       {b.atridi.map((a: any) => (
         <div>
           <dt data-telja>{a.tala}</dt>
@@ -93,8 +94,8 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 
 {
   b.t === 'mynd' && (
-    <figure class="b-mynd">
-      <Mynd src={b.src} alt={b.alt || b.texti} class="b-mynd__img" sizes="(min-width: 900px) 992px, calc(100vw - 40px)" widths={[480, 640, 800, 1000, 1400, 2000]} />
+    <figure class:list={['b-mynd', { 'b-mynd--full': b.breidd === 'full' }]} style={b.stada ? `--stada:${b.stada}` : undefined}>
+      <Mynd src={b.src} alt={b.alt || b.texti} class="b-mynd__img" sizes={b.breidd === 'full' ? '100vw' : '(min-width: 900px) 992px, calc(100vw - 40px)'} widths={[480, 640, 800, 1000, 1400, 2000]} />
       {b.texti && <figcaption class="myndatexti">{b.texti}</figcaption>}
     </figure>
   )
@@ -102,7 +103,7 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 
 {
   b.t === 'myndir' && (
-    <div class="b-myndir">
+    <div class:list={['b-myndir', b.snid && `b-myndir--${b.snid}`]}>
       {b.atridi.map((a: string | { src: string; alt?: string }) => (
         <Mynd
           src={typeof a === 'string' ? a : a.src}
@@ -175,6 +176,33 @@ const tenglar = (b.t === 'undirsidur' || b.t === 'tenglar' ? b.atridi : [])
 {
   b.t === 'sulur' && <Sulurit b={b} />
 
+}
+
+{['flogg', 'skorkort', 'foss', 'skipting', 'arasulur', 'skref', 'tolukort', 'skyring'].includes(b.t) && <Fjarmalagraf b={b} />}
+
+{
+  /* Band (`hluti`) á heilsíðu: full breidd, efni í miðjuðum ramma. Röð: yfirmerking, blokkir, dálkar
+     (vinstri | hægri, hvor undir öðrum á síma), eftir. snid: dokkt | kort | fotur. kort: hægri dálkur í spjaldi. */
+  b.t === 'hluti' && (
+    <section class:list={['hluti', b.snid && `hluti--${b.snid}`, { 'hluti--afast': b.afast }]}>
+      <div class="hluti__innra">
+        {b.yfirmerking && !b.vinstri && <div class="yfirmerking yfirmerking--gull">{b.yfirmerking}</div>}
+        {(b.blokkir ?? []).map((x: any) => <Astro.self b={x} stig={3} samhengi={samhengi} />)}
+        {(b.vinstri || b.haegri) && (
+          <div class:list={['b-tvidalka', { 'b-tvidalka--jafnt': b.jafnt, 'b-tvidalka--midja': b.midja }]}>
+            <div class="b-tvidalka__dalkur">
+              {b.yfirmerking && <div class="yfirmerking yfirmerking--gull">{b.yfirmerking}</div>}
+              {(b.vinstri ?? []).map((x: any) => <Astro.self b={x} stig={3} samhengi={samhengi} />)}
+            </div>
+            <div class:list={['b-tvidalka__dalkur', { 'b-tvidalka__dalkur--kort': b.kort }]}>
+              {(b.haegri ?? []).map((x: any) => <Astro.self b={x} stig={3} samhengi={samhengi} />)}
+            </div>
+          </div>
+        )}
+        {(b.eftir ?? []).map((x: any) => <Astro.self b={x} stig={3} samhengi={samhengi} />)}
+      </div>
+    </section>
+  )
 }
 
 {

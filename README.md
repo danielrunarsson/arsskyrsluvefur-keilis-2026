@@ -212,6 +212,40 @@ dálka sem er og tölur telja ekki upp. Efnisathugunin varar ekki við dálkafj�
 `efni-2025.js` (`...ithrottastarf2026`), svo hann rekist ekki á aðrar breytingar í efnisskránni. Myndirnar eru í
 `src/assets/myndir/ithrottir-2026/`. Þegar skipt er yfir í `efni-2026.js` fylgir innflutningurinn með.
 
+## Ársreikningur 2026 (`src/efni/fjarmal-2026.js`)
+
+Fjármálakaflinn 2026 (yfirlit, rekstrarreikningur, efnahagsreikningur, sjóðstreymi, rekstraráætlun 2027) býr í
+sérskrá á sama hátt og íþróttakaflinn (`...fjarmal2026` í `efni-2025.js`). Slóðirnar eru óbreyttar frá fyrra ári,
+svo Lighthouse-athuganir í `netlify.toml` halda sér. Myndirnar eru í `src/assets/myndir/fjarmal-2026/`.
+Yfirlitið er heilsíða (`snid: "heilsida"`) sem fylgir uppbyggingu skjalsins „Fjármál Keilis 2026“ band fyrir band,
+með litum og letri vefsins, og notar fjármálagröfin hér að neðan.
+
+## Heilsíða, bönd og fjármálagröf
+
+**Heilsíða** (`snid: "heilsida"` á síðu): engin hliðarvalmynd; kaflaflakkið sést efst á öllum skjástærðum og síðan
+er byggð úr böndum í fullri breidd. Ef fyrsta blokkin er `hluti` með `snid: "hetja"` verður hún dökkur haus síðunnar
+(yfirmerking, fyrirsögn og Deila efst í vinstri dálki). Á heilsíðu má líka nota `mynd` með `breidd: "full"` (og
+`stada`, t.d. `"center 60%"`, fyrir myndfókus), `myndir` með `snid: "threnna"` (þrjár myndir hlið við hlið) og
+`tolur` með `snid: "stadreyndir"` (tala og texti með gylltri línu).
+
+Fjármálagröfin eru í `src/components/Fjarmalagraf.astro`, reiknuð við build. Tölur telja upp og súlur vaxa eins og annars
+staðar. `deila: 1000000` (valkvætt) þýðir að gildi í efnisskránni eru í krónum en birt í m.kr.; `eining` (sjálfgefið
+„m.kr.“) fer í texta fyrir skjálesara.
+
+| Gerð | Svið | Hvað |
+|---|---|---|
+| `flogg` | `titill`, `atridi: [{ ar, gildi }]` | Tvær flaggstangir á flöt, hæð = gildi (t.d. hagnaður tveggja ára) |
+| `skorkort` | `titill`, `lidur`, `ar`, `fyrraAr`, `atridi: [{ heiti, gildi, fyrra }]`, `samtals: { gildi, fyrra }` | Tafla þar sem hver liður er „hola“: súla fyrir árið, strik fyrir fyrra ár, breyting í % |
+| `foss` | `titill`, `atridi: [{ heiti, gildi, heild? }]` | Lóðrétt fossrit (skrunast til hliðar á síma): `heild: true` = staða (upphaf/lok), annars hreyfing (+/−) |
+| `skipting` | `titill`, `atridi: [{ heiti, gildi }]`, `litir: "bjart"`, `merkiFra` (% sem þarf til að merki sjáist inni í stiku, sjálfgefið 12), `aukastafir`, `lina: false` | Heild skipt í hluta: lárétt stika með merkingum og lína með öllum tölum undir |
+| `arasulur` | `titill` (fyrir skjálesara; sýnilegur titill er `h3` á undan), `skyring: false`, `atridi: [{ ar, gildi, aherslu?, aaetlun? }]` | Lóðréttar súlur yfir ár; neikvæð gildi fara niður fyrir núll, `aaetlun` = röndótt |
+| `tolukort` | `atridi: [{ heiti, tala, breyting?, texti? }]` | Lykiltölur í kortum; `breyting` („+11,1%“) græn, neikvæð („−…“) rauð |
+| `skyring` | `atridi: [{ heiti, gerd }]` (gerd: sula, strik, fyrri, aaetlun) | Sameiginleg skýring undir gröfum |
+| `skref` | `atridi: [{ dags, tala, texti, lokid? }]` | Greiðslur/áfangar í tímaröð |
+| `hluti` | `snid` (hetja, dokkt, kort, fotur), `yfirmerking`, `afast`, `blokkir`, `vinstri`, `haegri`, `eftir`, `jafnt`, `midja`, `kort` | Band í fullri breidd: blokkir, svo tveir dálkar (hlið við hlið frá 900px, hvor undir öðrum á síma), svo `eftir`. `kort: true` setur hægri dálk í spjald |
+
+Blokkir inni í `hluti` fara í gegnum sömu efnisathugun og aðrar blokkir.
+
 ## Töflur á farsíma
 
 Fyrsti dálkur (heiti) er fastur, dálkar til hægri skrunast. Dofnun til hægri og „Strjúktu til hliðar →“ sýna að meira er til hliðar; vísbendingin hverfur eftir fyrsta skrun.

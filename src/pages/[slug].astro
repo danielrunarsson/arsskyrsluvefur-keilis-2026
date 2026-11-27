@@ -16,13 +16,19 @@ export function getStaticPaths() {
 
 const { slug } = Astro.params;
 const { sida: s, kafli, fyrirsogn, kicker, fyrri, naestaSida } = sidaMeta(slug);
-const inngangur = s.blokkir.find((b: any) => b.t === 'inngangur')?.texti;
+const allarBlokkir = s.blokkir.flatMap((b: any) => (b.t === 'hluti' ? [...(b.blokkir ?? []), ...(b.vinstri ?? []), ...(b.haegri ?? []), ...(b.eftir ?? [])] : [b]));
+const inngangur = allarBlokkir.find((b: any) => b.t === 'inngangur')?.texti;
 const langlestur = s.snid === 'langlestur' && !s.vantar;
+// Heilsíða: síðan byggð í breiðum böndum (`hluti`) án hliðarvalmyndar, t.d. fjármálayfirlitið.
+// Fyrsta bandið með snid „hetja“ verður haus síðunnar (yfirmerking, fyrirsögn og Deila efst í vinstri dálki).
+const heilsida = s.snid === 'heilsida' && !s.vantar;
+const hetja = heilsida && s.blokkir[0]?.t === 'hluti' && s.blokkir[0]?.snid === 'hetja' ? s.blokkir[0] : null;
 // Samhengi hverrar blokkar: smáfyrirsagnir verða h2 þar til fyrsta h2 kemur (rétt fyrirsagnaröð),
 // og töflur fá nafn síðasta h2 á undan.
 let sidastaH2: string | undefined;
 const blokkir = s.blokkir.map((b: any) => {
   if (b.t === 'h2') sidastaH2 = b.texti;
+  if (b.t === 'hluti') sidastaH2 = [...(b.blokkir ?? []), ...(b.vinstri ?? [])].find((x: any) => x.t === 'h2')?.texti ?? sidastaH2;
   return { b, stig: (sidastaH2 ? 3 : 2) as 2 | 3, samhengi: sidastaH2 ?? s.heiti };
 });
 // Fyrirsögn í gæsalöppum: lokagæsalappir koma á eftir skáletraða hlutanum.
@@ -35,7 +41,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
   <Haus gerd="undirsida" kafliId={kafli.id} slug={s.slug} />
   {!s.vantar && <Lesframvinda langlestur={langlestur} />}
 
-  <div class="systur-ytri">
+  <div class:list={['systur-ytri', { 'systur-ytri--alltaf': heilsida }]}>
     <span class="systur__dofnun systur__dofnun--vinstri" aria-hidden="true">‹</span>
     <nav class="systur systur--farsimi" aria-label={`Síður í kaflanum ${kafli.heiti}`}>
       {
@@ -49,6 +55,36 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
     <span class="systur__dofnun systur__dofnun--haegri" aria-hidden="true">›</span>
   </div>
 
+  {heilsida && (
+  <main id="efni" tabindex="-1" data-pagefind-body class="heilsida">
+    {hetja && (
+      <header class="hluti hluti--dokkt hluti--hetja">
+        <div class="hluti__innra">
+          <div class="b-tvidalka">
+            <div class="b-tvidalka__dalkur">
+              <div class="yfirmerking yfirmerking--gull">{kicker}</div>
+              <h1 class="hluti__fyrirsogn">
+                {fyrirsogn}
+                {s.fyrirsognSkaletrun && <em>{s.fyrirsognSkaletrun}</em>}
+              </h1>
+              {(hetja.vinstri ?? []).map((x: any) => <Blokk b={x} stig={2} samhengi={s.heiti} />)}
+              <Deila titill={s.heiti} />
+            </div>
+            <div class="b-tvidalka__dalkur">
+              {(hetja.haegri ?? []).map((x: any) => <Blokk b={x} stig={2} samhengi={s.heiti} />)}
+            </div>
+          </div>
+        </div>
+      </header>
+    )}
+    {blokkir.filter(({ b }: any) => b !== hetja).map(({ b, stig, samhengi }: any) => <Blokk b={b} stig={stig} samhengi={samhengi} />)}
+    <div class="hluti"><div class="hluti__innra">
+      <NaestaSpjald fyrri={fyrri} naestaSida={naestaSida} kafliId={kafli.id} />
+    </div></div>
+  </main>
+  )}
+
+  {!heilsida && (
   <main id="efni" tabindex="-1" data-pagefind-body>
     {
       s.portrett ? (
@@ -136,6 +172,7 @@ const lengsta = Math.max(...`${fyrirsogn} ${s.fyrirsognSkaletrun ?? ''}${lokagae
     </div>
     )}
   </main>
+  )}
 
   <Fotur gerd="undirsida" />
 </Grunnur>
